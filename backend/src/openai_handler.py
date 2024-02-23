@@ -11,6 +11,9 @@ class OpenAIHandler:
     accessed via the `get_client()` function, which will automatically fill
     this field if it does not yet exist. Any other accesses to this instance
     are unsafe and should not be used.
+
+    `get_response(str)` is what should be used to retrieve a list of genres
+    given a sanitized user input.
     """
 
     GPT_MODEL = "gpt-3.5-turbo"
@@ -18,8 +21,8 @@ class OpenAIHandler:
 
     def __init__(self) -> None:
         raise TypeError(
-            "OpenAIHandler instances should not be created.",
-            "Consider using `get_client()`"
+            "OpenAIHandler instances should not be created. " +
+            "Consider using the `get_client()` function."
         )
 
     # A static reference to the OpenAI client
@@ -126,9 +129,20 @@ class OpenAIHandler:
         if not "genres" in content_json:
             raise ValueError(
                 "Something went wrong retrieving a response from GPT. " +
-                f"The parsed JSON {content_json} " +
+                f"The parsed JSON `{content_json}` " +
                 "does not contain the `genres` key."
             )
 
+        # Ensure that genres is a list
+        content_genres = content_json['genres']
+        if not isinstance(content_genres, list):
+            raise ValueError(
+                "Something went wrong retrieving a response from GPT. " +
+                f"Genres retrieved are not a list: `{content_genres}`."
+            )
+
+        # Ensure that each genre is a string and fix its casing
+        content_genres = [str(genre).lower() for genre in content_genres]
+
         # Return the genres themselves
-        return content_json['genres']
+        return content_genres
