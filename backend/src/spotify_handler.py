@@ -59,7 +59,7 @@ class SpotifyHandler:
             )
         )
         return SpotifyHandler._client_instance
-    
+
     @staticmethod
     def get_user_client() -> Spotify:
         """
@@ -74,7 +74,7 @@ class SpotifyHandler:
             return SpotifyHandler._client_instance
 
         return SpotifyHandler._initialize_user_client()
-    
+
     @staticmethod
     def _initialize_user_client() -> Spotify:
         """
@@ -93,7 +93,7 @@ class SpotifyHandler:
         SpotifyHandler._client_instance = Spotify(
             auth_manager=SpotifyOAuth(
                 scope=scope,
-                redirect_uri=redirect_uri, 
+                redirect_uri=redirect_uri,
                 open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
                 client_id=SecretsHandler.get_spotify_client_id(),
                 client_secret=SecretsHandler.get_spotify_client_secret()
@@ -117,7 +117,7 @@ class SpotifyHandler:
             - is_playable: Whether the song is playable
             - popularity: The popularity of the song
         """
-        random_offset = random.randint(0, 1000);
+        random_offset = random.randint(0, 1000)
         keys_to_extract = ["name", "preview_url", "uri", "explicit", "is_playable", "popularity"]
         tracks_all = SpotifyHandler._client_instance.search(q='genre:' + genre, type="track", market=market, offset=random_offset, limit=limit)["tracks"]["items"]
         return [{key: track[key] for key in keys_to_extract} for track in tracks_all]
