@@ -17,6 +17,7 @@ class SpotifyHandler:
 
     def __init__(self) -> None:
         self._client_instance = None
+        self.is_user_client = None
 
     def get_base_client(self) -> Spotify:
         """
@@ -28,9 +29,12 @@ class SpotifyHandler:
             The static Spotify client
         """
         if self._client_instance:
-            return self._client_instance
-
-        return self._initialize_base_client()
+            if self.is_user_client is not None and self.is_user_client is True:
+                raise RuntimeError("This instance is a user client, not a base client")
+            else:
+                return self._client_instance
+        else:
+            return self._initialize_base_client()
 
     def _initialize_base_client(self) -> Spotify:
         """
@@ -44,6 +48,7 @@ class SpotifyHandler:
         Spotify
             The static Spotify client
         """
+        self.is_user_client = False
         self._client_instance = Spotify(
             client_credentials_manager=SpotifyClientCredentials(
                 client_id=SecretsHandler.get_spotify_client_id(),
@@ -61,10 +66,14 @@ class SpotifyHandler:
         Spotify
             The static Spotify client
         """
+        
         if self._client_instance:
-            return self._client_instance
-
-        return self._initialize_user_client()
+            if self.is_user_client is False:
+                raise RuntimeError("This instance is a base client, not a user client")
+            else:
+                return self._client_instance
+        else:
+            return self._initialize_user_client()
 
     def _initialize_user_client(self) -> Spotify:
         """
@@ -80,6 +89,7 @@ class SpotifyHandler:
         """
         redirect_uri = "https://github.com/AlecUrbany/CS4800-SentiSounds"
         scope = ["streaming", "playlist-modify-private", "user-top-read", "user-read-private"]
+        self.is_user_client = True
         self._client_instance = Spotify(
             auth_manager=SpotifyOAuth(
                 scope=scope,
@@ -92,25 +102,19 @@ class SpotifyHandler:
         return self._client_instance
 
     
-    def get_genre_songs(self, genre: str, market: str, limit: int=10) -> list[dict]:
+    def get_genre_songs(self, genre: str, market: str = "from_token", limit: int=10) -> list[dict]:
         """
         Retrieves a pseudo-random list of songs in a genre sourced from the Spotify API.
 
-        Possible genres:
-        ['acoustic', 'afrobeat', 'alt-rock', 'alternative', 'ambient', 'anime', 'black-metal',
-        'bluegrass', 'blues', 'bossanova', 'brazil', 'breakbeat', 'british', 'cantopop', 'chicago-house', 
-        'children', 'chill', 'classical', 'club', 'comedy', 'country', 'dance', 'dancehall', 'death-metal', 
-        'deep-house', 'detroit-techno', 'disco', 'disney', 'drum-and-bass', 'dub', 'dubstep', 'edm', 'electro', 
-        'electronic', 'emo', 'folk', 'forro', 'french', 'funk', 'garage', 'german', 'gospel', 'goth', 'grindcore', 
-        'groove', 'grunge', 'guitar', 'happy', 'hard-rock', 'hardcore', 'hardstyle', 'heavy-metal', 'hip-hop',
-        'holidays', 'honky-tonk', 'house', 'idm', 'indian', 'indie', 'indie-pop', 'industrial', 'iranian', 'j-dance', 
-        'j-idol', 'j-pop', 'j-rock', 'jazz', 'k-pop', 'kids', 'latin', 'latino', 'malay', 'mandopop', 'metal', 
-        'metal-misc', 'metalcore', 'minimal-techno', 'movies', 'mpb', 'new-age', 'new-release', 'opera', 'pagode',
-        'party', 'philippines-opm', 'piano', 'pop', 'pop-film', 'post-dubstep', 'power-pop', 'progressive-house', 
-        'psych-rock', 'punk', 'punk-rock', 'r-n-b', 'rainy-day', 'reggae', 'reggaeton', 'road-trip', 'rock', 
-        'rock-n-roll', 'rockabilly', 'romance', 'sad', 'salsa', 'samba', 'sertanejo', 'show-tunes', 'singer-songwriter', 
-        'ska', 'sleep', 'songwriter', 'soul', 'soundtracks', 'spanish', 'study', 'summer', 'swedish', 'synth-pop', 
-        'tango', 'techno', 'trance', 'trip-hop', 'turkish', 'work-out', 'world-music']
+        Parameters
+        ---------- 
+        genre : str
+            
+        market : str
+            An ISO 3166-1 alpha-2 country code or the string from_token.
+        
+        limit : int
+            The maximum number of songs to return. Default is 10.
 
         This list may be user specific, so use the get_available_genre_seeds to find user genres
 
@@ -124,15 +128,16 @@ class SpotifyHandler:
             - explicit: Whether the song is explicit
             - is_playable: Whether the song is playable
             - popularity: The popularity of the song
+            - id: The ID of the song (useful for creating a playlist)
         """
         random_offset = random.randint(0, 1000)
-        keys_to_extract = ["name", "preview_url", "uri", "explicit", "is_playable", "popularity"]
+        keys_to_extract = ["name", "preview_url", "uri", "explicit", "is_playable", "popularity", "id"]
         tracks_all = self._client_instance.search(q='genre:' + genre, type="track", market=market, offset=random_offset, limit=limit)["tracks"]["items"]
         return [{key: track[key] for key in keys_to_extract} for track in tracks_all]
     
     def get_available_genre_seeds(self) -> list[str]:
         """
-        Retrieves a list of available genre seeds from the Spotify API.
+        Retrieves a list of available genre "seeds" from the Spotify API.
 
         Returns
         -------
@@ -140,3 +145,28 @@ class SpotifyHandler:
             The list of available genre seeds
         """
         return self._client_instance.recommendation_genre_seeds()["genres"]
+
+    def create_playlist(self, playlist_name: str, description: str, song_ids: list[str]) -> str:
+        """
+        Creates a playlist for a user on Spotify given a list of song IDs.
+
+        Parameters
+        ----------
+        playlist_name : str
+            The name of the playlist
+        description : str
+            The description of the playlist, preferably the sentiment prompt provided by the user
+
+        Returns
+        -------
+        str
+            A URL to the created playlist
+        """
+        if not self.is_user_client:
+            raise RuntimeError("This instance is a base client and cannot create a playlist for a user. Use a user client.")
+        else:
+            playlist = self._client_instance.user_playlist_create(self._client_instance.me()["id"], playlist_name, public=False, description=description)
+            id = playlist["id"]
+            url = playlist["external_urls"]["spotify"]
+            self._client_instance.user_playlist_add_tracks(self._client_instance.me()["id"], id, song_ids)
+            return url
