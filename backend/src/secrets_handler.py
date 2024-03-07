@@ -67,3 +67,39 @@ class SecretsHandler:
             The Spotify API key
         """
         return SecretsHandler._get_json_value("spotify", "client_secret")
+
+    @staticmethod
+    def get_database_user() -> str:
+        """
+        Retrieves the database username using key database and sub-key username
+
+        Returns
+        -------
+        str
+            The database username
+        """
+        return SecretsHandler._get_json_value("database", "username")
+
+    @staticmethod
+    def get_database_password() -> str:
+        """
+        Retrieves the database password using key database and sub-key password
+
+        Returns
+        -------
+        str
+            The database password
+        """
+        return SecretsHandler._get_json_value("database", "password")
+
+    @staticmethod
+    def get_database_name() -> str:
+        """
+        Retrieves the database name using key database and sub-key database-name
+
+        Returns
+        -------
+        str
+            The database name
+        """
+        return SecretsHandler._get_json_value("database", "database-name")
