@@ -12,10 +12,10 @@ sp.get_user_client()
 
 songs = sp.get_genre_songs("psychedelic rock")
 print(songs[3])
-ids = [x.get("id") for x in songs]
+ids = [str(x.get("id")) for x in songs]
 
 sp.create_playlist("INSERT MOOD NAME HERE", "WEIRD AND GROOVY", ids)
-   
+
 # > ['pop', 'dance', 'folk', 'reggae', 'disco']
 # > ['pop', 'funk', 'disco', 'reggae', 'salsa']
 # > ...
