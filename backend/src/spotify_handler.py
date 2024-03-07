@@ -1,11 +1,12 @@
-import spotipy
+from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
-from secrets_handler import SecretsHandler 
+from secrets_handler import SecretsHandler
+import random
 
 class SpotifyHandler:
     """
-    A static class to handle all Spotify API interactions.
+    A class to handle all Spotify API interactions.
 
     Contains a definition for a static _client_instance. This should only be
     accessed via the `get_client()` function, which will automatically fill
@@ -14,133 +15,251 @@ class SpotifyHandler:
 
     """
 
-    client_id = SecretsHandler.get_spotify_client_id
-    client_secret = SecretsHandler.get_spotify_client_secret
-
     def __init__(self) -> None:
-        raise TypeError(
-            "SpotifyHandler instances should not be created. " +
-            "Consider using the `get_client()` function."
-        )
+        self._client_instance: Spotify | None = None
+        self.is_user_client: bool = False
 
-    # A static reference to the OpenAI client
-    _client_instance: OpenAI | None = None
-
-    @staticmethod
-    def get_client() -> OpenAI:
+    def get_any_client(self) -> Spotify:
         """
-        Retrieves or creates the OpenAI client instance
+        Retrieves or creates a Spotify client. This client can either be
+        authenticated or a base client. As such, this function should
+        only be used if you're absolutely certain you don't care what
+        type of client you're retrieving.
 
         Returns
         -------
-        OpenAI
-            The static OpenAI client
+        Spotify
+            Whatever Spotify client is available
         """
-        if OpenAIHandler._client_instance:
-            return OpenAIHandler._client_instance
+        if self.is_user_client:
+            return self.get_user_client()
+        else:
+            return self.get_base_client()
 
-        return OpenAIHandler._initialize_client()
-
-    @staticmethod
-    def _initialize_client() -> OpenAI:
+    def get_base_client(self) -> Spotify:
         """
-        Initializes the OpenAI client.
+        Retrieves or creates the Spotify client instance with no user credentials
+
+        Returns
+        -------
+        Spotify
+            The static Spotify client
+        """
+        if self._client_instance:
+            if self.is_user_client:
+                raise RuntimeError(
+                    "This instance is a user client, not a base client"
+                )
+
+            return self._client_instance
+
+        return self._initialize_base_client()
+
+    def _initialize_base_client(self) -> Spotify:
+        """
+        Initializes the Spotify client with no user credentials.
 
         This function should never be called outside of this class. To retrieve
-        the client safely, use the `get_client` function.
+        the client safely, use the `get_base_client` function.
 
         Returns
         -------
-        OpenAI
-            The static OpenAI client
+        Spotify
+            The base (non-user) Spotify client
         """
-        OpenAIHandler._client_instance = OpenAI(
-            api_key=SecretsHandler.get_openai_key()
+        self.is_user_client = False
+        self._client_instance = Spotify(
+            client_credentials_manager=SpotifyClientCredentials(
+                client_id=SecretsHandler.get_spotify_client_id(),
+                client_secret=SecretsHandler.get_spotify_client_secret()
+            )
+        )
+        return self._client_instance
+
+    def get_user_client(self) -> Spotify:
+        """
+        Retrieves or creates a Spotify client instance with user credentials
+
+        Returns
+        -------
+        Spotify
+            The authenticated Spotify client
+        """
+
+        if self._client_instance:
+            if not self.is_user_client:
+                raise RuntimeError(
+                    "This instance is a base client, not a user client"
+                )
+
+            return self._client_instance
+
+        return self._initialize_user_client()
+
+    def _initialize_user_client(self) -> Spotify:
+        """
+        Initializes the Spotify client with user credentials.
+
+        This function should never be called outside of this class. To retrieve
+        the client safely, use the `get_user_client` function.
+
+        Returns
+        -------
+        Spotify
+            The static Spotify client with user credentials
+        """
+        redirect_uri = "https://github.com/AlecUrbany/CS4800-SentiSounds"
+        scope = [
+            "streaming",
+            "playlist-modify-private",
+            "user-top-read",
+            "user-read-private"
+        ]
+        self.is_user_client = True
+        self._client_instance = Spotify(
+            auth_manager=SpotifyOAuth(
+                scope=scope,
+                redirect_uri=redirect_uri,
+                open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
+                client_id=SecretsHandler.get_spotify_client_id(),
+                client_secret=SecretsHandler.get_spotify_client_secret()
+            )
         )
 
-        return OpenAIHandler._client_instance
+        return self._client_instance
 
-    @staticmethod
-    def get_response(sanitized_input: str) -> list[str]:
+    def get_genre_songs(
+                self,
+                genre: str,
+                market: str = "from_token",
+                limit: int = 10
+            ) -> list[dict]:
         """
-        Retrieves a response from the supplied GPT model given an input.
-
-        This input must be pre-sanitized as it will be given directly to the
-        model.
-
-        GPT chat completion is non-deterministic by nature. Meaning, the same
-        user input may result in a different genres list. We try to mitigate
-        this by providing a `seed` value to the API call, but no guarantees
-        are made by the OpenAI documentation:
-        https://platform.openai.com/docs/guides/text-generation/reproducible-outputs
+        Retrieves a pseudo-random list of songs in a genre sourced from the Spotify API.
 
         Parameters
         ----------
-        sanitized_input: str
-            The user input (probably an emotion or a phrase describing one)
-            to pass to the GPT model
+        genre : str
+
+        market : str
+            An ISO 3166-1 alpha-2 country code or the string from_token.
+
+        limit : int
+            The maximum number of songs to return. Default is 10.
+
+        This list may be user specific, so use the get_available_genre_seeds
+        to find user genres
+
+        Returns
+        -------
+        list[dict]
+            The list of songs from the Spotify API with the following:
+            - name: The name of the song
+            - preview_url: A URL to a 30-second preview of the song
+            - uri: A URI to the song
+            - explicit: Whether the song is explicit
+            - is_playable: Whether the song is playable
+            - popularity: The popularity of the song
+            - id: The ID of the song (useful for creating a playlist)
+        """
+        random_offset = random.randint(0, 1000)
+        keys_to_extract = [
+            "name",
+            "preview_url",
+            "uri", "explicit",
+            "is_playable",
+            "popularity",
+            "id"
+        ]
+
+        client_instance = self.get_any_client()
+
+        search_result = client_instance.search(
+            q='genre:' + genre,
+            type="track",
+            market=market, offset=random_offset, limit=limit
+        )
+
+        if not search_result:
+            raise ValueError(
+                "Something went wrong searching for songs from Spotify"
+            )
+
+        tracks_all = search_result["tracks"]["items"]
+
+        return [
+            {key: track[key] for key in keys_to_extract} for track in tracks_all
+        ]
+
+    def get_available_genre_seeds(self) -> list[str]:
+        """
+        Retrieves a list of available genre "seeds" from the Spotify API.
 
         Returns
         -------
         list[str]
-            A list of genres retrieved via the user's input. Unless GPT messes
-            up, this list should contain 5 genres.
+            The list of available genre seeds
+        """
+        client_instance = self.get_any_client()
 
-        Raises
-        ------
-        ValueError
-            if no response was provided by the OpenAI API,
-            if the provided response couldn't be parsed into JSON,
-            if the parsed JSON did not contain the `genres` key
+        seeds_result = client_instance.recommendation_genre_seeds()
+
+        if not seeds_result:
+            raise ValueError(
+                "Something went wrong retrieving genre seeds from Spotify"
+            )
+
+        return seeds_result["genres"]
+
+    def create_playlist(
+                self,
+                playlist_name: str,
+                description: str,
+                song_ids: list[str]
+            ) -> str:
+        """
+        Creates a playlist for a user on Spotify given a list of song IDs.
+
+        Parameters
+        ----------
+        playlist_name : str
+            The name of the playlist
+        description : str
+            The description of the playlist, preferably the sentiment prompt
+            provided by the user
+
+        Returns
+        -------
+        str
+            A URL to the created playlist
         """
 
-        # Retrieve a response from GPT
-        client = OpenAIHandler.get_client()
-        response = client.chat.completions.create(
-            model=OpenAIHandler.GPT_MODEL,
-            response_format={"type": "json_object"},
-            seed=69,
-            messages=[
-                {"role": "system", "content": OpenAIHandler.PROMPT},
-                {"role": "user", "content": sanitized_input}
-            ]
+        if not self.is_user_client:
+            raise ValueError(
+                "A playlist cannot be created via a base (non-user) client."
+            )
+
+        client_instance = self.get_user_client()
+
+        if not (user:=client_instance.me()):
+            raise ValueError(
+                "Something went wrong validating this user's existence"
+            )
+
+        playlist = client_instance.user_playlist_create(
+            user["id"],
+            playlist_name,
+            public=False,
+            description=description
         )
 
-        # Ensure a response was found
-        found_content = response.choices[0].message.content
-        if not found_content:
-            raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                "No response was provided."
+        if not playlist:
+            raise RuntimeError(
+                "Something went wrong creating this playlist"
             )
 
-        # Ensure the response is JSON
-        try:
-            content_json = json.loads(found_content)
-        except:
-            raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                "The provided response could not be parsed into JSON."
-            )
+        client_instance.user_playlist_add_tracks(
+            user["id"], playlist["id"], song_ids
+        )
 
-        # Ensure the JSON contains the genres
-        if not "genres" in content_json:
-            raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                f"The parsed JSON `{content_json}` " +
-                "does not contain the `genres` key."
-            )
-
-        # Ensure that genres is a list
-        content_genres = content_json['genres']
-        if not isinstance(content_genres, list):
-            raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                f"Genres retrieved are not a list: `{content_genres}`."
-            )
-
-        # Ensure that each genre is a string and fix its casing
-        content_genres = [str(genre).lower() for genre in content_genres]
-
-        # Return the genres themselves
- 
+        return playlist["external_urls"]["spotify"]
