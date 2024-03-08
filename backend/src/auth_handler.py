@@ -163,3 +163,4 @@ class AuthHandler:
         return bool(found)
 
     # TODO: Spotify Authentication
+    # TODO: Email Validation (send them an email, wait for them to enter the code)
