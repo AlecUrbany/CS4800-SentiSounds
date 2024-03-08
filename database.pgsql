@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS user_auth(
     display_name VARCHAR(32) NOT NULL DEFAULT '',
 
     spotify_client TEXT DEFAULT NULL
-)
+);

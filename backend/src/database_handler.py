@@ -1,15 +1,24 @@
 """Made with the gracious help of the Novus (Discord API Wrapper) library"""
 
-from typing import Any, TYPE_CHECKING
+from typing import Any
 
 import asyncpg
-from asyncpg.pool import PoolAcquireContext
 import asyncio
 
 from secrets_handler import SecretsHandler
 
+class PoolAcquireContext:
+
+    async def __aenter__(self) -> asyncpg.Connection:
+        ...
+
+    async def __aexit__(self, *args: Any) -> None:
+        ...
 
 class DatabaseHandler:
+
+    DATABASE_FILE: str = "database.pgsql"
+    SETUP_QUERY: str = ""
 
     pool: asyncpg.Pool | None = None
 
@@ -34,10 +43,10 @@ class DatabaseHandler:
                 "Ensure an async call to `_initialize_pool` is being made."
             )
 
-        return cls.pool.acquire(*args, **kwargs)
+        return cls.pool.acquire(*args, **kwargs) # type: ignore
 
     @staticmethod
-    async def initialize_pool() -> asyncpg.Pool:
+    async def get_pool() -> asyncpg.Pool:
         """
         Safely initializes the DB pool.
 
@@ -65,9 +74,7 @@ class DatabaseHandler:
         """
         try:
             created = await asyncpg.create_pool(
-                DatabaseHandler._get_database_dsn(),
-                max_size=10,
-                min_size=10
+                DatabaseHandler._get_database_dsn()
             )
             assert created
 
@@ -98,4 +105,23 @@ class DatabaseHandler:
             SecretsHandler.get_database_name()
         )
 
-asyncio.run(DatabaseHandler.initialize_pool())
+    @staticmethod
+    async def _create_tables() -> None:
+        if not DatabaseHandler.SETUP_QUERY:
+            with open(DatabaseHandler.DATABASE_FILE, 'r') as file:
+                DatabaseHandler.SETUP_QUERY = file.read()
+
+        try:
+            async with DatabaseHandler.acquire() as conn:
+                await conn.execute(DatabaseHandler.SETUP_QUERY)
+        except Exception as e:
+            raise RuntimeError(
+                f"Something went wrong creating the DB tables: " + str(e)
+            )
+
+    @staticmethod
+    async def load() -> None:
+        await DatabaseHandler.get_pool()
+        await DatabaseHandler._create_tables()
+
+asyncio.run(DatabaseHandler.load())
