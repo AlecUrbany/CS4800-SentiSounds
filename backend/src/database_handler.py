@@ -1,9 +1,6 @@
-"""Made with the gracious help of the Novus (Discord API Wrapper) library"""
-
 from typing import Any
 
 import asyncpg
-import asyncio
 
 from secrets_handler import SecretsHandler
 
@@ -107,6 +104,15 @@ class DatabaseHandler:
 
     @staticmethod
     async def _create_tables() -> None:
+        """
+        Sets up the database with whatever is in the DATABASE_FILE.
+        Generally, this will consist of table and extention creations.
+
+        Raises
+        ------
+        RuntimeError
+            If something goes wrong during the creation process
+        """
         if not DatabaseHandler.SETUP_QUERY:
             with open(DatabaseHandler.DATABASE_FILE, 'r') as file:
                 DatabaseHandler.SETUP_QUERY = file.read()
@@ -121,7 +127,9 @@ class DatabaseHandler:
 
     @staticmethod
     async def load() -> None:
+        """
+        A one-stop-shop for all your Database loading needs! The entry point
+        of the application must asynchronously call this function.
+        """
         await DatabaseHandler.get_pool()
         await DatabaseHandler._create_tables()
-
-asyncio.run(DatabaseHandler.load())

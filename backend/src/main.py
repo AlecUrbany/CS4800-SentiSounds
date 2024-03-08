@@ -1,21 +1,18 @@
 """A simple driver for simulating application events"""
+import asyncio
+from database_handler import DatabaseHandler
+from auth_handler import AuthHandler
 
-#from openai_handler import OpenAIHandler as ai
-from spotify_handler import SpotifyHandler as spotify
-from spotipy import SpotifyException
+async def view_all():
+    async with DatabaseHandler.acquire() as conn:
+        print(await conn.fetch("SELECT * FROM user_auth"))
 
+async def run():
+    await DatabaseHandler.load()
+    res = await AuthHandler.sign_up("example@gmail.com", "yeehaw", "George", "M")
+    print(res)
+    res = await AuthHandler.log_in("example@gmail.com", "yeehaw")
+    print(res)
+    await view_all()
 
-sp = spotify()
-#print(ai.get_response("happy"))
-sp.get_user_client()
-#print(spotify.get_artist("King Gizzard and the Lizard Wizard"))
-
-songs = sp.get_genre_songs("psychedelic rock")
-print(songs[3])
-ids = [str(x.get("id")) for x in songs]
-
-sp.create_playlist("INSERT MOOD NAME HERE", "WEIRD AND GROOVY", ids)
-
-# > ['pop', 'dance', 'folk', 'reggae', 'disco']
-# > ['pop', 'funk', 'disco', 'reggae', 'salsa']
-# > ...
+asyncio.run(run())
