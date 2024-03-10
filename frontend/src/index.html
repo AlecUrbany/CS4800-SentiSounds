@@ -24,6 +24,22 @@
 
 <body class="custom-purple-bg text-white font-sans">
 
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebarToggle" class="p-4">Page Sidebar</button>
+
+    <!-- Hidden Sidebar -->
+    <div id="sidebar"
+        class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-200 ease-in-out bg-gray-800 text-white w-64 p-4">
+        <!-- Sidebar content here -->
+        <h2 class="font-semibold text-xl mb-4">Pages</h2>
+        <ul>
+            <li><a href="index.html" class="block mt-2">Homepage</a></li>
+            <li><a href="signup.html" class="block mt-2">Signup</a></li>
+            <li><a href="login.html" class="block mt-2">Login</a></li>
+            <li><a href="results.html" class="block mt-2">Results</a></li>
+        </ul>
+    </div>
+
     <header class="flex justify-between items-center p-4">
         <div class="flex items-center space-x-3">
             <img src="assets/sentisound_icon.png" alt="SentiSounds Logo" class="rounded-full"
@@ -141,6 +157,23 @@
             </div>
         </aside>
     </main>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        document.addEventListener('click', function (e) {
+            // Check if click is outside of sidebar and sidebarToggle
+            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
+                // If sidebar is open and click is outside, close the sidebar
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+    </script>
 
 </body>
 
