@@ -1,15 +1,29 @@
 import re
+import smtplib
+import ssl
+import random
 
 from database_handler import DatabaseHandler
+from secrets_handler import SecretsHandler
 
 class AuthHandler:
 
+    # Regex to maintain secure and valid emails and passwords
     EMAIL_REGEX = re.compile(
         r"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$", flags=re.IGNORECASE
     )
     PASSWORD_REGEX = re.compile(
         r".+"
     )
+
+    # The authentication email to send users
+    PLAIN_TEXT = (
+        "Subject: {}\n\n{}"
+    )
+
+    # A dictionary of currently authenticating users
+    # email_address: (code, expiry time)
+    ACTIVE_AUTHS: dict[str, tuple[int, int]] = {}
 
     @staticmethod
     def valid_password(password: str) -> bool:
@@ -57,7 +71,7 @@ class AuthHandler:
                 password: str,
                 first_name: str,
                 last_initial: str = ""
-            ) -> bool:
+            ) -> int:
         """
         Adds a new user to the database's user_auth store
 
@@ -99,6 +113,8 @@ class AuthHandler:
 
         if not AuthHandler.valid_password(password):
             raise ValueError("An invalid password was entered.")
+
+        authentication_code =
 
         async with DatabaseHandler.acquire() as conn:
             try:
@@ -162,5 +178,44 @@ class AuthHandler:
 
         return bool(found)
 
+    @staticmethod
+    def send_authentication_email(email_address: str) -> bool:
+        """
+        Send a confirmation email to a user with a code
+
+        Returns
+        -------
+        bool
+            Whether or not the email was successfully sent
+        """
+
+        try:
+            port = 465
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
+                s.login(
+                    sender:=SecretsHandler.get_email_address(),
+                    SecretsHandler.get_email_passkey()
+                )
+                s.sendmail(
+                    sender,
+                    email_address,
+                    AuthHandler.PLAIN_TEXT.format(
+                        "Authenticate your SentiSounds Account!",
+                        "Thank you for registering with SentiSounds!\n" +
+                        "You have 1 minute to enter this code to authenticate: 1234\n"
+                    )
+                )
+            return True
+
+        except:
+            return False
+
+    @staticmethod
+    def generate_random_code(email_address: str):
+        ...
+
     # TODO: Spotify Authentication
-    # TODO: Email Validation (send them an email, wait for them to enter the code)
+
+if __name__ == "__main__":
+    print(AuthHandler.send_authentication_email("jojomedhat2004@gmail.com"))

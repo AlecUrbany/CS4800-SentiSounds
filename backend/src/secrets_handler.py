@@ -103,3 +103,43 @@ class SecretsHandler:
             The database name
         """
         return SecretsHandler._get_json_value("database", "database-name")
+
+    @staticmethod
+    def get_email_address() -> str:
+        """
+        Retrieves the email address using key email and sub-key address
+
+        Returns
+        -------
+        str
+            The email address
+        """
+        return SecretsHandler._get_json_value("email", "address")
+
+    @staticmethod
+    def get_email_password() -> str:
+        """
+        Retrieves the email password using key email and sub-key password
+
+        Returns
+        -------
+        str
+            The email password
+        """
+        return SecretsHandler._get_json_value("email", "password")
+
+    @staticmethod
+    def get_email_passkey() -> str:
+        """
+        Retrieves the email passkey using key email and sub-key passkey
+
+        This is what's actually used to log-in and send emails via SMTP.
+
+        Research Less Secure Apps via Google.
+
+        Returns
+        -------
+        str
+            The email passkey
+        """
+        return SecretsHandler._get_json_value("email", "passkey")
