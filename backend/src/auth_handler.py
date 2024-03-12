@@ -72,7 +72,7 @@ class AuthHandler:
                 password: str,
                 first_name: str,
                 last_initial: str = ""
-            ) -> None:
+            ) -> bool:
         """
         Creates a sign-in session and waits for an authentication code
 
@@ -86,6 +86,11 @@ class AuthHandler:
             The user's first name. Must be <= 29 characters (32 - 3)
         last_initial: str = ""
             The user's last initial
+
+        Returns
+        -------
+        bool
+            Whether or not the authentication email was sucessfully sent
 
         Raises
         ------
@@ -106,7 +111,7 @@ class AuthHandler:
             raise ValueError("An invalid password was entered.")
 
         auth_code = AuthHandler.generate_random_code(email_address)
-        AuthHandler.send_authentication_email(email_address, auth_code)
+        return AuthHandler.send_authentication_email(email_address, auth_code)
 
     @staticmethod
     async def log_in(
