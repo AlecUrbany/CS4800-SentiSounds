@@ -2,6 +2,7 @@ import re
 import smtplib
 import ssl
 import random
+from datetime import datetime, timedelta
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler
@@ -23,7 +24,7 @@ class AuthHandler:
 
     # A dictionary of currently authenticating users
     # email_address: (code, expiry time)
-    ACTIVE_AUTHS: dict[str, tuple[int, int]] = {}
+    ACTIVE_AUTHS: dict[str, tuple[str, float]] = {}
 
     @staticmethod
     def valid_password(password: str) -> bool:
@@ -66,14 +67,14 @@ class AuthHandler:
         return bool(AuthHandler.EMAIL_REGEX.match(email_address))
 
     @staticmethod
-    async def sign_up(
+    def sign_up(
                 email_address: str,
                 password: str,
                 first_name: str,
                 last_initial: str = ""
-            ) -> int:
+            ) -> None:
         """
-        Adds a new user to the database's user_auth store
+        Creates a sign-in session and waits for an authentication code
 
         Parameters
         ----------
@@ -85,12 +86,6 @@ class AuthHandler:
             The user's first name. Must be <= 29 characters (32 - 3)
         last_initial: str = ""
             The user's last initial
-
-        Returns
-        -------
-        bool
-            Whether or not the user was successfully added. Generally, this
-            would mean the user was not already present in the DB
 
         Raises
         ------
@@ -104,42 +99,14 @@ class AuthHandler:
         if len(last_initial) > 1:
             raise ValueError("The last name entered was too long.")
 
-        display_name = first_name + (
-            f" {last_initial}." if last_initial else ""
-        )
-
         if not AuthHandler.valid_email(email_address):
             raise ValueError("An invalid email address was entered.")
 
         if not AuthHandler.valid_password(password):
             raise ValueError("An invalid password was entered.")
 
-        authentication_code =
-
-        async with DatabaseHandler.acquire() as conn:
-            try:
-                await conn.execute(
-                    """
-                    INSERT INTO
-                        user_auth
-                        (
-                            email_address,
-                            hashed_password,
-                            display_name
-                        )
-                    VALUES
-                        (
-                            $1,
-                            crypt($2, gen_salt('bf')),
-                            $3
-                        )
-                    """,
-                    email_address, password, display_name
-                )
-            except:
-                return False
-
-        return True
+        auth_code = AuthHandler.generate_random_code(email_address)
+        AuthHandler.send_authentication_email(email_address, auth_code)
 
     @staticmethod
     async def log_in(
@@ -179,7 +146,78 @@ class AuthHandler:
         return bool(found)
 
     @staticmethod
-    def send_authentication_email(email_address: str) -> bool:
+    async def authenticate_user(
+                email_address: str,
+                password: str,
+                entered_auth_code: str,
+                first_name: str,
+                last_initial: str = ""
+            ) -> bool:
+        """
+        Attempt to authenticate a user's login via the code they were sent
+
+        Ensure you are first calling sign_up(...) to generate an authentication
+        code
+
+        Parameters
+        ----------
+        email_address: str
+            The email address of the user
+        password: str
+            The password of the user
+        entered_auth_code: str
+            The authentication code the user entered
+        first_name: str
+            The user's first name
+        last_initial: str = ""
+            The user's last initial
+
+        Returns
+        -------
+        bool
+            Whether or not the user entered the correct code and was sucessfully
+            added to the DB. This generally means they were not already in the
+            database.
+        """
+
+        display_name = first_name + (
+            f" {last_initial}." if last_initial else ""
+        )
+
+        if email_address not in AuthHandler.ACTIVE_AUTHS:
+            return False
+
+        needed, expiry = AuthHandler.ACTIVE_AUTHS[email_address]
+        if needed != entered_auth_code or datetime.now().timestamp() > expiry:
+            return False
+
+        async with DatabaseHandler.acquire() as conn:
+            try:
+                await conn.execute(
+                    """
+                    INSERT INTO
+                        user_auth
+                        (
+                            email_address,
+                            hashed_password,
+                            display_name
+                        )
+                    VALUES
+                        (
+                            $1,
+                            crypt($2, gen_salt('bf')),
+                            $3
+                        )
+                    """,
+                    email_address, password, display_name
+                )
+            except:
+                return False
+
+        return True
+
+    @staticmethod
+    def send_authentication_email(email_address: str, auth_code: str) -> bool:
         """
         Send a confirmation email to a user with a code
 
@@ -203,7 +241,8 @@ class AuthHandler:
                     AuthHandler.PLAIN_TEXT.format(
                         "Authenticate your SentiSounds Account!",
                         "Thank you for registering with SentiSounds!\n" +
-                        "You have 1 minute to enter this code to authenticate: 1234\n"
+                        "You have 1 minute to enter this authentication code: " +
+                        auth_code + "\n"
                     )
                 )
             return True
@@ -213,9 +252,12 @@ class AuthHandler:
 
     @staticmethod
     def generate_random_code(email_address: str):
-        ...
+        random_code = "".join([str(random.randint(0, 9)) for _ in range(5)])
+        expiry_time = (datetime.now() + timedelta(minutes=5)).timestamp()
+
+        AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
+        return random_code
 
     # TODO: Spotify Authentication
-
-if __name__ == "__main__":
-    print(AuthHandler.send_authentication_email("jojomedhat2004@gmail.com"))
+    # TODO: Figure out the flow of how authentication should work
+    # TODO: Cache taken email addresses to return an error on signup

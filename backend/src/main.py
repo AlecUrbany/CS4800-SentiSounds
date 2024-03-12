@@ -9,10 +9,16 @@ async def view_all():
 
 async def run():
     await DatabaseHandler.load()
-    res = await AuthHandler.sign_up("example@gmail.com", "yeehaw", "George", "M")
+    AuthHandler.sign_up("jojomedhat2004@gmail.com", "yeehaw", "George", "M")
+
+    entered = input("Enter Recieved Code: ")
+
+    res = await AuthHandler.authenticate_user("jojomedhat2004@gmail.com", "yeehaw", entered, "George", "M")
     print(res)
-    res = await AuthHandler.log_in("example@gmail.com", "yeehaw")
+
+    res = await AuthHandler.log_in("jojomedhat2004@gmail.com", "yeehaw")
     print(res)
+
     await view_all()
 
 asyncio.run(run())
