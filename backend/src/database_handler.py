@@ -71,6 +71,7 @@ class DatabaseHandler:
             The created DB pool
         """
         try:
+            print(DatabaseHandler._get_database_dsn())
             created = await asyncpg.create_pool(
                 DatabaseHandler._get_database_dsn()
             )
@@ -98,10 +99,12 @@ class DatabaseHandler:
             The database DSN
         """
         return (
-            "postgres://{}:{}@localhost:5432/{}"
+            "postgres://{}:{}@{}:{}/{}"
         ).format(
             SecretsHandler.get_database_user(),
             SecretsHandler.get_database_password(),
+            SecretsHandler.get_database_host(),
+            SecretsHandler.get_database_port(),
             SecretsHandler.get_database_name()
         )
 
