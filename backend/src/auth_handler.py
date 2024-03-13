@@ -19,7 +19,7 @@ class AuthHandler:
 
     # The authentication email to send users
     PLAIN_TEXT = (
-        "Subject: {}\n\n{}"
+        "Subject: {}\nTo: {}\n\n{}"
     )
 
     # A dictionary of currently authenticating users
@@ -72,7 +72,7 @@ class AuthHandler:
                 password: str,
                 first_name: str,
                 last_initial: str = ""
-            ) -> bool:
+            ) -> None:
         """
         Creates a sign-in session and waits for an authentication code
 
@@ -83,20 +83,19 @@ class AuthHandler:
         password: str
             The password of the user. Must pass validity via `valid_password`
         first_name: str
-            The user's first name. Must be <= 29 characters (32 - 3)
+            The user's first name. Must be >= 1 and <= 29 characters
         last_initial: str = ""
             The user's last initial
-
-        Returns
-        -------
-        bool
-            Whether or not the authentication email was sucessfully sent
 
         Raises
         ------
         ValueError
-            If an invalid email address, password, or name is provided
+            If an invalid email address, password, or name is provided. Or
+            if an email could not be sent
         """
+
+        if not first_name:
+            raise ValueError("The first name entered was too short.")
 
         if len(first_name) > 29:
             raise ValueError("The first name entered was too long.")
@@ -111,7 +110,13 @@ class AuthHandler:
             raise ValueError("An invalid password was entered.")
 
         auth_code = AuthHandler.generate_random_code(email_address)
-        return AuthHandler.send_authentication_email(email_address, auth_code)
+
+        try:
+            AuthHandler.send_authentication_email(email_address, auth_code)
+        except:
+            raise ValueError(
+                "Something went wrong sending the authentication email"
+            )
 
     @staticmethod
     async def log_in(
@@ -133,6 +138,7 @@ class AuthHandler:
         bool
             Whether or not the log-in was successful
         """
+
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
                 """
@@ -157,7 +163,7 @@ class AuthHandler:
                 entered_auth_code: str,
                 first_name: str,
                 last_initial: str = ""
-            ) -> bool:
+            ) -> None:
         """
         Attempt to authenticate a user's login via the code they were sent
 
@@ -177,12 +183,11 @@ class AuthHandler:
         last_initial: str = ""
             The user's last initial
 
-        Returns
+        Raises
         -------
-        bool
-            Whether or not the user entered the correct code and was sucessfully
-            added to the DB. This generally means they were not already in the
-            database.
+        ValueError
+            If the incorrect code was entered or something went wrong adding
+            the user to the database
         """
 
         display_name = first_name + (
@@ -190,11 +195,15 @@ class AuthHandler:
         )
 
         if email_address not in AuthHandler.ACTIVE_AUTHS:
-            return False
+            raise ValueError(
+                "This email address does not have any active codes"
+            )
 
         needed, expiry = AuthHandler.ACTIVE_AUTHS[email_address]
         if needed != entered_auth_code or datetime.now().timestamp() > expiry:
-            return False
+            raise ValueError(
+                "An incorrect code was entered, or the code has expired"
+            )
 
         async with DatabaseHandler.acquire() as conn:
             try:
@@ -217,43 +226,49 @@ class AuthHandler:
                     email_address, password, display_name
                 )
             except:
-                return False
-
-        return True
+                raise ValueError(
+                    "This email address was already found in the database."
+                )
 
     @staticmethod
-    def send_authentication_email(email_address: str, auth_code: str) -> bool:
+    def send_authentication_email(email_address: str, auth_code: str) -> None:
         """
         Send a confirmation email to a user with a code
 
-        Returns
-        -------
-        bool
-            Whether or not the email was successfully sent
+        Raises
+        ------
+        SMTPHeloError
+            The server didn't reply properly to the helo greeting.
+        SMTPRecipientsRefused
+            The server rejected ALL recipients (no mail was sent).
+        SMTPSenderRefused
+            The server didn't accept the from_addr.
+        SMTPDataError
+            The server replied with an unexpected error code
+            (other than a refusal of a recipient).
+        SMTPNotSupportedError
+            The mail_options parameter includes 'SMTPUTF8'
+            but the SMTPUTF8 extension is not supported by the server.
         """
 
-        try:
-            port = 465
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
-                s.login(
-                    sender:=SecretsHandler.get_email_address(),
-                    SecretsHandler.get_email_passkey()
-                )
-                s.sendmail(
-                    sender,
+        port = 465
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
+            s.login(
+                sender:=SecretsHandler.get_email_address(),
+                SecretsHandler.get_email_passkey()
+            )
+            s.sendmail(
+                sender,
+                email_address,
+                AuthHandler.PLAIN_TEXT.format(
+                    "Authenticate your SentiSounds Account!",
                     email_address,
-                    AuthHandler.PLAIN_TEXT.format(
-                        "Authenticate your SentiSounds Account!",
-                        "Thank you for registering with SentiSounds!\n" +
-                        "You have 1 minute to enter this authentication code: " +
-                        auth_code + "\n"
-                    )
+                    "Thank you for registering with SentiSounds!\n" +
+                    "You have 1 minute to enter this authentication code: " +
+                    auth_code + "\n"
                 )
-            return True
-
-        except:
-            return False
+            )
 
     @staticmethod
     def generate_random_code(email_address: str):
