@@ -1,5 +1,4 @@
 openai
 spotipy
 asyncpg
-flask
-flask[async]
+quart

@@ -1,5 +1,6 @@
 from typing import Any
 
+import asyncio
 import asyncpg
 
 from secrets_handler import SecretsHandler
@@ -74,13 +75,15 @@ class DatabaseHandler:
                 DatabaseHandler._get_database_dsn()
             )
             assert created
+            DatabaseHandler.pool = created
+
+            await DatabaseHandler._create_tables()
 
         except Exception as e:
             raise RuntimeError(
                 f"Something went wrong creating the DB pool: " + str(e)
             )
 
-        DatabaseHandler.pool = created
         return created
 
     @staticmethod
@@ -124,12 +127,3 @@ class DatabaseHandler:
             raise RuntimeError(
                 f"Something went wrong creating the DB tables: " + str(e)
             )
-
-    @staticmethod
-    async def load() -> None:
-        """
-        A one-stop-shop for all your Database loading needs! The entry point
-        of the application must asynchronously call this function.
-        """
-        await DatabaseHandler.get_pool()
-        await DatabaseHandler._create_tables()
