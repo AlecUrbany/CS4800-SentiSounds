@@ -63,7 +63,7 @@ class OpenAIHandler:
         return OpenAIHandler._client_instance
 
     @staticmethod
-    def get_response(sanitized_input: str) -> list[str]:
+    def get_genres(sanitized_input: str) -> list[str]:
         """
         Retrieves a response from the supplied GPT model given an input.
 
@@ -94,6 +94,7 @@ class OpenAIHandler:
             if no response was provided by the OpenAI API,
             if the provided response couldn't be parsed into JSON,
             if the parsed JSON did not contain the `genres` key
+            if no genres were found
         """
 
         # Retrieve a response from GPT
@@ -143,6 +144,11 @@ class OpenAIHandler:
 
         # Ensure that each genre is a string and fix its casing
         content_genres = [str(genre).lower() for genre in content_genres]
+
+        if not content_genres:
+            raise ValueError(
+                "No genres could be found from the given input."
+            )
 
         # Return the genres themselves
         return content_genres

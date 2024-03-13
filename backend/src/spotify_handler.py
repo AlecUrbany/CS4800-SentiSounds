@@ -140,10 +140,9 @@ class SpotifyHandler:
         Parameters
         ----------
         genre : str
-
+            The genre to search songs for
         market : str
             An ISO 3166-1 alpha-2 country code or the string from_token.
-
         limit : int
             The maximum number of songs to return. Default is 10.
 
@@ -173,7 +172,6 @@ class SpotifyHandler:
         ]
 
         client_instance = self.get_any_client()
-
         search_result = client_instance.search(
             q='genre:' + genre,
             type="track",

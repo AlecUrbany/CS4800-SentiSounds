@@ -62,6 +62,21 @@ async def spotify_authenticate():
 
 @app.route("/get-songs", methods=['GET'])
 async def get_songs():
+    entered_prompt = request.args.get("prompt", default="")
+    email_address = request.args.get("email_address", default="")
+
+    # TODO: Check entered prompt validity
+    # TODO: Use email address to create user SpotifyHandler
+
+    try:
+        found_genres = OpenAIHandler.get_genres(entered_prompt)
+        spotify = SpotifyHandler()
+
+        spotify.get_genre_songs()
+    except:
+        pass
+
+
     return "Hello, World!"
 
 @app.route("/export-playlist", methods=['POST'])
