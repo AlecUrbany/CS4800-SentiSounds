@@ -72,7 +72,7 @@ async def get_songs():
         found_genres = OpenAIHandler.get_genres(entered_prompt)
         spotify = SpotifyHandler()
 
-        spotify.get_genre_songs()
+        spotify.get_genre_songs("")
     except:
         pass
 

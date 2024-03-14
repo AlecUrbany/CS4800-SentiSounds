@@ -23,7 +23,7 @@ class SecretsHandler:
             return json_data[key][sub]
 
     @classmethod
-    def get_openai_key(cls: SecretsHandler) -> str:
+    def get_openai_key(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the OpenAI API key using key open-ai and sub-key api-key
 
@@ -35,7 +35,7 @@ class SecretsHandler:
         return cls._get_json_value("open-ai", "api-key")
 
     @classmethod
-    def get_gpt_prompt(cls: SecretsHandler) -> str:
+    def get_gpt_prompt(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the OpenAI GPT prompt using key open-ai and sub-key prompt
 
@@ -47,7 +47,7 @@ class SecretsHandler:
         return cls._get_json_value("open-ai", "prompt")
 
     @classmethod
-    def get_spotify_client_id(cls: SecretsHandler) -> str:
+    def get_spotify_client_id(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the Spotify API key using key spotify and sub-key api-key
 
@@ -59,7 +59,7 @@ class SecretsHandler:
         return cls._get_json_value("spotify", "client_id")
 
     @classmethod
-    def get_spotify_client_secret(cls: SecretsHandler) -> str:
+    def get_spotify_client_secret(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the Spotify API key using key spotify and sub-key api-key
 
@@ -71,7 +71,7 @@ class SecretsHandler:
         return cls._get_json_value("spotify", "client_secret")
 
     @classmethod
-    def get_database_user(cls: SecretsHandler) -> str:
+    def get_database_user(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the database username using key database and sub-key username
 
@@ -83,7 +83,7 @@ class SecretsHandler:
         return cls._get_json_value("database", "username")
 
     @classmethod
-    def get_database_password(cls: SecretsHandler) -> str:
+    def get_database_password(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the database password using key database and sub-key password
 
@@ -95,7 +95,7 @@ class SecretsHandler:
         return cls._get_json_value("database", "password")
 
     @classmethod
-    def get_database_name(cls: SecretsHandler) -> str:
+    def get_database_name(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the database name using key database and sub-key database-name
 
@@ -107,7 +107,7 @@ class SecretsHandler:
         return cls._get_json_value("database", "database-name")
 
     @classmethod
-    def get_database_host(cls: SecretsHandler) -> str:
+    def get_database_host(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the database host using key database and sub-key host
 
@@ -119,7 +119,7 @@ class SecretsHandler:
         return cls._get_json_value("database", "host")
 
     @classmethod
-    def get_database_port(cls: SecretsHandler) -> str:
+    def get_database_port(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the database port using key database and sub-key port
 
@@ -131,7 +131,7 @@ class SecretsHandler:
         return cls._get_json_value("database", "port")
 
     @classmethod
-    def get_email_address(cls: SecretsHandler) -> str:
+    def get_email_address(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the email address using key email and sub-key address
 
@@ -143,7 +143,7 @@ class SecretsHandler:
         return cls._get_json_value("email", "address")
 
     @classmethod
-    def get_email_password(cls: SecretsHandler) -> str:
+    def get_email_password(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the email password using key email and sub-key password
 
@@ -155,7 +155,7 @@ class SecretsHandler:
         return cls._get_json_value("email", "password")
 
     @classmethod
-    def get_email_passkey(cls: SecretsHandler) -> str:
+    def get_email_passkey(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the email passkey using key email and sub-key passkey
 
