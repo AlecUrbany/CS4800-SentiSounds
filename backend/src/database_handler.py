@@ -1,17 +1,17 @@
 from typing import Any
 
-import asyncio
 import asyncpg
-
 from secrets_handler import SecretsHandler
+
 
 class PoolAcquireContext:
 
     async def __aenter__(self) -> asyncpg.Connection:
         ...
 
-    async def __aexit__(self, *args: Any) -> None:
+    async def __aexit__(self, *_: Any) -> None:
         ...
+
 
 class DatabaseHandler:
 
@@ -41,7 +41,7 @@ class DatabaseHandler:
                 "Ensure an async call to `_initialize_pool` is being made."
             )
 
-        return cls.pool.acquire(*args, **kwargs) # type: ignore
+        return cls.pool.acquire(*args, **kwargs)  # type: ignore
 
     @staticmethod
     async def get_pool() -> asyncpg.Pool:
@@ -60,8 +60,7 @@ class DatabaseHandler:
     @staticmethod
     async def _initialize_pool() -> asyncpg.Pool:
         """
-        Initializes the DB pool. This involves a call to asyncpg's `create_pool`
-        function.
+        Initializes the DB pool. This involves an asyncpg `create_pool` call.
 
         This will also set the DatabaseHandler.pool field
 
@@ -82,7 +81,7 @@ class DatabaseHandler:
 
         except Exception as e:
             raise RuntimeError(
-                f"Something went wrong creating the DB pool: " + str(e)
+                "Something went wrong creating the DB pool: " + str(e)
             )
 
         return created
@@ -128,5 +127,5 @@ class DatabaseHandler:
                 await conn.execute(DatabaseHandler.SETUP_QUERY)
         except Exception as e:
             raise RuntimeError(
-                f"Something went wrong creating the DB tables: " + str(e)
+                "Something went wrong creating the DB tables: " + str(e)
             )

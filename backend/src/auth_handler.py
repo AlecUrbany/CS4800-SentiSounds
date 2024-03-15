@@ -1,11 +1,12 @@
+import random
 import re
 import smtplib
 import ssl
-import random
 from datetime import datetime, timedelta
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler
+
 
 class AuthHandler:
 
@@ -31,7 +32,7 @@ class AuthHandler:
         """
         Given a password string, return if it's valid
 
-        This does not check for the *existence* of the address, rather it simply
+        This does not check for the *existence* of the address, but rather
         checks against an password pattern
 
         Parameters
@@ -51,7 +52,7 @@ class AuthHandler:
         """
         Given an email address string, return if it's valid
 
-        This does not check for the *existence* of the address, rather it simply
+        This does not check for the *existence* of the address, but rather
         checks against an email address pattern
 
         Parameters
@@ -113,7 +114,7 @@ class AuthHandler:
 
         try:
             AuthHandler.send_authentication_email(email_address, auth_code)
-        except:
+        except Exception:
             raise ValueError(
                 "Something went wrong sending the authentication email"
             )
@@ -225,7 +226,7 @@ class AuthHandler:
                     """,
                     email_address, password, display_name
                 )
-            except:
+            except Exception:
                 raise ValueError(
                     "This email address was already found in the database."
                 )
@@ -255,7 +256,7 @@ class AuthHandler:
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
             s.login(
-                sender:=SecretsHandler.get_email_address(),
+                sender := SecretsHandler.get_email_address(),
                 SecretsHandler.get_email_passkey()
             )
             s.sendmail(

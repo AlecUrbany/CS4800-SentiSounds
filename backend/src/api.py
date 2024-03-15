@@ -1,11 +1,11 @@
-from quart import Quart, request
-
-from database_handler import DatabaseHandler
 from auth_handler import AuthHandler
+from database_handler import DatabaseHandler
 from openai_handler import OpenAIHandler
+from quart import Quart, request
 from spotify_handler import SpotifyHandler
 
 app = Quart(__name__)
+
 
 @app.route("/signup", methods=['POST'])
 async def sign_up():
@@ -21,6 +21,7 @@ async def sign_up():
         return {"status": "failure", "error": str(e)}, 400
 
     return {"status": "success"}, 200
+
 
 @app.route("/authenticate", methods=['POST'])
 async def authenticate():
@@ -40,6 +41,7 @@ async def authenticate():
 
     return {"status": "success"}, 200
 
+
 @app.route("/login", methods=['POST'])
 async def login():
     await DatabaseHandler.get_pool()
@@ -56,9 +58,11 @@ async def login():
         ({"status": "failure", "error": "Incorrect email or password"}, 401)
     )
 
+
 @app.route("/spotify-authenticate", methods=['POST'])
 async def spotify_authenticate():
     return "Hello, World!"
+
 
 @app.route("/get-songs", methods=['GET'])
 async def get_songs():
@@ -72,12 +76,14 @@ async def get_songs():
         found_genres = OpenAIHandler.get_genres(entered_prompt)
         spotify = SpotifyHandler()
 
+        print(email_address, found_genres)
+
         spotify.get_genre_songs("")
-    except:
+    except Exception:
         pass
 
-
     return "Hello, World!"
+
 
 @app.route("/export-playlist", methods=['POST'])
 async def export_playlist():

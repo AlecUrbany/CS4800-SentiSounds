@@ -1,8 +1,9 @@
-from spotipy import Spotify
-from spotipy.oauth2 import SpotifyClientCredentials
-from spotipy.oauth2 import SpotifyOAuth
-from secrets_handler import SecretsHandler
 import random
+
+from secrets_handler import SecretsHandler
+from spotipy import Spotify
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+
 
 class SpotifyHandler:
     """
@@ -38,7 +39,8 @@ class SpotifyHandler:
 
     def get_base_client(self) -> Spotify:
         """
-        Retrieves or creates the Spotify client instance with no user credentials
+        Retrieves or creates the Spotify client instance with
+        no user credentials
 
         Returns
         -------
@@ -120,7 +122,8 @@ class SpotifyHandler:
             auth_manager=SpotifyOAuth(
                 scope=scope,
                 redirect_uri=redirect_uri,
-                open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
+                # TODO: Figure out bypass for redirect URI paste
+                open_browser=True,
                 client_id=SecretsHandler.get_spotify_client_id(),
                 client_secret=SecretsHandler.get_spotify_client_secret()
             )
@@ -135,7 +138,8 @@ class SpotifyHandler:
                 limit: int = 10
             ) -> list[dict]:
         """
-        Retrieves a pseudo-random list of songs in a genre sourced from the Spotify API.
+        Retrieves a pseudo-random list of songs in a genre sourced from the
+        Spotify API.
 
         Parameters
         ----------
@@ -186,7 +190,8 @@ class SpotifyHandler:
         tracks_all = search_result["tracks"]["items"]
 
         return [
-            {key: track[key] for key in keys_to_extract} for track in tracks_all
+            {key: track[key] for key in keys_to_extract}
+            for track in tracks_all
         ]
 
     def get_available_genre_seeds(self) -> list[str]:
@@ -239,7 +244,7 @@ class SpotifyHandler:
 
         client_instance = self.get_user_client()
 
-        if not (user:=client_instance.me()):
+        if not (user := client_instance.me()):
             raise ValueError(
                 "Something went wrong validating this user's existence"
             )

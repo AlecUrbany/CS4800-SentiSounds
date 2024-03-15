@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 
+
 class SecretsHandler:
 
     SECRETS_FILE = "secrets.json"
@@ -9,7 +10,8 @@ class SecretsHandler:
     @staticmethod
     def _get_json_value(key: str, sub: str) -> str:
         """
-        Returns any value from the provided SECRETS_FILE given a key and sub-key
+        Returns any value from the provided SECRETS_FILE
+        given a key and sub-key
 
         Parameters
         ----------
@@ -97,7 +99,8 @@ class SecretsHandler:
     @classmethod
     def get_database_name(cls: type[SecretsHandler]) -> str:
         """
-        Retrieves the database name using key database and sub-key database-name
+        Retrieves the database name using key database and
+        sub-key database-name
 
         Returns
         -------

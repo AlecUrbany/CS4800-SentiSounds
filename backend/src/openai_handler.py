@@ -1,7 +1,8 @@
-from openai import OpenAI
 import json
 
+from openai import OpenAI
 from secrets_handler import SecretsHandler
+
 
 class OpenAIHandler:
     """
@@ -120,14 +121,14 @@ class OpenAIHandler:
         # Ensure the response is JSON
         try:
             content_json = json.loads(found_content)
-        except:
+        except Exception:
             raise ValueError(
                 "Something went wrong retrieving a response from GPT. " +
                 "The provided response could not be parsed into JSON."
             )
 
         # Ensure the JSON contains the genres
-        if not "genres" in content_json:
+        if "genres" not in content_json:
             raise ValueError(
                 "Something went wrong retrieving a response from GPT. " +
                 f"The parsed JSON `{content_json}` " +
