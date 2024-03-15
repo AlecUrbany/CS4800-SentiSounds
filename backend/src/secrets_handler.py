@@ -8,21 +8,20 @@ class SecretsHandler:
     SECRETS_FILE = "secrets.json"
 
     @staticmethod
-    def _get_json_value(key: str, sub: str) -> str:
+    def _get_json_value(key: str, sub_key: str) -> str:
         """
         Returns any value from the provided SECRETS_FILE
         given a key and sub-key
 
         Parameters
         ----------
-        key: str
-        sub: str
+        key, sub_key: str
             The key and sub-key pair of the value to extract, such that
-            json[key][sub] contains the requested value
+            json[key][sub_key] contains the requested value
         """
         with open(SecretsHandler.SECRETS_FILE) as s:
             json_data = json.load(s)
-            return json_data[key][sub]
+            return json_data[key][sub_key]
 
     @classmethod
     def get_openai_key(cls: type[SecretsHandler]) -> str:

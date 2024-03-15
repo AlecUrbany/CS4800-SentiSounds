@@ -5,6 +5,10 @@ from secrets_handler import SecretsHandler
 
 
 class PoolAcquireContext:
+    """
+    A class to show Python that our asyncpg pool can be used in an asynchronous
+    context to obtain a connection from the pool.
+    """
 
     async def __aenter__(self) -> asyncpg.Connection:
         ...
@@ -14,6 +18,15 @@ class PoolAcquireContext:
 
 
 class DatabaseHandler:
+    """
+    A static class that deals with Database maintenence. When a DB operation
+    is requested by any point of the application, it must first call the
+    `get_pool()` function. On first run, this will ensure that a DB pool and
+    the necessary tables (defined in the DATABASE_FILE) have been created.
+
+    This pool allows for a set of connections to the DB to be created. They
+    will also be context-managed via an asynchronous context (async with)
+    """
 
     DATABASE_FILE: str = "database.pgsql"
     SETUP_QUERY: str = ""
@@ -70,7 +83,6 @@ class DatabaseHandler:
             The created DB pool
         """
         try:
-            print(DatabaseHandler._get_database_dsn())
             created = await asyncpg.create_pool(
                 DatabaseHandler._get_database_dsn()
             )

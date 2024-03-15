@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import random
+from typing import Any
 
 from secrets_handler import SecretsHandler
 from spotipy import Spotify
@@ -9,16 +12,41 @@ class SpotifyHandler:
     """
     A class to handle all Spotify API interactions.
 
-    Contains a definition for a static _client_instance. This should only be
-    accessed via the `get_client()` function, which will automatically fill
-    this field if it does not yet exist. Any other accesses to this instance
-    are unsafe and should not be used.
+    There are two types of Spotify clients; a base client and a user client.
+    A base client uses the default SentiSounds Spotify account to perform
+    Spotify operations. The user client will be able to return results and
+    recommendations directly via the Spotify API.
 
+    The `from_base_client` or `from_user_client` classmethods are the easiest
+    ways to get a SpotifyHandler instance
     """
 
     def __init__(self) -> None:
+        """
+        Initializes a SpotifyHandler instance. This instance gives you full
+        control of how to initialize and use the handler. However,
+        this comes at the cost of the comfort and abstraction capabilities
+        provided by this class.
+
+        Consider using the `from_base_client()` or `from_user_client()`
+        classmethods to retrieve the type of handler that you are expecting
+        """
         self._client_instance: Spotify | None = None
         self.is_user_client: bool = False
+
+    @classmethod
+    def from_base_client(cls: type[SpotifyHandler]) -> SpotifyHandler:
+        """Creates a SpotifyHandler initialized with a base client"""
+        s = SpotifyHandler()
+        s.get_base_client()
+        return s
+
+    @classmethod
+    def from_user_client(cls: type[SpotifyHandler]) -> SpotifyHandler:
+        """Creates a SpotifyHandler initialized with a user client"""
+        s = SpotifyHandler()
+        s.get_user_client()
+        return s
 
     def get_any_client(self) -> Spotify:
         """
@@ -136,7 +164,7 @@ class SpotifyHandler:
                 genre: str,
                 market: str = "from_token",
                 limit: int = 10
-            ) -> list[dict]:
+            ) -> list[dict[str, str | bool | int]]:
         """
         Retrieves a pseudo-random list of songs in a genre sourced from the
         Spotify API.
@@ -155,21 +183,22 @@ class SpotifyHandler:
 
         Returns
         -------
-        list[dict]
-            The list of songs from the Spotify API with the following:
-            - name: The name of the song
-            - preview_url: A URL to a 30-second preview of the song
-            - uri: A URI to the song
-            - explicit: Whether the song is explicit
-            - is_playable: Whether the song is playable
-            - popularity: The popularity of the song
-            - id: The ID of the song (useful for creating a playlist)
+        list[dict[str, str | bool | int]]
+            A list of songs retrieved from the Spotify API with the following:
+            - name: The name of the song (str)
+            - preview_url: A URL to a 30-second preview of the song (str)
+            - uri: A URI to the song (str)
+            - explicit: Whether the song is explicit (bool)
+            - is_playable: Whether the song is playable (bool)
+            - popularity: The popularity of the song (int)
+            - id: The ID of the song (useful for creating a playlist) (str)
         """
         random_offset = random.randint(0, 1000)
         keys_to_extract = [
             "name",
             "preview_url",
-            "uri", "explicit",
+            "uri",
+            "explicit",
             "is_playable",
             "popularity",
             "id"
@@ -187,7 +216,7 @@ class SpotifyHandler:
                 "Something went wrong searching for songs from Spotify"
             )
 
-        tracks_all = search_result["tracks"]["items"]
+        tracks_all: list[dict[str, Any]] = search_result["tracks"]["items"]
 
         return [
             {key: track[key] for key in keys_to_extract}
@@ -230,13 +259,14 @@ class SpotifyHandler:
         description : str
             The description of the playlist, preferably the sentiment prompt
             provided by the user
+        song_ids : list[str]
+            A list of song IDs to include in the playlist
 
         Returns
         -------
         str
             A URL to the created playlist
         """
-
         if not self.is_user_client:
             raise ValueError(
                 "A playlist cannot be created via a base (non-user) client."
@@ -257,9 +287,7 @@ class SpotifyHandler:
         )
 
         if not playlist:
-            raise RuntimeError(
-                "Something went wrong creating this playlist"
-            )
+            raise RuntimeError("Something went wrong creating this playlist")
 
         client_instance.user_playlist_add_tracks(
             user["id"], playlist["id"], song_ids
