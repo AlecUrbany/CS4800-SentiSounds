@@ -1,11 +1,20 @@
+"""A one-stop-shop for interacting with the secrets.json file safely"""
+
 from __future__ import annotations
 
 import json
 
 
 class SecretsHandler:
+    """
+    A static class to handle interactions with the provided secrets file.
+
+    This provides safe methods to access hidden tokens, keys, passwords,
+    etc.
+    """
 
     SECRETS_FILE = "secrets.json"
+    """The filepath containing the secret tokens and keys"""
 
     @staticmethod
     def _get_json_value(key: str, sub_key: str) -> str:

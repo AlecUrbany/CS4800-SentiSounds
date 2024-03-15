@@ -1,3 +1,5 @@
+"""A handler for interacting with Spotify's API through the Spotipy wrapper"""
+
 from __future__ import annotations
 
 import random
@@ -32,7 +34,12 @@ class SpotifyHandler:
         classmethods to retrieve the type of handler that you are expecting
         """
         self._client_instance: Spotify | None = None
+        """
+        The client instance (Spotify) used to interact with the API
+        """
+
         self.is_user_client: bool = False
+        """Whether or not we have a base or user-specific client instance"""
 
     @classmethod
     def from_base_client(cls: type[SpotifyHandler]) -> SpotifyHandler:
@@ -169,6 +176,9 @@ class SpotifyHandler:
         Retrieves a pseudo-random list of songs in a genre sourced from the
         Spotify API.
 
+        This list may be user specific, so use the get_available_genre_seeds
+        to find user genres
+
         Parameters
         ----------
         genre : str
@@ -177,9 +187,6 @@ class SpotifyHandler:
             An ISO 3166-1 alpha-2 country code or the string from_token.
         limit : int
             The maximum number of songs to return. Default is 10.
-
-        This list may be user specific, so use the get_available_genre_seeds
-        to find user genres
 
         Returns
         -------

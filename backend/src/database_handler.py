@@ -1,3 +1,5 @@
+"""A handler for interacting with the PostgreSQL Database asynchronously"""
+
 from typing import Any
 
 import asyncpg
@@ -11,9 +13,11 @@ class PoolAcquireContext:
     """
 
     async def __aenter__(self) -> asyncpg.Connection:
+        """Defines an asynchronous context-based entrance to the pool"""
         ...
 
     async def __aexit__(self, *_: Any) -> None:
+        """Defines an asynchronous context-based exit from the pool"""
         ...
 
 
@@ -29,19 +33,21 @@ class DatabaseHandler:
     """
 
     DATABASE_FILE: str = "database.pgsql"
+    """A file containing an SQL query to execute on pool creation"""
+
     SETUP_QUERY: str = ""
+    """The query extracted from the database file"""
 
     pool: asyncpg.Pool | None = None
+    """A pool of DB connections"""
 
     @classmethod
     def acquire(cls, *args: Any, **kwargs: Any) -> PoolAcquireContext:
         """
         Retrives a connection to the Database pool. To use this connection:
 
-        ```
-        async with DatabaseHandler.acquire() as conn:
-            await conn.execute(...)
-        ```
+        >>> async with DatabaseHandler.acquire() as conn:
+        >>>    await conn.execute(...)
 
         This will deal with connecting, executing the DB query (...), and
         closing the connection after it has been used.
@@ -65,7 +71,7 @@ class DatabaseHandler:
 
         Returns
         -------
-        asyncpy.Pool
+        asyncpg.Pool
             The found/created DB pool
         """
         return DatabaseHandler.pool or await DatabaseHandler._initialize_pool()
@@ -73,13 +79,13 @@ class DatabaseHandler:
     @staticmethod
     async def _initialize_pool() -> asyncpg.Pool:
         """
-        Initializes the DB pool. This involves an asyncpg `create_pool` call.
+        Initializes the DB pool. This involves an asyncpg ``create_pool`` call.
 
         This will also set the DatabaseHandler.pool field
 
         Returns
         -------
-        asyncpy.Pool
+        asyncpg.Pool
             The created DB pool
         """
         try:

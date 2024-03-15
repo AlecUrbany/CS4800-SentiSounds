@@ -1,3 +1,5 @@
+"""The callable API functions to be used to communicate with the backend"""
+
 from auth_handler import AuthHandler
 from database_handler import DatabaseHandler
 from openai_handler import OpenAIHandler

@@ -1,3 +1,5 @@
+"""The main driver for beginning the program's execution"""
+
 from api import app
 from spotify_handler import SpotifyHandler
 

@@ -1,3 +1,5 @@
+"""A handler for signing up, authenticating emails, and logging in"""
+
 import random
 import re
 import smtplib
@@ -27,22 +29,24 @@ class AuthHandler:
     The login function takes an email and password
     """
 
-    # Regex to maintain secure and valid emails and passwords
     EMAIL_REGEX = re.compile(
         r"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$", flags=re.IGNORECASE
     )
+    """A regex statement defining a valid email address"""
+
     PASSWORD_REGEX = re.compile(
         r".+"
     )
+    """A regex statement defining a valid password"""
 
-    # The authentication email to send users
     PLAIN_TEXT = (
         "Subject: {}\nTo: {}\n\n{}"
     )
+    """A frame for the email to send a to-be authenticated user"""
 
-    # A dictionary of currently authenticating users
     # email_address: (code, expiry time)
     ACTIVE_AUTHS: dict[str, tuple[str, float]] = {}
+    """A dictionary of currently authenticating users"""
 
     @staticmethod
     def valid_password(password: str) -> bool:
@@ -102,7 +106,7 @@ class AuthHandler:
             The password of the user. Must pass validity via `valid_password`
         first_name : str
             The user's first name. Must be >= 1 and <= 29 characters
-        last_initial : str = ""
+        last_initial : str, default=""
             The user's last initial
 
         Raises
@@ -196,11 +200,11 @@ class AuthHandler:
             The authentication code the user entered
         first_name : str
             The user's first name
-        last_initial : str = ""
+        last_initial : str, default=""
             The user's last initial
 
         Raises
-        -------
+        ------
         ValueError
             If the incorrect code was entered or something went wrong adding
             the user to the database
@@ -285,7 +289,20 @@ class AuthHandler:
             )
 
     @staticmethod
-    def generate_random_code(email_address: str):
+    def generate_random_code(email_address: str) -> str:
+        """
+        Generates a random code and stores it in the authentication cache
+
+        Parameters
+        ----------
+        email_address : str
+            The email address that this code belongs to
+
+        Returns
+        -------
+        str
+            The generated code
+        """
         random_code = "".join([str(random.randint(0, 9)) for _ in range(5)])
         expiry_time = (datetime.now() + timedelta(minutes=1)).timestamp()
 
