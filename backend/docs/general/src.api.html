@@ -114,7 +114,7 @@
 
 
 
-            <div class="itemName"><code><a href="#get_songs" class="internal-link" title="src.api.get_songs">get<wbr></wbr>_songs</a></code>
+            <div class="itemName"><code><a href="#login" class="internal-link" title="src.api.login">login</a></code>
             </div>
 
 
@@ -124,7 +124,7 @@
 
 
 
-            <div class="itemName"><code><a href="#login" class="internal-link" title="src.api.login">login</a></code>
+            <div class="itemName"><code><a href="#recommended_songs" class="internal-link" title="src.api.recommended_songs">recommended<wbr></wbr>_songs</a></code>
             </div>
 
 
@@ -386,37 +386,37 @@
 
     <td>Async Function</td>
     <td><code><a href="#authenticate" class="internal-link" title="src.api.authenticate">authenticate</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><code>POST /authenticate</code></td>
   </tr><tr class="function">
 
     <td>Async Function</td>
     <td><code><a href="#export_playlist" class="internal-link" title="src.api.export_playlist">export<wbr></wbr>_playlist</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
-  </tr><tr class="function">
-
-    <td>Async Function</td>
-    <td><code><a href="#get_songs" class="internal-link" title="src.api.get_songs">get<wbr></wbr>_songs</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><code>POST /export-playlist</code></td>
   </tr><tr class="function">
 
     <td>Async Function</td>
     <td><code><a href="#login" class="internal-link" title="src.api.login">login</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><code>POST /login</code></td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
+    <td><code><a href="#recommended_songs" class="internal-link" title="src.api.recommended_songs">recommended<wbr></wbr>_songs</a></code></td>
+    <td><code>GET /recommended-songs</code></td>
   </tr><tr class="function">
 
     <td>Async Function</td>
     <td><code><a href="#sign_up" class="internal-link" title="src.api.sign_up">sign<wbr></wbr>_up</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><code>POST /sign-up</code></td>
   </tr><tr class="function">
 
     <td>Async Function</td>
     <td><code><a href="#spotify_authenticate" class="internal-link" title="src.api.spotify_authenticate">spotify<wbr></wbr>_authenticate</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><code>POST /spotify-authenticate</code></td>
   </tr><tr class="variable">
 
     <td>Variable</td>
     <td><code><a href="#app" class="internal-link" title="src.api.app">app</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td>The Quart app to run</td>
   </tr>
 </table>
 
@@ -447,7 +447,20 @@
   </div>
   <div class="docstring functionBody">
 
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p><code>POST /authenticate</code></p>
+<p>Validates a user's email and properly adds them to the database. This
+should be called <em>after</em> <code>/sign-up</code> has been called, since it requires
+the authentication code receieved via the user's email</p>
+<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
+keys of the data given must be spelled exactly as displayed in the
+parameters list</p>
+<p>Although the same parameters passed to <code>/sign-up</code> must be passed here,
+<code><a href="#authenticate" class="internal-link" title="src.api.authenticate">authenticate</a></code> will still ensure the validity of the passed parameters</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The authentication code entered by the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The first name of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The last initial of the user (this will be used with the first name
+to create a display name)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occured.
+int is 400 if an error occured and 200 if the operation was
+successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
@@ -471,31 +484,13 @@
   </div>
   <div class="docstring functionBody">
 
-    <div><p class="undocumented">Undocumented</p></div>
-  </div>
-</div><div class="basefunction">
-
-
-  <a name="src.api.get_songs">
-
-  </a>
-  <a name="get_songs">
-
-  </a>
-  <div class="functionHeader">
-
-    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/get-songs</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">GET</span><span class="rst-variable-quote">'</span>])<br />
-    <span class="py-keyword">async def</span> <span class="py-defname">get_songs</span><span class="function-signature">()</span>:
-
-    <a class="headerLink" href="#get_songs" title="src.api.get_songs">
-
-
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p><code>POST /export-playlist</code></p>
+<p>Exports a playlist of song IDs to a user's connected Spotify account</p>
+<p><strong>WIP</strong></p>
+<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
+keys of the data given must be spelled exactly as displayed in the
+parameters list</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A literal "Hello, World!"</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
@@ -519,7 +514,52 @@
   </div>
   <div class="docstring functionBody">
 
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p><code>POST /login</code></p>
+<p>Checks whether or not a correct email-address and password pair was passed.
+This essentially ensures that a user logging in has logged in with the
+proper credentials</p>
+<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
+keys of the data given must be spelled exactly as displayed in the
+parameters list</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to check</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to check</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occured.
+int is 400 if an incorrect pair was passed and 200 if the operation was
+successful</td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+
+
+  <a name="src.api.recommended_songs">
+
+  </a>
+  <a name="recommended_songs">
+
+  </a>
+  <div class="functionHeader">
+
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/recommended-songs</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">GET</span><span class="rst-variable-quote">'</span>])<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">recommended_songs</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#recommended_songs" title="src.api.recommended_songs">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p><code>GET /recommended-songs</code></p>
+<p>Given a user's sentiment-littered prompt, return a list of matching
+songs recommended by Spotify</p>
+<p><strong>WIP</strong></p>
+<p>The prompt must be passed as a header argument to the API call, but the
+email address must be passed as a body argument (similar to the
+authentication endpoints). Again, ensure the spelling of the arguments</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_prompt:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The prompt entered by the user. This should be sanitized, and an error
+will occur if it is not</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">An optional email address. If it is provided, we attempt to return a
+personalized list of songs to the user based on their Spotify activity
+(Note: this requires that the user has previously linked their
+Spotify account)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A literal "Hello, World!"</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
@@ -532,7 +572,7 @@
   </a>
   <div class="functionHeader">
 
-    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/signup</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">POST</span><span class="rst-variable-quote">'</span>])<br />
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/sign-up</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">POST</span><span class="rst-variable-quote">'</span>])<br />
     <span class="py-keyword">async def</span> <span class="py-defname">sign_up</span><span class="function-signature">()</span>:
 
     <a class="headerLink" href="#sign_up" title="src.api.sign_up">
@@ -543,7 +583,17 @@
   </div>
   <div class="docstring functionBody">
 
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p><code>POST /sign-up</code></p>
+<p>Sends an authentication email to the given user and checks the validity
+of the given user data</p>
+<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
+keys of the data given must be spelled exactly as displayed in the
+parameters list</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to send the code to</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to eventually store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The first name of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The last initial of the user (this will be used with the first name
+to create a display name)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occured.
+int is 400 if an error occured and 200 if the operation was
+successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
@@ -567,7 +617,13 @@
   </div>
   <div class="docstring functionBody">
 
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p><code>POST /spotify-authenticate</code></p>
+<p>Takes the user through the Spotify authentication process</p>
+<p><strong>WIP</strong></p>
+<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
+keys of the data given must be spelled exactly as displayed in the
+parameters list</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A literal "Hello, World!"</td></tr></table></div>
   </div>
 </div><div class="basevariable">
 
@@ -590,7 +646,7 @@
   </div>
   <div class="functionBody">
 
-    <div><p class="undocumented">Undocumented</p></div>
+    <div><p>The Quart app to run</p></div>
 
   </div>
 </div>
@@ -606,7 +662,7 @@
     <div class="container">
       <a href="index.html">Documentation</a> for SentiSounds,
     generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-      23.9.1 at 2024-03-15 01:33:00.
+      23.9.1 at 2024-03-15 21:03:54.
     </div>
 
     <script src="ajax.js" type="text/javascript"></script>

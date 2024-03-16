@@ -11,11 +11,11 @@ class OpenAIHandler:
     A static class to handle all OpenAI API interactions.
 
     Contains a definition for a static _client_instance. This should only be
-    accessed via the ``get_client()`` function, which will automatically fill
+    accessed via the `get_client()` function, which will automatically fill
     this field if it does not yet exist. Any other accesses to this instance
     are unsafe and should not be used.
 
-    ``get_genres(str)`` is what should be used to retrieve a list of genres
+    `get_genres(str)` is what should be used to retrieve a list of genres
     given a sanitized user input.
     """
 
@@ -82,7 +82,7 @@ class OpenAIHandler:
 
         GPT chat completion is non-deterministic by nature. Meaning, the same
         user input may result in a different genres list. We try to mitigate
-        this by providing a ``seed`` value to the API call, but no guarantees
+        this by providing a `seed` value to the API call, but no guarantees
         are made by the OpenAI documentation:
         https://platform.openai.com/docs/guides/text-generation/reproducible-outputs
 

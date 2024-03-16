@@ -89,6 +89,44 @@ class AuthHandler:
         return bool(AuthHandler.EMAIL_REGEX.match(email_address))
 
     @staticmethod
+    def check_identifiers(
+                email_address: str,
+                password: str,
+                first_name: str,
+                last_initial: str = ""
+            ) -> None:
+        """
+        Checks the validity of a user's email address, password, and display
+        name.
+
+        This function does not return a value, but rather throws an error
+        depending on which field was invalid.
+
+        Raises
+        ------
+        ValueError
+            If the first name is too short (empty)
+            If the first name is too long (longer than 29 characters)
+            If the last initial is too long (longer than 1 character)
+            If the email does not pass the regex checker `EMAIL_REGEX`
+            If the password does not pass the password checker `PASSWORD_REGEX`
+        """
+        if not first_name:
+            raise ValueError("The first name entered was too short.")
+
+        if len(first_name) > 29:
+            raise ValueError("The first name entered was too long.")
+
+        if len(last_initial) > 1:
+            raise ValueError("The last name entered was too long.")
+
+        if not AuthHandler.valid_email(email_address):
+            raise ValueError("An invalid email address was entered.")
+
+        if not AuthHandler.valid_password(password):
+            raise ValueError("An invalid password was entered.")
+
+    @staticmethod
     def sign_up(
                 email_address: str,
                 password: str,
@@ -112,23 +150,16 @@ class AuthHandler:
         Raises
         ------
         ValueError
-            If an invalid email address, password, or name is provided. Or
-            if an email could not be sent
+            If an invalid email address, password, or name is provided
+            If an email could not be sent
         """
-        if not first_name:
-            raise ValueError("The first name entered was too short.")
 
-        if len(first_name) > 29:
-            raise ValueError("The first name entered was too long.")
-
-        if len(last_initial) > 1:
-            raise ValueError("The last name entered was too long.")
-
-        if not AuthHandler.valid_email(email_address):
-            raise ValueError("An invalid email address was entered.")
-
-        if not AuthHandler.valid_password(password):
-            raise ValueError("An invalid password was entered.")
+        AuthHandler.check_identifiers(
+            email_address,
+            password,
+            first_name,
+            last_initial
+        )
 
         auth_code = AuthHandler.generate_random_code(email_address)
 
@@ -206,9 +237,18 @@ class AuthHandler:
         Raises
         ------
         ValueError
+            If an invalid email address, password, or name is provided
             If the incorrect code was entered or something went wrong adding
             the user to the database
         """
+
+        AuthHandler.check_identifiers(
+            email_address,
+            password,
+            first_name,
+            last_initial
+        )
+
         display_name = first_name + (
             f" {last_initial}." if last_initial else ""
         )
