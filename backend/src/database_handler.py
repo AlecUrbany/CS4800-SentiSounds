@@ -67,7 +67,7 @@ class DatabaseHandler:
 
         Returns
         -------
-        asyncpy.Pool
+        asyncpg.Pool
             The created DB pool
         """
         try:

@@ -58,7 +58,10 @@ async def login():
 
 @app.route("/spotify-authenticate", methods=['POST'])
 async def spotify_authenticate():
-    return "Hello, World!"
+    await DatabaseHandler.get_pool()
+    email_address = request.args.get("email_address", default="")
+    
+    return {"status": "success", "url": spotify.get_auth_url()}, 200
 
 @app.route("/get-songs", methods=['GET'])
 async def get_songs():
@@ -70,9 +73,8 @@ async def get_songs():
 
     try:
         found_genres = OpenAIHandler.get_genres(entered_prompt)
-        spotify = SpotifyHandler()
-
-        spotify.get_genre_songs()
+        spotify = SpotifyHandler(email_address)
+        spotify.get_genre_songs(found_genres)
     except:
         pass
 

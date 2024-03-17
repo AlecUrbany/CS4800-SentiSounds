@@ -71,29 +71,45 @@ class SecretsHandler:
         return cls._get_json_value("spotify", "client_secret")
     
     @classmethod
-    def get_spotify_username(cls: SecretsHandler) -> str:
+    def get_spotify_base_token(cls: SecretsHandler):
         """
-        Retrieves the Spotify username using key spotify and sub-key username
+        Retrieves the Spotify API base token using key spotify and sub-key base-token
 
         Returns
         -------
         str
-            The Spotify username
+            The Spotify API base token
         """
-        return cls._get_json_value("spotify", "base_username")
+        return cls._get_json_value("spotify", "base_token") 
+    
+    @classmethod
+    def save_spotify_base_token(cls: SecretsHandler, token: str):
+        """
+        Save the Spotify API base token using key spotify and sub-key base-token
+
+        Returns
+        -------
+        str
+            The Spotify API base token
+        """
+        with open(SecretsHandler.SECRETS_FILE) as s:
+            json_data = json.load(s)
+            json_data["spotify"]["base_token"] = token
+            with open(SecretsHandler.SECRETS_FILE, 'w') as s:
+                json.dump(json_data, s)
 
     @classmethod
-    def get_spotify_password(cls: SecretsHandler) -> str:
+    def get_spotify_redirect_uri(cls: SecretsHandler) -> str:
         """
-        Retrieves the Spotify password using key spotify and sub-key password
+        Retrieves the Spotify API refresh token using key spotify and sub-key refresh-token
 
         Returns
         -------
         str
-            The Spotify password
+            The Spotify API refresh token
         """
-        return cls._get_json_value("spotify", "base_password")
-
+        return cls._get_json_value("spotify", "redirect_uri")
+    
     @classmethod
     def get_database_user(cls: SecretsHandler) -> str:
         """

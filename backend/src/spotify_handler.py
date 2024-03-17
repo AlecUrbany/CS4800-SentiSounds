@@ -1,26 +1,41 @@
 from spotipy import Spotify, CacheHandler
-from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
-from secrets_handler import SecretsHandler
 from database_handler import DatabaseHandler
 import random
+from secrets_handler import SecretsHandler
+from spotify_cache_handlers import MemoryCacheHandler, BaseClientCacheHandler
 
 class SpotifyHandler:
     """
     A class to handle all Spotify API interactions.
 
-    Contains a definition for a static _client_instance. This should only be
-    accessed via the `get_client()` function, which will automatically fill
-    this field if it does not yet exist. Any other accesses to this instance
-    are unsafe and should not be used.
+    Attributes
+    ----------
+    _client_instance : Spotify
+        The Spotify client instance, should not be accessed directly
+    user_email : str
+        The email of the user in the database (email PK) to cache the token for, if absent indicates a base client
 
     """
+    BASE_CLIENT = Spotify(
+            auth_manager=SpotifyOAuth(
+                scope=[
+                    "user-top-read",
+                    "user-read-private"
+                ],
+                redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+                open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
+                client_id=SecretsHandler.get_spotify_client_id(),
+                client_secret=SecretsHandler.get_spotify_client_secret(),
+                cache_handler= BaseClientCacheHandler()
+            )
+        )
 
-    def __init__(self) -> None:
+    def __init__(self, user_email: str) -> None:
         self._client_instance: Spotify | None = None
-        self.is_user_client: bool = False
+        self.user_email = user_email
 
-    def get_any_client(self) -> Spotify:
+    def get_client(self) -> Spotify:
         """
         Retrieves or creates a Spotify client. This client can either be
         authenticated or a base client. As such, this function should
@@ -32,82 +47,14 @@ class SpotifyHandler:
         Spotify
             Whatever Spotify client is available
         """
-        if self.is_user_client:
-            return self.get_user_client()
+        if self.user_email:
+            if self._client_instance:
+                return self._client_instance
+            else:
+                return self._initialize_user_client()
         else:
-            return self.get_base_client()
+            return SpotifyHandler.BASE_CLIENT
 
-    def get_base_client(self) -> Spotify:
-        """
-        Retrieves or creates the Spotify client instance with no user credentials
-
-        Returns
-        -------
-        Spotify
-            The static Spotify client
-        """
-        if self._client_instance:
-            if self.is_user_client:
-                raise RuntimeError(
-                    "This instance is a user client, not a base client"
-                )
-
-            return self._client_instance
-
-        return self._initialize_base_client()
-
-    def _initialize_base_client(self) -> Spotify:
-        """
-        Initializes the Spotify client with no user credentials.
-
-        This function should never be called outside of this class. To retrieve
-        the client safely, use the `get_base_client` function.
-
-        Returns
-        -------
-        Spotify
-            The base (non-user) Spotify client
-        """
-        redirect_uri = "https://github.com/AlecUrbany/CS4800-SentiSounds"
-        scope = [
-            #"streaming",
-            #"playlist-modify-private",
-            "user-top-read",
-            "user-read-private"
-        ]
-        self.is_user_client = False
-        self._client_instance = Spotify(
-            auth_manager=SpotifyOAuth(
-                scope=scope,
-                redirect_uri=redirect_uri,
-                open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
-                #username=SecretsHandler.get_spotify_username(),
-                #password=SecretsHandler.get_spotify_password(),
-                client_id=SecretsHandler.get_spotify_client_id(),
-                client_secret=SecretsHandler.get_spotify_client_secret()
-            )
-        )
-        return self._client_instance
-
-    def get_user_client(self) -> Spotify:
-        """
-        Retrieves or creates a Spotify client instance with user credentials
-
-        Returns
-        -------
-        Spotify
-            The authenticated Spotify client
-        """
-
-        if self._client_instance:
-            if not self.is_user_client:
-                raise RuntimeError(
-                    "This instance is a base client, not a user client"
-                )
-
-            return self._client_instance
-
-        return self._initialize_user_client()
 
     def _initialize_user_client(self) -> Spotify:
         """
@@ -121,24 +68,33 @@ class SpotifyHandler:
         Spotify
             The static Spotify client with user credentials
         """
-        redirect_uri = "https://github.com/AlecUrbany/CS4800-SentiSounds"
         scope = [
             "streaming",
             "playlist-modify-private",
             "user-top-read",
             "user-read-private"
         ]
-        self.is_user_client = True
-        self._client_instance = Spotify(
-            auth_manager=SpotifyOAuth(
-                scope=scope,
-                redirect_uri=redirect_uri,
-                open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
-                client_id=SecretsHandler.get_spotify_client_id(),
-                client_secret=SecretsHandler.get_spotify_client_secret()
-                cache_handler=DatabaseHandler.class
+        if self.user_email:
+            self._client_instance = Spotify(
+                auth_manager=SpotifyOAuth(
+                    scope=scope,
+                    redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+                    open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
+                    client_id=SecretsHandler.get_spotify_client_id(),
+                    client_secret=SecretsHandler.get_spotify_client_secret(),
+                    cache_handler= MemoryCacheHandler(self.user_email)
+                )
             )
-        )
+        else: # Specifically for dev debugging, will not be in final product
+            self._client_instance = Spotify(
+                auth_manager=SpotifyOAuth(
+                    scope=scope,
+                    redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+                    open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
+                    client_id=SecretsHandler.get_spotify_client_id(),
+                    client_secret=SecretsHandler.get_spotify_client_secret(),
+                )
+            )
 
         return self._client_instance
 
@@ -185,14 +141,11 @@ class SpotifyHandler:
             "id"
         ]
 
-        client_instance = self.get_any_client()
-
-        search_result = client_instance.search(
+        search_result = self.get_client().search(
             q='genre:' + genre,
             type="track",
             market=market, offset=random_offset, limit=limit
         )
-
         if not search_result:
             raise ValueError(
                 "Something went wrong searching for songs from Spotify"
@@ -213,9 +166,8 @@ class SpotifyHandler:
         list[str]
             The list of available genre seeds
         """
-        client_instance = self.get_any_client()
 
-        seeds_result = client_instance.recommendation_genre_seeds()
+        seeds_result = self.get_client().recommendation_genre_seeds()
 
         if not seeds_result:
             raise ValueError(
@@ -247,20 +199,15 @@ class SpotifyHandler:
             A URL to the created playlist
         """
 
-        if not self.is_user_client:
-            raise ValueError(
-                "A playlist cannot be created via a base (non-user) client."
+
+        if not self.user_email:
+            raise Exception(
+                "There is no Spotify user to create a playlist for"
             )
 
-        client_instance = self.get_user_client()
-
-        if not (user:=client_instance.me()):
-            raise ValueError(
-                "Something went wrong validating this user's existence"
-            )
-
-        playlist = client_instance.user_playlist_create(
-            user["id"],
+        user = self._client_instance.user["id"]
+        playlist = self._client_instance.user_playlist_create(
+            user,
             playlist_name,
             public=False,
             description=description
@@ -271,11 +218,10 @@ class SpotifyHandler:
                 "Something went wrong creating this playlist"
             )
 
-        client_instance.user_playlist_add_tracks(
-            user["id"], playlist["id"], song_ids
+        self.client_instance.user_playlist_add_tracks(
+            user, playlist["id"], song_ids
         )
 
         return playlist["external_urls"]["spotify"]
     
 
-class MemoryCacheHandler
