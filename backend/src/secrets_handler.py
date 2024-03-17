@@ -69,6 +69,30 @@ class SecretsHandler:
             The Spotify API key
         """
         return cls._get_json_value("spotify", "client_secret")
+    
+    @classmethod
+    def get_spotify_username(cls: SecretsHandler) -> str:
+        """
+        Retrieves the Spotify username using key spotify and sub-key username
+
+        Returns
+        -------
+        str
+            The Spotify username
+        """
+        return cls._get_json_value("spotify", "base_username")
+
+    @classmethod
+    def get_spotify_password(cls: SecretsHandler) -> str:
+        """
+        Retrieves the Spotify password using key spotify and sub-key password
+
+        Returns
+        -------
+        str
+            The Spotify password
+        """
+        return cls._get_json_value("spotify", "base_password")
 
     @classmethod
     def get_database_user(cls: SecretsHandler) -> str:

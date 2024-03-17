@@ -1,7 +1,8 @@
-from spotipy import Spotify
+from spotipy import Spotify, CacheHandler
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 from secrets_handler import SecretsHandler
+from database_handler import DatabaseHandler
 import random
 
 class SpotifyHandler:
@@ -67,9 +68,21 @@ class SpotifyHandler:
         Spotify
             The base (non-user) Spotify client
         """
+        redirect_uri = "https://github.com/AlecUrbany/CS4800-SentiSounds"
+        scope = [
+            #"streaming",
+            #"playlist-modify-private",
+            "user-top-read",
+            "user-read-private"
+        ]
         self.is_user_client = False
         self._client_instance = Spotify(
-            client_credentials_manager=SpotifyClientCredentials(
+            auth_manager=SpotifyOAuth(
+                scope=scope,
+                redirect_uri=redirect_uri,
+                open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
+                #username=SecretsHandler.get_spotify_username(),
+                #password=SecretsHandler.get_spotify_password(),
                 client_id=SecretsHandler.get_spotify_client_id(),
                 client_secret=SecretsHandler.get_spotify_client_secret()
             )
@@ -123,6 +136,7 @@ class SpotifyHandler:
                 open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
                 client_id=SecretsHandler.get_spotify_client_id(),
                 client_secret=SecretsHandler.get_spotify_client_secret()
+                cache_handler=DatabaseHandler.class
             )
         )
 
@@ -172,6 +186,7 @@ class SpotifyHandler:
         ]
 
         client_instance = self.get_any_client()
+
         search_result = client_instance.search(
             q='genre:' + genre,
             type="track",
@@ -261,3 +276,6 @@ class SpotifyHandler:
         )
 
         return playlist["external_urls"]["spotify"]
+    
+
+class MemoryCacheHandler
