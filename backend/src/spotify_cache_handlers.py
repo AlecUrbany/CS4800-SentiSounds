@@ -1,8 +1,6 @@
 
-import asyncio
 from secrets_handler import SecretsHandler
 from spotipy import CacheHandler
-from auth_handler import AuthHandler
 
 class MemoryCacheHandler(CacheHandler):
     """
@@ -11,18 +9,18 @@ class MemoryCacheHandler(CacheHandler):
     instance is freed.
     """
 
-    def __init__(self, user_email: str) -> None:
+    def __init__(self, token_info=None):
         """
         Parameters:
-            * username: The username of the user in the database (email PK) to cache the token for
+            * token_info: The token info to store in memory. Can be None.
         """
-        self.user_email = user_email
+        self.token_info = token_info
 
     def get_cached_token(self):
-        return asyncio.run(AuthHandler.get_spotify_token(self.user_email))
+        return self.token_info
 
-    def save_token_to_cache(self, token_info: dict):
-        asyncio.run(AuthHandler.save_spotify_token(self.user_email, token_info))
+    def save_token_to_cache(self, token_info):
+        self.token_info = token_info
 
 class BaseClientCacheHandler(CacheHandler):
     """

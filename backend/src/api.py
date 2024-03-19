@@ -56,12 +56,31 @@ async def login():
         ({"status": "failure", "error": "Incorrect email or password"}, 401)
     )
 
+@app.route("/spotify-get-auth-link", methods=['POST'])
+def spotify_get_auth_link():
+    """
+    Returns a link to authenticate with Spotify
+    """
+    try:
+        return {"status": "success", "url": SpotifyHandler.generate_auth_url()}, 200
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
+
 @app.route("/spotify-authenticate", methods=['POST'])
 async def spotify_authenticate():
     await DatabaseHandler.get_pool()
-    email_address = request.args.get("email_address", default="")
-    
-    return {"status": "success", "url": spotify.get_auth_url()}, 200
+
+    passed = await request.form
+    email_address = passed.get("email_address", default="")
+    code = passed.get("code", default="")
+    try:
+        sp = SpotifyHandler.create_OAuth()[0]
+        token = sp.get_access_token(code, as_dict=True)
+        await AuthHandler.save_spotify_token(email_address, token)
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
+
+    return {"status": "success"}, 200
 
 @app.route("/get-songs", methods=['GET'])
 async def get_songs():
@@ -73,7 +92,7 @@ async def get_songs():
 
     try:
         found_genres = OpenAIHandler.get_genres(entered_prompt)
-        spotify = SpotifyHandler(email_address)
+        spotify = SpotifyHandler(email_address).get_client()
         spotify.get_genre_songs(found_genres)
     except:
         pass

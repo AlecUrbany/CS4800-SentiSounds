@@ -277,6 +277,7 @@ class AuthHandler:
         expiry_time = (datetime.now() + timedelta(minutes=5)).timestamp()
 
         AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
+        print(random_code)
         return random_code
 
     # TODO: Spotify Authentication
@@ -310,7 +311,7 @@ class AuthHandler:
                 """,
                 json.dumps(token), email_address
             )
-    
+    @staticmethod
     async def get_spotify_token(email_address: str) -> dict:
         # Would be useful if this could check for the existence of the email
         # For now we'll assume the email exists
@@ -327,7 +328,7 @@ class AuthHandler:
         str
             The user's Spotify token
         """
-        await DatabaseHandler.get_pool()
+        #
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
                 """
@@ -341,4 +342,31 @@ class AuthHandler:
                 email_address
             )
             return json.loads(found[0]["spotify_token"])
-        
+    @staticmethod
+    async def check_spotify_token(email_address: str) -> bool:
+        """
+        Given an email address, return the user's Spotify token
+
+        Parameters
+        ----------
+        email_address: str
+            The email address of the user
+
+        Returns
+        -------
+        str
+            The user's Spotify token
+        """
+        async with DatabaseHandler.acquire() as conn:
+            found = await conn.fetch(
+                """
+                SELECT
+                    spotify_token
+                FROM
+                    user_auth
+                WHERE
+                    email_address = $1
+                """,
+                email_address
+            )
+            return bool(found[0]["spotify_token"])

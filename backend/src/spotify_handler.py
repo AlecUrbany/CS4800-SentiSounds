@@ -3,7 +3,9 @@ from spotipy.oauth2 import SpotifyOAuth
 from database_handler import DatabaseHandler
 import random
 from secrets_handler import SecretsHandler
-from spotify_cache_handlers import MemoryCacheHandler, BaseClientCacheHandler
+from spotify_cache_handlers import *
+from urllib.parse import urlencode
+from spotipy.util import normalize_scope
 
 class SpotifyHandler:
     """
@@ -30,10 +32,43 @@ class SpotifyHandler:
                 cache_handler= BaseClientCacheHandler()
             )
         )
+    user_scope = [
+        "streaming",
+        "playlist-modify-private",
+        "user-top-read",
+        "user-read-private"
+    ]
 
-    def __init__(self, user_email: str) -> None:
+    def __init__(self, user_email: str | None = None) -> None:
         self._client_instance: Spotify | None = None
         self.user_email = user_email
+        self.cache_handler = None
+
+    @staticmethod
+    def create_OAuth(token_info: dict = None) -> tuple[SpotifyOAuth, CacheHandler]:
+        """
+        Creates an OAuth handler for Spotify as well as a reference to the cache handler
+        """
+        cache_handler = MemoryCacheHandler(token_info=token_info)
+        return SpotifyOAuth(
+            cache_handler= cache_handler,
+            scope= SpotifyHandler.user_scope,
+            redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+            open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
+            client_id=SecretsHandler.get_spotify_client_id(),
+            client_secret=SecretsHandler.get_spotify_client_secret()
+        ), cache_handler
+    
+    @staticmethod
+    def generate_auth_url():
+        OAUTH_URL = "https://accounts.spotify.com/authorize"
+        payload = {
+            "client_id": SecretsHandler.get_spotify_client_id(),
+            "response_type": "code",
+            "redirect_uri": SecretsHandler.get_spotify_redirect_uri(),
+            "scope": normalize_scope(SpotifyHandler.user_scope)
+        }
+        return "%s?%s" % (OAUTH_URL, urlencode(payload))
 
     def get_client(self) -> Spotify:
         """
@@ -68,34 +103,10 @@ class SpotifyHandler:
         Spotify
             The static Spotify client with user credentials
         """
-        scope = [
-            "streaming",
-            "playlist-modify-private",
-            "user-top-read",
-            "user-read-private"
-        ]
-        if self.user_email:
-            self._client_instance = Spotify(
-                auth_manager=SpotifyOAuth(
-                    scope=scope,
-                    redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
-                    open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
-                    client_id=SecretsHandler.get_spotify_client_id(),
-                    client_secret=SecretsHandler.get_spotify_client_secret(),
-                    cache_handler= MemoryCacheHandler(self.user_email)
-                )
-            )
-        else: # Specifically for dev debugging, will not be in final product
-            self._client_instance = Spotify(
-                auth_manager=SpotifyOAuth(
-                    scope=scope,
-                    redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
-                    open_browser=True, # Not sure how to get around the need for the redirect URI to be pasted
-                    client_id=SecretsHandler.get_spotify_client_id(),
-                    client_secret=SecretsHandler.get_spotify_client_secret(),
-                )
-            )
-
+        auth_manager, self.cache_handler = SpotifyHandler.create_OAuth()
+        self._client_instance = Spotify(
+            auth_manager= auth_manager
+        )
         return self._client_instance
 
     def get_genre_songs(
