@@ -55,7 +55,7 @@
                         <input type="password" id="password" placeholder="********"
                             class="w-full p-2 border rounded-md">
                     </div>
-                    <button class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN UP</button>
+                    <button id="signupButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN UP</button>
                 </div>
             </div>
         </div>
@@ -96,6 +96,42 @@
             }
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const baseURL = 'https://your-api-base-url.com'; // Replace this with your actual API base URL
+            const signupButton = document.querySelector('#signupButton');
+
+            signupButton.addEventListener('click', async function () {
+                const email = document.querySelector('#email').value;
+                const username = document.querySelector('#username').value;
+                const password = document.querySelector('#password').value;
+
+                try {
+                    const response = await fetch(`${baseURL}/sign-up`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `email_address=${email}&password=${password}&username=${username}`
+                    });
+
+                    const data = await response.json();
+
+                    if (response.status === 200) {
+                        alert('Signup successful. Please check your email for further instructions.');
+                    } else {
+                        alert(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error during signup:', error);
+                    alert('An error occurred during signup. Please try again.');
+                }
+            });
+        });
+    </script>
+
+
 
 </body>
 
