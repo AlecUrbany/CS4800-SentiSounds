@@ -99,33 +99,32 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const baseURL = 'https://your-api-base-url.com'; 
+            const baseURL = 'http://127.0.0.1:5000'; // REPLACE IT WITH BASE URL
             const signupButton = document.querySelector('#signupButton');
 
             signupButton.addEventListener('click', async function () {
-                const email = document.querySelector('#email').value;
-                const username = document.querySelector('#username').value;
-                const password = document.querySelector('#password').value;
+            const formData = new FormData();
+            formData.append('email_address', document.querySelector('#email').value);
+            formData.append('password', document.querySelector('#password').value);
+            formData.append('first_name', document.querySelector('#username').value);
 
-                try {
-                    const response = await fetch(`${baseURL}/sign-up`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `email_address=${email}&password=${password}&username=${username}`
-                    });
+            try {
+                const response = await fetch(`${baseURL}/sign-up`, {
+                    method: 'POST',
+                    body: formData
+                });
 
                     const data = await response.json();
 
-                    if (response.status === 200) {
+                    if (response.ok) {
                         alert('Signup successful. Please check your email for further instructions.');
+                        window.location.href = "index.html"; // not working!
                     } else {
                         alert(data.error);
                     }
                 } catch (error) {
                     console.error('Error during signup:', error);
-                    alert('An error occurred during signup. Please try again.');
+                    alert("An error occurred during signup. Please try again.")
                 }
             });
         });
