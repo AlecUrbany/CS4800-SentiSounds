@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentiSounds Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#1C0D2C] flex justify-center items-center h-screen">
+
+    <header>
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebarToggle" class="p-4">Page Sidebar</button>
+
+        <!-- Hidden Sidebar -->
+        <div id="sidebar"
+            class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-200 ease-in-out bg-gray-800 text-white w-64 p-4">
+            <!-- Sidebar content here -->
+            <h2 class="font-semibold text-xl mb-4">Pages</h2>
+            <ul>
+                <li><a href="index.html" class="block mt-2">Homepage</a></li>
+                <li><a href="signup.html" class="block mt-2">Signup</a></li>
+                <li><a href="login.html" class="block mt-2">Login</a></li>
+                <li><a href="results.html" class="block mt-2">Results</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="w-full max-w-xs m-auto">
+        <!-- Logo and header -->
+        <div class="mb-10 text-center">
+            <img src="https://cdn.discordapp.com/attachments/393192862730420225/1215603813474377749/testicon.png?ex=65fd5a45&is=65eae545&hm=ed392b77a65298a805aa3dada72c45f23b42b25321b03d001545ed483f01ce88&"
+                alt="SentiSounds logo" class="mb-3 mx-auto" style="width: 100px; height: 100px;">
+            <h1 class="text-3xl text-white font-bold">SentiSounds</h1>
+            <p class="text-[#D19900]">im gay - jack | ME TOO - SAM</p>
+        </div>
+
+        <!-- Login form -->
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl">
+            <div class="py-4 px-8">
+                <div class="mb-4">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                        Email/Username
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                        type="text" placeholder="Ex. abc@xyz.com">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+                        Password
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3"
+                        id="password" type="password" placeholder="********">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button class="bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded"
+                        type="button" id="loginButton">
+                        LOGIN
+                    </button>
+                    <a class="inline-block align-baseline font-bold text-sm text-[#D19900] hover:text-[#B88A00]"
+                        href="#">
+                        Forgot Password?
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome back message -->
+        <div class="text-center mt-4">
+            <span class="text-white font-light">Welcome back! ~</span>
+        </div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        document.addEventListener('click', function (e) {
+            // Check if click is outside of sidebar and sidebarToggle
+            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
+                // If sidebar is open and click is outside, close the sidebar
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+    </script>
+
+    <script>
+       const API_BASE_URL = 'https://your-backend-api-domain.com';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginButton = document.querySelector('#loginButton');
+
+            loginButton.addEventListener('click', async function () {
+                const email = document.querySelector('#username').value;
+                const password = document.querySelector('#password').value;
+
+                try {
+                    const response = await fetch(API_BASE_URL + '/login', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `email_address=${email}&password=${password}`
+                    });
+
+                    const data = await response.json();
+
+                    if (response.status === 200) {
+                        // Login successful, redirect to homepage
+                        window.location.href = 'index.html';
+                    } else {
+                        // Login failed, display error message
+                        alert(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error during login:', error);
+                    alert('An error occurred during login. Please try again.');
+                }
+            });
+        });
+
+    </script>
+
+
+</body>
+
+</html>
