@@ -118,7 +118,7 @@ class AuthHandler:
             raise ValueError("The first name entered was too long.")
 
         if len(last_initial) > 1:
-            raise ValueError("The last name entered was too long.")
+            raise ValueError("The last initial entered was too long.")
 
         if not AuthHandler.valid_email(email_address):
             raise ValueError("An invalid email address was entered.")
