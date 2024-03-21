@@ -4,10 +4,12 @@ from auth_handler import AuthHandler
 from database_handler import DatabaseHandler
 from openai_handler import OpenAIHandler
 from quart import Quart, request
+from quart_cors import cors
 from spotify_handler import SpotifyHandler
 
 app = Quart(__name__)
 """The Quart app to run"""
+app = cors(app, allow_origin="http://127.0.0.1:5500")
 
 
 @app.route("/sign-up", methods=['POST'])
