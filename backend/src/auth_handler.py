@@ -167,7 +167,7 @@ class AuthHandler:
             AuthHandler.send_authentication_email(email_address, auth_code)
         except Exception as e:
             raise ValueError(
-                "Something went wrong sending the authentication email"
+                "Something went wrong sending the authentication email "
                 + str(e)
             )
 
