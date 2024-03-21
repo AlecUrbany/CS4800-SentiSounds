@@ -21,17 +21,14 @@ class SpotifyHandler:
     """
     BASE_CLIENT = Spotify(
             auth_manager=SpotifyOAuth(
-                scope=[
-                    "user-top-read",
-                    "user-read-private"
-                ],
+                scope="user-read-private",
                 redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
                 open_browser=False, # Not sure how to get around the need for the redirect URI to be pasted
                 client_id=SecretsHandler.get_spotify_client_id(),
                 client_secret=SecretsHandler.get_spotify_client_secret(),
                 cache_handler= BaseClientCacheHandler()
             )
-        )
+    )
     user_scope = [
         "streaming",
         "playlist-modify-private",
@@ -39,9 +36,8 @@ class SpotifyHandler:
         "user-read-private"
     ]
 
-    def __init__(self, user_email: str | None = None) -> None:
+    def __init__(self) -> None:
         self._client_instance: Spotify | None = None
-        self.user_email = user_email
         self.cache_handler = None
 
     @staticmethod
@@ -82,16 +78,12 @@ class SpotifyHandler:
         Spotify
             Whatever Spotify client is available
         """
-        if self.user_email:
-            if self._client_instance:
-                return self._client_instance
-            else:
-                return self._initialize_user_client()
-        else:
-            return SpotifyHandler.BASE_CLIENT
+        if self._client_instance:
+            return self._client_instance
+        return SpotifyHandler.BASE_CLIENT
 
 
-    def _initialize_user_client(self) -> Spotify:
+    def load_token(self, token_info) -> None:
         """
         Initializes the Spotify client with user credentials.
 
@@ -103,15 +95,23 @@ class SpotifyHandler:
         Spotify
             The static Spotify client with user credentials
         """
-        auth_manager, self.cache_handler = SpotifyHandler.create_OAuth()
+        auth_manager, self.cache_handler = SpotifyHandler.create_OAuth(token_info=token_info)
         self._client_instance = Spotify(
             auth_manager= auth_manager
         )
-        return self._client_instance
+
+    def get_token(self) -> dict | None:
+        """
+        Gets the token from the cache handler if there has been a token loaded
+        """
+        if self.cache_handler is None:
+            return None
+        else:
+            return self.cache_handler.get_cached_token()
 
     def get_genre_songs(
                 self,
-                genre: str,
+                genres: list[str],
                 market: str = "from_token",
                 limit: int = 10
             ) -> list[dict]:
@@ -142,6 +142,7 @@ class SpotifyHandler:
             - popularity: The popularity of the song
             - id: The ID of the song (useful for creating a playlist)
         """
+        assert type(genres) == list, "Genres must be a list of strings, even a single genre"
         random_offset = random.randint(0, 1000)
         keys_to_extract = [
             "name",
@@ -151,22 +152,24 @@ class SpotifyHandler:
             "popularity",
             "id"
         ]
-
-        search_result = self.get_client().search(
-            q='genre:' + genre,
-            type="track",
-            market=market, offset=random_offset, limit=limit
-        )
+        search_result = []
+        for genre in genres: # This is a list of genres
+            part = self.get_client().search( # The search results will be appended to the list
+                q='genre:' + genre,
+                type="track",
+                market=market, offset=random_offset, limit=limit
+            )
+            part = part["tracks"]["items"]
+            search_result += part
         if not search_result:
             raise ValueError(
                 "Something went wrong searching for songs from Spotify"
             )
-
-        tracks_all = search_result["tracks"]["items"]
-
-        return [
-            {key: track[key] for key in keys_to_extract} for track in tracks_all
+        random.shuffle(search_result)
+        pruned_songs = [
+            {key: track[key] for key in keys_to_extract} for track in search_result
         ]
+        return pruned_songs
 
     def get_available_genre_seeds(self) -> list[str]:
         """
@@ -210,15 +213,16 @@ class SpotifyHandler:
             A URL to the created playlist
         """
 
-
-        if not self.user_email:
+        '''
+        if self._client_instance is None:
             raise Exception(
-                "There is no Spotify user to create a playlist for"
+                "No user has been loaded into the Spotify client instance."
             )
-
-        user = self._client_instance.user["id"]
+        '''
+        self._client_instance = SpotifyHandler.BASE_CLIENT
+        user_id = self._client_instance.me()["id"]
         playlist = self._client_instance.user_playlist_create(
-            user,
+            user_id,
             playlist_name,
             public=False,
             description=description
@@ -229,8 +233,8 @@ class SpotifyHandler:
                 "Something went wrong creating this playlist"
             )
 
-        self.client_instance.user_playlist_add_tracks(
-            user, playlist["id"], song_ids
+        self._client_instance.user_playlist_add_tracks(
+            user_id, playlist["id"], song_ids
         )
 
         return playlist["external_urls"]["spotify"]

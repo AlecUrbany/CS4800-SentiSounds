@@ -2,3 +2,4 @@ openai
 spotipy
 asyncpg
 quart
+urllib

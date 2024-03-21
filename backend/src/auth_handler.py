@@ -342,31 +342,3 @@ class AuthHandler:
                 email_address
             )
             return json.loads(found[0]["spotify_token"])
-    @staticmethod
-    async def check_spotify_token(email_address: str) -> bool:
-        """
-        Given an email address, return the user's Spotify token
-
-        Parameters
-        ----------
-        email_address: str
-            The email address of the user
-
-        Returns
-        -------
-        str
-            The user's Spotify token
-        """
-        async with DatabaseHandler.acquire() as conn:
-            found = await conn.fetch(
-                """
-                SELECT
-                    spotify_token
-                FROM
-                    user_auth
-                WHERE
-                    email_address = $1
-                """,
-                email_address
-            )
-            return bool(found[0]["spotify_token"])

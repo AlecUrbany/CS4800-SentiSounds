@@ -56,7 +56,7 @@ async def login():
         ({"status": "failure", "error": "Incorrect email or password"}, 401)
     )
 
-@app.route("/spotify-get-auth-link", methods=['POST'])
+@app.route("/spotify-get-auth-link", methods=['GET'])
 def spotify_get_auth_link():
     """
     Returns a link to authenticate with Spotify
@@ -84,22 +84,51 @@ async def spotify_authenticate():
 
 @app.route("/get-songs", methods=['GET'])
 async def get_songs():
+    await DatabaseHandler.get_pool()
+
     entered_prompt = request.args.get("prompt", default="")
-    email_address = request.args.get("email_address", default="")
+    email_address = request.args.get("email_address", default=None)
 
     # TODO: Check entered prompt validity
-    # TODO: Use email address to create user SpotifyHandler
 
     try:
         found_genres = OpenAIHandler.get_genres(entered_prompt)
-        spotify = SpotifyHandler(email_address).get_client()
-        spotify.get_genre_songs(found_genres)
-    except:
-        pass
-
-
-    return "Hello, World!"
+        # if email address is None, then we're using the base client
+        # if email's spotify token exists in the database, then we must grab the user's token
+        # if the token is not in the database, then we must use the base client
+        try:
+            token = await AuthHandler.get_spotify_token(email_address)
+        except IndexError: # no token found in database
+            token = None
+        # Still need to see if the error of a user existing but not having a spotify token is caught
+        sp = SpotifyHandler()
+        if email_address is not None and token is not None:
+            token = await AuthHandler.get_spotify_token(email_address)
+            sp.load_token(token)
+        songs = sp.get_genre_songs(found_genres)
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
+    if token is not None and token != (new_token:=sp.get_token()): # if the token has changed, update the database
+        await AuthHandler.save_spotify_token(email_address, new_token)
+    return {"status": "success", "songs": songs}, 200
 
 @app.route("/export-playlist", methods=['POST'])
 async def export_playlist():
-    return "Hello, World!"
+    email_address = request.args.get("email_address", default=None)
+    playlist_name = request.args.get("playlist_name", default="")
+    playlist_description = request.args.get("playlist_description", default="")
+    # TODO: How to get playlist name and description from this endpoint
+    try:
+        if email_address is None:
+            raise ValueError("No email address provided")
+        try:
+            token = await AuthHandler.get_spotify_token(email_address)
+        except IndexError: # no token found in database
+            raise ValueError("No spotify account was found for %s in database" % email_address)
+        # Still need to see if the error of a user existing but not having a spotify token is caught
+        sp = SpotifyHandler()
+        if email_address is not None and token is not None:
+            token = await AuthHandler.get_spotify_token(email_address)
+            sp.load_token(token)
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
