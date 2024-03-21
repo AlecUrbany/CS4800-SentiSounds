@@ -41,9 +41,12 @@
                 <div class="bg-white text-gray-700 p-8 rounded-lg space-y-6">
                     <h2 class="text-3xl font-bold text-center">Signup</h2>
                     <div>
-                        <label for="username" class="block mb-2">Username</label>
-                        <input type="text" id="username" placeholder="Ex. JonahBoss123"
-                            class="w-full p-2 border rounded-md">
+                        <label for="username" class="block mb-2">Name</label>
+                        <input type="text" id="username" placeholder="Ex. Jonah" class="w-full p-2 border rounded-md">
+                    </div>
+                    <div>
+                        <label for="last_initial" class="block mb-2">Last Initial</label>
+                        <input type="text" id="last_initial" placeholder="Ex. M" class="w-full p-2 border rounded-md">
                     </div>
                     <div>
                         <label for="email" class="block mb-2">Email</label>
@@ -55,7 +58,8 @@
                         <input type="password" id="password" placeholder="********"
                             class="w-full p-2 border rounded-md">
                     </div>
-                    <button id="signupButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN UP</button>
+                    <button id="signupButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN
+                        UP</button>
                 </div>
             </div>
         </div>
@@ -103,16 +107,17 @@
             const signupButton = document.querySelector('#signupButton');
 
             signupButton.addEventListener('click', async function () {
-            const formData = new FormData();
-            formData.append('email_address', document.querySelector('#email').value);
-            formData.append('password', document.querySelector('#password').value);
-            formData.append('first_name', document.querySelector('#username').value);
+                const formData = new FormData();
+                formData.append('email_address', document.querySelector('#email').value);
+                formData.append('password', document.querySelector('#password').value);
+                formData.append('first_name', document.querySelector('#username').value);
+                formData.append('last_initial', document.querySelector('#last_initial').value);
 
-            try {
-                const response = await fetch(`${baseURL}/sign-up`, {
-                    method: 'POST',
-                    body: formData
-                });
+                try {
+                    const response = await fetch(`${baseURL}/sign-up`, {
+                        method: 'POST',
+                        body: formData
+                    });
 
                     const data = await response.json();
 
