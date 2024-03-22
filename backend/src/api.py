@@ -103,9 +103,8 @@ async def get_songs():
         # Still need to see if the error of a user existing but not having a spotify token is caught
         sp = SpotifyHandler()
         if email_address is not None and token is not None:
-            token = await AuthHandler.get_spotify_token(email_address)
             sp.load_token(token)
-        songs = sp.get_genre_songs(found_genres)
+        songs = sp.get_genre_songs(found_genres) # The meat and potatoes of this endpoint
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
     if token is not None and token != (new_token:=sp.get_token()): # if the token has changed, update the database
@@ -117,7 +116,7 @@ async def export_playlist():
     email_address = request.args.get("email_address", default=None)
     playlist_name = request.args.get("playlist_name", default="")
     playlist_description = request.args.get("playlist_description", default="")
-    # TODO: How to get playlist name and description from this endpoint
+    # TODO: How to get playlist name and description from this endpoint if they are to come from ChatGPT
     try:
         if email_address is None:
             raise ValueError("No email address provided")
@@ -132,3 +131,59 @@ async def export_playlist():
             sp.load_token(token)
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
+
+@app.route("/spotify-check-authentication", methods=['GET'])
+async def spotify_check_authentication():
+    await DatabaseHandler.get_pool()
+
+    email_address = request.args.get("email_address", default=None)
+    try:
+        token = await AuthHandler.get_spotify_token(email_address)
+        sp = SpotifyHandler()
+        sp.load_token(token).get_client().me()
+        if token is not None and token != (new_token:=sp.get_token()): # if the token has changed, update the database
+            await AuthHandler.save_spotify_token(email_address, new_token)
+    except IndexError:
+        return {"status": "failure", "error": "No spotify token was found for %s in database" % email_address}, 400
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
+    return {"status": "success"}, 200
+
+@app.route("/spotify-like-song", methods=['POST'])
+async def spotify_like_song():
+    await DatabaseHandler.get_pool()
+
+    email_address = request.args.get("email_address", default=None)
+    song_id = request.args.get("song_id", default=None)
+    try:
+        token = await AuthHandler.get_spotify_token(email_address)
+        sp = SpotifyHandler()
+        sp.load_token(token)
+        sp.like_song(song_id)
+        if token is not None and token != (new_token:=sp.get_token()): # if the token has changed, update the database
+            await AuthHandler.save_spotify_token(email_address, new_token)
+    except IndexError:
+        return {"status": "failure", "error": "No spotify token was found for %s in database" % email_address}, 400
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
+    return {"status": "success"}, 200
+
+@app.route("/spotify-unlike-song", methods=['POST'])
+async def spotify_unlike_song():
+    await DatabaseHandler.get_pool()
+
+    email_address = request.args.get("email_address", default=None)
+    song_id = request.args.get("song_id", default=None)
+    try:
+        token = await AuthHandler.get_spotify_token(email_address)
+        sp = SpotifyHandler()
+        sp.load_token(token)
+        sp.unlike_song(song_id)
+        if token is not None and token != (new_token:=sp.get_token()): # if the token has changed, update the database
+            await AuthHandler.save_spotify_token(email_address, new_token)
+    except IndexError:
+        return {"status": "failure", "error": "No spotify token was found for %s in database" % email_address}, 400
+    except Exception as e:
+        return {"status": "failure", "error": str(e)}, 400
+    return {"status": "success"}, 200
+    
