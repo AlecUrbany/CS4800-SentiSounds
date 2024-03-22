@@ -41,10 +41,10 @@
         <div class="bg-white rounded-lg overflow-hidden shadow-xl">
             <div class="py-4 px-8">
                 <div class="mb-4">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
-                        Email/Username
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
+                        Email
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email"
                         type="text" placeholder="Ex. abc@xyz.com">
                 </div>
                 <div class="mb-6">
@@ -55,8 +55,8 @@
                         id="password" type="password" placeholder="********">
                 </div>
                 <div class="flex items-center justify-between">
-                    <button class="bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded"
-                        type="button" id="loginButton">
+                    <button class="bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded" type="button"
+                        id="loginButton">
                         LOGIN
                     </button>
                     <a class="inline-block align-baseline font-bold text-sm text-[#D19900] hover:text-[#B88A00]"
@@ -97,7 +97,7 @@
 
             loginButton.addEventListener('click', async function () {
                 const formData = new FormData();
-                formData.append('email_address', document.querySelector('#username').value);
+                formData.append('email_address', document.querySelector('#email').value);
                 formData.append('password', document.querySelector('#password').value);
 
                 try {
