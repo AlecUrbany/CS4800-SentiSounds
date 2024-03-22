@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentiSounds Authenticate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#1C0D2C] text-white font-sans">
+
+    <header>
+        <!-- Sidebar Toggle Button -->
+        <!-- <button id="sidebarToggle" class="p-4">Page Sidebar</button> -->
+
+        <!-- Hidden Sidebar -->
+        <div id="sidebar"
+            class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-200 ease-in-out bg-gray-800 text-white w-64 p-4">
+            <!-- Sidebar content here -->
+            <h2 class="font-semibold text-xl mb-4">Pages</h2>
+            <ul>
+                <li><a href="index.html" class="block mt-2">Homepage</a></li>
+                <li><a href="signup.html" class="block mt-2">Signup</a></li>
+                <li><a href="login.html" class="block mt-2">Login</a></li>
+                <li><a href="results.html" class="block mt-2">Results</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="flex justify-center items-center h-screen">
+        <div class="flex justify-between items-center px-10 py-20 flex-container">
+            <!-- Signup Form -->
+            <div class="w-15 p-15">
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://cdn.discordapp.com/attachments/393192862730420225/1215603813474377749/testicon.png?ex=65fd5a45&is=65eae545&hm=ed392b77a65298a805aa3dada72c45f23b42b25321b03d001545ed483f01ce88&"
+                            alt="SentiSounds logo" class="rounded-full" style="width: 100px; height: 100px;">
+                        <h1 class="text-4xl font-bold">SentiSounds</h1>
+                        <p class="text-[#D19900]">im gay - jack | ME TOO - SAM</p>
+                    </div>
+                    <div class="bg-white text-gray-700 p-8 rounded-lg space-y-6">
+                        <h2 class="text-3xl font-bold text-center">Authenticate Code:</h2>
+                        <div>
+                            <input type="text" id="auth_code" placeholder="Ex. 123456" class="w-full p-2 border rounded-md">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        document.addEventListener('click', function (e) {
+            // Check if click is outside of sidebar and sidebarToggle
+            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
+                // If sidebar is open and click is outside, close the sidebar
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const baseURL = 'http://127.0.0.1:5000'; // REPLACE IT WITH BASE URL
+            const signupButton = document.querySelector('#signupButton');
+
+            signupButton.addEventListener('click', async function () {
+                const formData = new FormData();
+                formData.append('email_address', document.querySelector('#email').value);
+                formData.append('password', document.querySelector('#password').value);
+                formData.append('first_name', document.querySelector('#username').value);
+                formData.append('last_initial', document.querySelector('#last_initial').value);
+
+                try {
+                    const response = await fetch(`${baseURL}/sign-up`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Signup successful. Please check your email for further instructions.');
+                        window.location.href = "index.html"; // not working!
+                    } else {
+                        alert(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error during signup:', error);
+                    alert("An error occurred during signup. Please try again.")
+                }
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>
