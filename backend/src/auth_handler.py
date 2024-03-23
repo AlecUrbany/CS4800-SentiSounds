@@ -1,43 +1,65 @@
+"""A handler for signing up, authenticating emails, and logging in"""
+
+import random
 import re
 import smtplib
 import ssl
-import random
 from datetime import datetime, timedelta
 import json
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler
 
-class AuthHandler:
 
-    # Regex to maintain secure and valid emails and passwords
+class AuthHandler:
+    """
+    A static class to handle non-Spotify user authentication.
+
+    The general flow of authentication is as follows:
+    A user signs-up with a valid email, password, and display name and they
+    will be sent an email containing a verification code
+    The user then enters this verification code within an alloted time limit
+    to finally be let into the database
+    On login, the user must enter the correct pair of email address and
+    password to be allowed access.
+
+    As such, the sign-up function takes an email address, password, first name,
+    and last initial.
+    The authentication function takes the same sign-up parameters *and* the
+    entered authentication code
+    The login function takes an email and password
+    """
+
     EMAIL_REGEX = re.compile(
         r"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$", flags=re.IGNORECASE
     )
+    """A regex statement defining a valid email address"""
+
     PASSWORD_REGEX = re.compile(
         r".+"
     )
+    """A regex statement defining a valid password"""
 
-    # The authentication email to send users
     PLAIN_TEXT = (
         "Subject: {}\nTo: {}\n\n{}"
     )
+    """A frame for the email to send a to-be authenticated user"""
 
-    # A dictionary of currently authenticating users
     # email_address: (code, expiry time)
     ACTIVE_AUTHS: dict[str, tuple[str, float]] = {}
+    """A dictionary of currently authenticating users"""
 
     @staticmethod
     def valid_password(password: str) -> bool:
         """
         Given a password string, return if it's valid
 
-        This does not check for the *existence* of the address, rather it simply
+        This does not check for the *existence* of the address, but rather
         checks against an password pattern
 
         Parameters
         ----------
-        password: str
+        password : str
             The password to check
 
         Returns
@@ -52,12 +74,12 @@ class AuthHandler:
         """
         Given an email address string, return if it's valid
 
-        This does not check for the *existence* of the address, rather it simply
+        This does not check for the *existence* of the address, but rather
         checks against an email address pattern
 
         Parameters
         ----------
-        email_address: str
+        email_address : str
             The email address to check
 
         Returns
@@ -66,6 +88,44 @@ class AuthHandler:
             Whether or not the address is valid
         """
         return bool(AuthHandler.EMAIL_REGEX.match(email_address))
+
+    @staticmethod
+    def check_identifiers(
+                email_address: str,
+                password: str,
+                first_name: str,
+                last_initial: str = ""
+            ) -> None:
+        """
+        Checks the validity of a user's email address, password, and display
+        name.
+
+        This function does not return a value, but rather throws an error
+        depending on which field was invalid.
+
+        Raises
+        ------
+        ValueError
+            If the first name is too short (empty)
+            If the first name is too long (longer than 29 characters)
+            If the last initial is too long (longer than 1 character)
+            If the email does not pass the regex checker `EMAIL_REGEX`
+            If the password does not pass the password checker `PASSWORD_REGEX`
+        """
+        if not first_name:
+            raise ValueError("The first name entered was too short.")
+
+        if len(first_name) > 29:
+            raise ValueError("The first name entered was too long.")
+
+        if len(last_initial) > 1:
+            raise ValueError("The last initial entered was too long.")
+
+        if not AuthHandler.valid_email(email_address):
+            raise ValueError("An invalid email address was entered.")
+
+        if not AuthHandler.valid_password(password):
+            raise ValueError("An invalid password was entered.")
 
     @staticmethod
     def sign_up(
@@ -79,44 +139,37 @@ class AuthHandler:
 
         Parameters
         ----------
-        email_address: str
+        email_address : str
             The email address of the user. Must pass validity via `valid_email`
-        password: str
+        password : str
             The password of the user. Must pass validity via `valid_password`
-        first_name: str
+        first_name : str
             The user's first name. Must be >= 1 and <= 29 characters
-        last_initial: str = ""
+        last_initial : str, default=""
             The user's last initial
 
         Raises
         ------
         ValueError
-            If an invalid email address, password, or name is provided. Or
-            if an email could not be sent
+            If an invalid email address, password, or name is provided
+            If an email could not be sent
         """
 
-        if not first_name:
-            raise ValueError("The first name entered was too short.")
-
-        if len(first_name) > 29:
-            raise ValueError("The first name entered was too long.")
-
-        if len(last_initial) > 1:
-            raise ValueError("The last name entered was too long.")
-
-        if not AuthHandler.valid_email(email_address):
-            raise ValueError("An invalid email address was entered.")
-
-        if not AuthHandler.valid_password(password):
-            raise ValueError("An invalid password was entered.")
+        AuthHandler.check_identifiers(
+            email_address,
+            password,
+            first_name,
+            last_initial
+        )
 
         auth_code = AuthHandler.generate_random_code(email_address)
 
         try:
             AuthHandler.send_authentication_email(email_address, auth_code)
-        except:
+        except Exception as e:
             raise ValueError(
-                "Something went wrong sending the authentication email"
+                "Something went wrong sending the authentication email "
+                + str(e)
             )
 
     @staticmethod
@@ -129,9 +182,9 @@ class AuthHandler:
 
         Parameters
         ----------
-        email_address: str
+        email_address : str
             The email address associated with the target user
-        password: str
+        password : str
             The password to validate against
 
         Returns
@@ -139,7 +192,6 @@ class AuthHandler:
         bool
             Whether or not the log-in was successful
         """
-
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
                 """
@@ -173,23 +225,31 @@ class AuthHandler:
 
         Parameters
         ----------
-        email_address: str
+        email_address : str
             The email address of the user
-        password: str
+        password : str
             The password of the user
-        entered_auth_code: str
+        entered_auth_code : str
             The authentication code the user entered
-        first_name: str
+        first_name : str
             The user's first name
-        last_initial: str = ""
+        last_initial : str, default=""
             The user's last initial
 
         Raises
-        -------
+        ------
         ValueError
+            If an invalid email address, password, or name is provided
             If the incorrect code was entered or something went wrong adding
             the user to the database
         """
+
+        AuthHandler.check_identifiers(
+            email_address,
+            password,
+            first_name,
+            last_initial
+        )
 
         display_name = first_name + (
             f" {last_initial}." if last_initial else ""
@@ -226,7 +286,7 @@ class AuthHandler:
                     """,
                     email_address, password, display_name
                 )
-            except:
+            except Exception:
                 raise ValueError(
                     "This email address was already found in the database."
                 )
@@ -251,12 +311,11 @@ class AuthHandler:
             The mail_options parameter includes 'SMTPUTF8'
             but the SMTPUTF8 extension is not supported by the server.
         """
-
         port = 465
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
             s.login(
-                sender:=SecretsHandler.get_email_address(),
+                sender := SecretsHandler.get_email_address(),
                 SecretsHandler.get_email_passkey()
             )
             s.sendmail(
@@ -272,9 +331,22 @@ class AuthHandler:
             )
 
     @staticmethod
-    def generate_random_code(email_address: str):
+    def generate_random_code(email_address: str) -> str:
+        """
+        Generates a random code and stores it in the authentication cache
+
+        Parameters
+        ----------
+        email_address : str
+            The email address that this code belongs to
+
+        Returns
+        -------
+        str
+            The generated code
+        """
         random_code = "".join([str(random.randint(0, 9)) for _ in range(5)])
-        expiry_time = (datetime.now() + timedelta(minutes=5)).timestamp()
+        expiry_time = (datetime.now() + timedelta(minutes=1)).timestamp()
 
         AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
         print(random_code)
@@ -283,22 +355,22 @@ class AuthHandler:
     # TODO: Spotify Authentication
     # TODO: Figure out the flow of how authentication should work
     # TODO: Cache taken email addresses to return an error on signup
-        
+
     @staticmethod
     async def save_spotify_token(email_address: str, token: dict) -> None:
-        # Would be useful if this could check for the existence of the email
-        # For now we'll assume the email exists
         """
         Given an email address, save the user's Spotify token
 
         Parameters
         ----------
-        email_address: str
+        email_address : str
             The email address of the user
-        token: str
+        token : str
             The user's Spotify token
         """
-        await DatabaseHandler.get_pool()
+        # TODO: Would be useful if this could check for the existence of the
+        # email. For now we'll assume the email exists
+
         async with DatabaseHandler.acquire() as conn:
             await conn.execute(
                 """
@@ -311,16 +383,15 @@ class AuthHandler:
                 """,
                 json.dumps(token), email_address
             )
+
     @staticmethod
     async def get_spotify_token(email_address: str) -> dict:
-        # Would be useful if this could check for the existence of the email
-        # For now we'll assume the email exists
         """
         Given an email address, return the user's Spotify token
 
         Parameters
         ----------
-        email_address: str
+        email_address : str
             The email address of the user
 
         Returns
@@ -328,7 +399,8 @@ class AuthHandler:
         str
             The user's Spotify token
         """
-        #
+        # TODO: Would be useful if this could check for the existence of the
+        # email. For now we'll assume the email exists
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
                 """

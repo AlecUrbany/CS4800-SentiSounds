@@ -1,5 +1,13 @@
+# App Functionality
 openai
 spotipy
+
+# Database
 asyncpg
+
+# API
 quart
+quart-cors
+
+# URL Authentication
 urllib
