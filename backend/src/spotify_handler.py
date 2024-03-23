@@ -1,13 +1,16 @@
+
 """A handler for interacting with Spotify's API through the Spotipy wrapper"""
 
 from __future__ import annotations
 
-import random
-from typing import Any
+import threading
+from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
-from spotipy import Spotify
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from spotify_cache_handlers import BaseClientCacheHandler, MemoryCacheHandler
+from spotipy import CacheHandler, Spotify
+from spotipy.oauth2 import SpotifyOAuth
+from spotipy.util import normalize_scope
 
 
 class SpotifyHandler:
@@ -19,9 +22,41 @@ class SpotifyHandler:
     Spotify operations. The user client will be able to return results and
     recommendations directly via the Spotify API.
 
-    The `from_base_client` or `from_user_client` classmethods are the easiest
-    ways to get a SpotifyHandler instance
+    Attributes
+    ----------
+    BASE_CLIENT : Spotify
+        The base Spotify client instance.
+        This instance is not authenticated with a paticular user
+    user_scope : list[str]
+        The list of scopes required to access user data
+    _client_instance : Spotify
+        The Spotify client instance, which should not be accessed directly
+    cache_handler : CacheHandler
+        The object getting and storing the Spotify authentication token. It is
+        exposed here for direct control of the tokens outside of this object
     """
+
+    BASE_CLIENT = Spotify(
+        auth_manager=SpotifyOAuth(
+            scope="user-read-private",
+            redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+            open_browser=False,
+            client_id=SecretsHandler.get_spotify_client_id(),
+            client_secret=SecretsHandler.get_spotify_client_secret(),
+            cache_handler=BaseClientCacheHandler()
+        )
+    )
+    """Defines the base SentiSounds client for Spotify interactions"""
+
+    user_scope = [
+        "streaming",
+        "playlist-modify-private",
+        "user-top-read",
+        "user-read-private",
+        "user-library-modify",
+        "user-library-read"
+    ]
+    """The permission scope to request when initializing a user client"""
 
     def __init__(self) -> None:
         """
@@ -33,202 +68,279 @@ class SpotifyHandler:
         Consider using the `from_base_client()` or `from_user_client()`
         classmethods to retrieve the type of handler that you are expecting
         """
+
+        self.cache_handler: CacheHandler | None = None
+        """The cache handler used for user authentication"""
+
         self._client_instance: Spotify | None = None
         """
         The client instance (Spotify) used to interact with the API
         """
 
-        self.is_user_client: bool = False
-        """Whether or not we have a base or user-specific client instance"""
-
     @classmethod
-    def from_base_client(cls: type[SpotifyHandler]) -> SpotifyHandler:
-        """Creates a SpotifyHandler initialized with a base client"""
-        s = SpotifyHandler()
-        s.get_base_client()
-        return s
-
-    @classmethod
-    def from_user_client(cls: type[SpotifyHandler]) -> SpotifyHandler:
-        """Creates a SpotifyHandler initialized with a user client"""
-        s = SpotifyHandler()
-        s.get_user_client()
-        return s
-
-    def get_any_client(self) -> Spotify:
-        """
-        Retrieves or creates a Spotify client. This client can either be
-        authenticated or a base client. As such, this function should
-        only be used if you're absolutely certain you don't care what
-        type of client you're retrieving.
-
-        Returns
-        -------
-        Spotify
-            Whatever Spotify client is available
-        """
-        if self.is_user_client:
-            return self.get_user_client()
-        else:
-            return self.get_base_client()
-
-    def get_base_client(self) -> Spotify:
-        """
-        Retrieves or creates the Spotify client instance with
-        no user credentials
-
-        Returns
-        -------
-        Spotify
-            The static Spotify client
-        """
-        if self._client_instance:
-            if self.is_user_client:
-                raise RuntimeError(
-                    "This instance is a user client, not a base client"
-                )
-
-            return self._client_instance
-
-        return self._initialize_base_client()
-
-    def _initialize_base_client(self) -> Spotify:
-        """
-        Initializes the Spotify client with no user credentials.
-
-        This function should never be called outside of this class. To retrieve
-        the client safely, use the `get_base_client` function.
-
-        Returns
-        -------
-        Spotify
-            The base (non-user) Spotify client
-        """
-        self.is_user_client = False
-        self._client_instance = Spotify(
-            client_credentials_manager=SpotifyClientCredentials(
-                client_id=SecretsHandler.get_spotify_client_id(),
-                client_secret=SecretsHandler.get_spotify_client_secret()
-            )
-        )
-        return self._client_instance
-
-    def get_user_client(self) -> Spotify:
-        """
-        Retrieves or creates a Spotify client instance with user credentials
-
-        Returns
-        -------
-        Spotify
-            The authenticated Spotify client
-        """
-
-        if self._client_instance:
-            if not self.is_user_client:
-                raise RuntimeError(
-                    "This instance is a base client, not a user client"
-                )
-
-            return self._client_instance
-
-        return self._initialize_user_client()
-
-    def _initialize_user_client(self) -> Spotify:
+    def from_token(
+                cls: type[SpotifyHandler],
+                token_info: dict[str, str | int]
+            ) -> SpotifyHandler:
         """
         Initializes the Spotify client with user credentials.
 
-        This function should never be called outside of this class. To retrieve
-        the client safely, use the `get_user_client` function.
+        Parameters
+        ----------
+        token_info : dict[str, str | int]
+            The token information to load into the cache handler
+
+        Returns
+        -------
+        SpotifyHandler
+            The created SpotifyHandler object
+        """
+        handler = cls()
+
+        auth_manager, cache_handler = cls.create_oauth(token_info=token_info)
+        handler.cache_handler = cache_handler
+        handler._client_instance = Spotify(
+            auth_manager=auth_manager
+        )
+
+        return handler
+
+    @staticmethod
+    def create_oauth(
+                token_info: dict[str, str | int] | None = None
+            ) -> tuple[SpotifyOAuth, CacheHandler]:
+        """
+        Creates an OAuth handler for Spotify as well as a reference
+        to the cache handler
+
+        Parameters
+        ----------
+        token_info : dict[str, str | int], default=None
+            The token information to load into the cache handler
+
+        Returns
+        -------
+        tuple[SpotifyOAuth, CacheHandler]
+            The SpotifyOAuth object and the CacheHandler object
+        """
+        cache_handler = MemoryCacheHandler(token_info=token_info)
+
+        return SpotifyOAuth(
+            cache_handler=cache_handler,
+            scope=SpotifyHandler.user_scope,
+            redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+            open_browser=False,
+            client_id=SecretsHandler.get_spotify_client_id(),
+            client_secret=SecretsHandler.get_spotify_client_secret()
+        ), cache_handler
+
+    @staticmethod
+    def generate_oauth_url():
+        """
+        Generates the URL to authenticate a user with Spotify
+
+        Returns
+        -------
+        str
+            The URL to authenticate a user with Spotify and allow
+            SentiSounds to access their Spotify account
+        """
+        OAUTH_URL = "https://accounts.spotify.com/authorize"
+        payload = {
+            "client_id": SecretsHandler.get_spotify_client_id(),
+            "response_type": "code",
+            "redirect_uri": SecretsHandler.get_spotify_redirect_uri(),
+            "scope": normalize_scope(SpotifyHandler.user_scope)
+        }
+        return "%s?%s" % (OAUTH_URL, urlencode(payload))
+
+    def get_client(self) -> Spotify:
+        """
+        Retrieves a Spotify object. This instance can either be
+        authenticated with a user or a base client.
+        If you would like a user client, use the `load_token` function first.
 
         Returns
         -------
         Spotify
-            The static Spotify client with user credentials
+            The Spotify client instance, either the base client or a user
+            client
         """
-        redirect_uri = "https://github.com/AlecUrbany/CS4800-SentiSounds"
-        scope = [
-            "streaming",
-            "playlist-modify-private",
-            "user-top-read",
-            "user-read-private"
-        ]
-        self.is_user_client = True
-        self._client_instance = Spotify(
-            auth_manager=SpotifyOAuth(
-                scope=scope,
-                redirect_uri=redirect_uri,
-                # TODO: Figure out bypass for redirect URI paste
-                open_browser=True,
-                client_id=SecretsHandler.get_spotify_client_id(),
-                client_secret=SecretsHandler.get_spotify_client_secret()
-            )
-        )
+        return self._client_instance or SpotifyHandler.BASE_CLIENT
 
-        return self._client_instance
+    def get_token(self) -> dict[str, str | int] | None:
+        """
+        Gets the token from the cache handler if there has been a token loaded
+
+        Returns
+        -------
+        dict[str, str | int] | None
+            The token information if it exists
+        """
+        if self.cache_handler:
+            return self.cache_handler.get_cached_token()
+
+    def get_liked_songs(self) -> list[dict]:
+        """
+        Retrieves all the user's liked songs from Spotify
+
+        Returns
+        -------
+        list[dict]
+            A list of the user's liked songs from the Spotify API
+        """
+        if self._client_instance is None:
+            raise Exception(
+                "No user has been loaded into the Spotify client instance."
+            )
+
+        results = self._client_instance.current_user_saved_tracks(limit=50)
+
+        if not results:
+            return []
+
+        liked_songs = results["items"]
+        try:
+            # Get all liked songs by paging through the results of
+            # user_saved_tracks
+            while results["next"]:
+                results = self._client_instance.next(results)
+                if not results:
+                    break
+                liked_songs += results["items"]
+        except Exception as e:
+            print(e)
+        return liked_songs
 
     def get_genre_songs(
                 self,
-                genre: str,
-                market: str = "from_token",
-                limit: int = 10
+                genres: list[str],
+                limit_per_genre: int = 10,
+                popularity_threshold: int = 30
             ) -> list[dict[str, str | bool | int]]:
         """
-        Retrieves a pseudo-random list of songs in a genre sourced from the
-        Spotify API.
-
-        This list may be user specific, so use the get_available_genre_seeds
-        to find user genres
+        Retrieves a list of songs in each genre sourced from the Spotify API.
 
         Parameters
         ----------
-        genre : str
-            The genre to search songs for
-        market : str
-            An ISO 3166-1 alpha-2 country code or the string from_token.
-        limit : int
-            The maximum number of songs to return. Default is 10.
+        genre : list[str]
+            The list genres to search songs for. Even if provided with one
+            genre, a list must be given
+        limit_per_genre : int, default=10
+            The number of songs to return from each genre
+        popularity_threshold : int, default=30
+            The minimum popularity score that will be required
+            for each returned song
 
         Returns
         -------
         list[dict[str, str | bool | int]]
-            A list of songs retrieved from the Spotify API with the following:
-            - name: The name of the song (str)
-            - preview_url: A URL to a 30-second preview of the song (str)
-            - uri: A URI to the song (str)
-            - explicit: Whether the song is explicit (bool)
-            - is_playable: Whether the song is playable (bool)
-            - popularity: The popularity of the song (int)
-            - id: The ID of the song (useful for creating a playlist) (str)
+            The list of songs from the Spotify API with the following:
+            - name: The name of the song
+            - album: The album the song is from
+                - external_urls: A URL to the album
+                - images: A list of images for the album
+                - name: The name of the album
+            - artists: A list of artists for the song
+                - external_urls: A URL to the artist
+                - name: The name of the artist
+            - preview_url: A URL to a 30-second preview of the song
+            - external_urls: A URL to the song
+            - explicit: Whether the song is explicit
+            - is_playable: Whether the song is playable
+            - popularity: The popularity of the song
+            - id: The ID of the song (useful for creating a playlist)
+            - liked_by_user: Whether the user has liked the song
         """
-        random_offset = random.randint(0, 1000)
-        keys_to_extract = [
+        song_keys_to_extract = [
             "name",
+            "album",
+            "artists",
             "preview_url",
-            "uri",
+            "external_urls",
             "explicit",
             "is_playable",
             "popularity",
             "id"
         ]
+        album_keys_to_extract = [
+            "name",
+            "images",
+            "external_urls"
+        ]
+        artist_keys_to_extract = [
+            "name",
+            "external_urls"
+        ]
 
-        client_instance = self.get_any_client()
-        search_result = client_instance.search(
-            q='genre:' + genre,
-            type="track",
-            market=market, offset=random_offset, limit=limit
-        )
+        # Start collecting liked songs in a separate thread
+        if self._client_instance:
+            thread = ThreadWithReturnValue(target=self.get_liked_songs)
+            # TODO This takes 30s - 1m for over 2500 liked songs,
+            # maybe we can find a way to cache it on login
+            thread.start()
 
-        if not search_result:
+        client_instance = self.get_client()
+
+        all_song_info = []
+        for genre in genres:
+            search_result = client_instance.search(
+                q='genre:' + genre,
+                type="track",
+                market="from_token"
+            )
+
+            if not search_result:
+                continue
+
+            genre_song_list = []
+            while len(genre_song_list) < limit_per_genre:
+                genre_song_list += [
+                    song for song in search_result["tracks"]["items"]
+                    if song["popularity"] > popularity_threshold
+                ]
+
+                search_result = client_instance.next(search_result)
+
+                if not search_result:
+                    break
+
+            all_song_info += genre_song_list
+
+        if not all_song_info:
             raise ValueError(
                 "Something went wrong searching for songs from Spotify"
             )
 
-        tracks_all: list[dict[str, Any]] = search_result["tracks"]["items"]
-
-        return [
-            {key: track[key] for key in keys_to_extract}
-            for track in tracks_all
+        # Only store the information we want to store
+        requested_song_info = [
+            {key: song[key] for key in song_keys_to_extract}
+            for song in all_song_info
         ]
+
+        # Only store the album and artist info that we want to store
+        for song in requested_song_info:
+            song["album"] = {
+                key: song["album"][key] for key in album_keys_to_extract
+            }
+            song["artists"] = [
+                {key: artist[key] for key in artist_keys_to_extract}
+                for artist in song["artists"]
+            ]
+
+        # Store whether or not the user has liked this song in the past
+        if self._client_instance:
+            liked_songs = thread.join()
+
+            if liked_songs:
+                liked_songs = [song["track"]["id"] for song in liked_songs]
+            else:
+                liked_songs = []
+
+            for song in requested_song_info:
+                song["liked_by_user"] = bool(song["id"] in liked_songs)
+
+        return requested_song_info
 
     def get_available_genre_seeds(self) -> list[str]:
         """
@@ -239,9 +351,7 @@ class SpotifyHandler:
         list[str]
             The list of available genre seeds
         """
-        client_instance = self.get_any_client()
-
-        seeds_result = client_instance.recommendation_genre_seeds()
+        seeds_result = self.get_client().recommendation_genre_seeds()
 
         if not seeds_result:
             raise ValueError(
@@ -274,12 +384,12 @@ class SpotifyHandler:
         str
             A URL to the created playlist
         """
-        if not self.is_user_client:
+        if not self._client_instance:
             raise ValueError(
                 "A playlist cannot be created via a base (non-user) client."
             )
 
-        client_instance = self.get_user_client()
+        client_instance = self._client_instance
 
         if not (user := client_instance.me()):
             raise ValueError(
@@ -301,3 +411,58 @@ class SpotifyHandler:
         )
 
         return playlist["external_urls"]["spotify"]
+
+    def like_song(self, song_id: str) -> None:
+        """
+        Likes a song on Spotify.
+
+        Parameters
+        ----------
+        song_id : str
+            The ID of the song to like
+        """
+        if not self._client_instance:
+            raise ValueError(
+                "A song cannot be liked via a base (non-user) client."
+            )
+        self._client_instance.current_user_saved_tracks_add([song_id])
+
+    def unlike_song(self, song_id: str) -> None:
+        """
+        Un-likes a song on Spotify.
+
+        Parameters
+        ----------
+        song_id : str
+            The ID of the song to unlike
+        """
+        if not self._client_instance:
+            raise ValueError(
+                "A song cannot be un-liked via a base (non-user) client."
+            )
+        self._client_instance.current_user_saved_tracks_delete([song_id])
+
+
+class ThreadWithReturnValue(threading.Thread):
+    """
+    A thread that returns a value when joined for internal use in the
+    SpotifyHandler class
+    """
+
+    def __init__(
+                self, group=None, target=None, name=None,
+                args=(), kwargs={}, Verbose=None
+            ) -> None:
+        """Initializes the Thread"""
+        super().__init__(group, target, name, args, kwargs)
+        self._return = None
+
+    def run(self):
+        if self._target:  # type: ignore
+            self._return = self._target(  # type: ignore
+                *self._args, **self._kwargs  # type: ignore
+            )
+
+    def join(self, *args):
+        super().join(*args)
+        return self._return

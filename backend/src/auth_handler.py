@@ -5,6 +5,7 @@ import re
 import smtplib
 import ssl
 from datetime import datetime, timedelta
+import json
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler
@@ -348,8 +349,68 @@ class AuthHandler:
         expiry_time = (datetime.now() + timedelta(minutes=1)).timestamp()
 
         AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
+        print(random_code)
         return random_code
 
     # TODO: Spotify Authentication
     # TODO: Figure out the flow of how authentication should work
     # TODO: Cache taken email addresses to return an error on signup
+
+    @staticmethod
+    async def save_spotify_token(email_address: str, token: dict) -> None:
+        """
+        Given an email address, save the user's Spotify token
+
+        Parameters
+        ----------
+        email_address : str
+            The email address of the user
+        token : str
+            The user's Spotify token
+        """
+        # TODO: Would be useful if this could check for the existence of the
+        # email. For now we'll assume the email exists
+
+        async with DatabaseHandler.acquire() as conn:
+            await conn.execute(
+                """
+                UPDATE
+                    user_auth
+                SET
+                    spotify_token = $1
+                WHERE
+                    email_address = $2
+                """,
+                json.dumps(token), email_address
+            )
+
+    @staticmethod
+    async def get_spotify_token(email_address: str) -> dict:
+        """
+        Given an email address, return the user's Spotify token
+
+        Parameters
+        ----------
+        email_address : str
+            The email address of the user
+
+        Returns
+        -------
+        str
+            The user's Spotify token
+        """
+        # TODO: Would be useful if this could check for the existence of the
+        # email. For now we'll assume the email exists
+        async with DatabaseHandler.acquire() as conn:
+            found = await conn.fetch(
+                """
+                SELECT
+                    spotify_token
+                FROM
+                    user_auth
+                WHERE
+                    email_address = $1
+                """,
+                email_address
+            )
+            return json.loads(found[0]["spotify_token"])

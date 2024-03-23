@@ -24,13 +24,33 @@ class SecretsHandler:
 
         Parameters
         ----------
-        key, sub_key: str
+        key, sub_key : str
             The key and sub-key pair of the value to extract, such that
             json[key][sub_key] contains the requested value
         """
         with open(SecretsHandler.SECRETS_FILE) as s:
             json_data = json.load(s)
             return json_data[key][sub_key]
+
+    @staticmethod
+    def _write_json_value(key: str, sub_key: str, value: str) -> None:
+        """
+        Writes a value to the provided SECRETS_FILE
+        given a key and sub-key
+
+        Parameters
+        ----------
+        key, sub_key : str
+            The key and sub-key pair of the value to extract, such that
+            json[key][sub_key] contains the requested value
+        value : str
+            The value to write to json[key][sub_key]
+        """
+        with open(SecretsHandler.SECRETS_FILE) as s:
+            json_data = json.load(s)
+            json_data[key][sub_key] = value
+            with open(SecretsHandler.SECRETS_FILE, 'w') as s:
+                json.dump(json_data, s)
 
     @classmethod
     def get_openai_key(cls: type[SecretsHandler]) -> str:
@@ -79,6 +99,45 @@ class SecretsHandler:
             The Spotify API key
         """
         return cls._get_json_value("spotify", "client_secret")
+
+    @classmethod
+    def get_spotify_base_token(cls: type[SecretsHandler]) -> str:
+        """
+        Retrieves the Spotify API base token using key spotify and sub-key
+        base-token
+
+        Returns
+        -------
+        str
+            The Spotify API base token
+        """
+        return cls._get_json_value("spotify", "base_token")
+
+    @classmethod
+    def save_spotify_base_token(cls: type[SecretsHandler], token: str) -> None:
+        """
+        Save the Spotify API base token using key spotify and sub-key
+        base-token
+
+        Parameters
+        ----------
+        token : str
+            The token to store to the secrets file
+        """
+        cls._write_json_value("spotify", "base-token", token)
+
+    @classmethod
+    def get_spotify_redirect_uri(cls: type[SecretsHandler]) -> str:
+        """
+        Retrieves the Spotify API refresh token using key spotify and sub-key
+        redirect_uri
+
+        Returns
+        -------
+        str
+            The Spotify API refresh token
+        """
+        return cls._get_json_value("spotify", "redirect_uri")
 
     @classmethod
     def get_database_user(cls: type[SecretsHandler]) -> str:
