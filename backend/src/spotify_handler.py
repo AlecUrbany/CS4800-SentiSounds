@@ -26,7 +26,7 @@ class SpotifyHandler:
     ----------
     BASE_CLIENT : Spotify
         The base Spotify client instance.
-        This instance is not authenticated with a paticular user
+        This instance is not authenticated with a particular user
     user_scope : list[str]
         The list of scopes required to access user data
     _client_instance : Spotify
@@ -66,7 +66,7 @@ class SpotifyHandler:
         provided by this class.
 
         Consider using the `from_base_client()` or `from_user_client()`
-        classmethods to retrieve the type of handler that you are expecting
+        class methods to retrieve the type of handler that you are expecting
         """
 
         self.cache_handler: CacheHandler | None = None
@@ -180,43 +180,11 @@ class SpotifyHandler:
         if self.cache_handler:
             return self.cache_handler.get_cached_token()
 
-    def get_liked_songs(self) -> list[dict]:
-        """
-        Retrieves all the user's liked songs from Spotify
-
-        Returns
-        -------
-        list[dict]
-            A list of the user's liked songs from the Spotify API
-        """
-        if self._client_instance is None:
-            raise Exception(
-                "No user has been loaded into the Spotify client instance."
-            )
-
-        results = self._client_instance.current_user_saved_tracks(limit=50)
-
-        if not results:
-            return []
-
-        liked_songs = results["items"]
-        try:
-            # Get all liked songs by paging through the results of
-            # user_saved_tracks
-            while results["next"]:
-                results = self._client_instance.next(results)
-                if not results:
-                    break
-                liked_songs += results["items"]
-        except Exception as e:
-            print(e)
-        return liked_songs
-
     def get_genre_songs(
                 self,
                 genres: list[str],
                 limit_per_genre: int = 10,
-                popularity_threshold: int = 30
+                popularity_threshold: int = 20
             ) -> list[dict[str, str | bool | int]]:
         """
         Retrieves a list of songs in each genre sourced from the Spotify API.
@@ -271,14 +239,7 @@ class SpotifyHandler:
         artist_keys_to_extract = [
             "name",
             "external_urls"
-        ]
-
-        # Start collecting liked songs in a separate thread
-        if self._client_instance:
-            thread = ThreadWithReturnValue(target=self.get_liked_songs)
-            # TODO This takes 30s - 1m for over 2500 liked songs,
-            # maybe we can find a way to cache it on login
-            thread.start()
+        ]        
 
         client_instance = self.get_client()
 
@@ -288,23 +249,22 @@ class SpotifyHandler:
                 q='genre:' + genre,
                 type="track",
                 market="from_token"
-            )
+            )['tracks']
 
-            if not search_result:
+            if search_result['items'] == []:
                 continue
 
             genre_song_list = []
             while len(genre_song_list) < limit_per_genre:
                 genre_song_list += [
-                    song for song in search_result["tracks"]["items"]
+                    song for song in search_result["items"]
                     if song["popularity"] > popularity_threshold
                 ]
-
-                search_result = client_instance.next(search_result)
-
-                if not search_result:
-                    break
-
+                try:
+                    search_result = client_instance.next(search_result)['tracks']
+                except Exception as e:
+                    pass # if the request is at the end of the list KeyError will be ignored
+            
             all_song_info += genre_song_list
 
         if not all_song_info:
@@ -327,18 +287,15 @@ class SpotifyHandler:
                 {key: artist[key] for key in artist_keys_to_extract}
                 for artist in song["artists"]
             ]
+        
+        [x.update({"liked_by_user": False}) for x in requested_song_info]
 
         # Store whether or not the user has liked this song in the past
         if self._client_instance:
-            liked_songs = thread.join()
-
-            if liked_songs:
-                liked_songs = [song["track"]["id"] for song in liked_songs]
-            else:
-                liked_songs = []
-
-            for song in requested_song_info:
-                song["liked_by_user"] = bool(song["id"] in liked_songs)
+            #liked_songs = thread.join()
+            liked_songs = self._client_instance.current_user_saved_tracks_contains([x.get("id") for x in requested_song_info])
+            for song in zip(requested_song_info, liked_songs):
+                song[0]["liked_by_user"] = song[1] 
 
         return requested_song_info
 
