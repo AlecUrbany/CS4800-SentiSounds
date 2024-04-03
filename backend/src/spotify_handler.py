@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import threading
 from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
@@ -218,7 +217,8 @@ class SpotifyHandler:
             - is_playable: Whether the song is playable
             - popularity: The popularity of the song
             - id: The ID of the song (useful for creating a playlist)
-            - liked_by_user: Whether the user has liked the song
+            - liked_by_user: Whether the user has liked the song. Default False
+            if a user has not been authenticated.
         """
         song_keys_to_extract = [
             "name",
@@ -239,32 +239,40 @@ class SpotifyHandler:
         artist_keys_to_extract = [
             "name",
             "external_urls"
-        ]        
+        ]
 
         client_instance = self.get_client()
 
         all_song_info = []
         for genre in genres:
+            # A page of results for this genre
             search_result = client_instance.search(
                 q='genre:' + genre,
                 type="track",
                 market="from_token"
-            )['tracks']
+            )
 
-            if search_result['items'] == []:
+            if not search_result or not search_result['tracks']['items']:
                 continue
 
+            # Keep filling this genre's list until there are no more results
+            # or we run out of space
             genre_song_list = []
             while len(genre_song_list) < limit_per_genre:
                 genre_song_list += [
-                    song for song in search_result["items"]
+                    song for song in search_result['tracks']["items"]
                     if song["popularity"] > popularity_threshold
                 ]
                 try:
-                    search_result = client_instance.next(search_result)['tracks']
-                except Exception as e:
-                    pass # if the request is at the end of the list KeyError will be ignored
-            
+                    search_result = client_instance.next(
+                        search_result
+                    )
+                    assert search_result and search_result['tracks']
+                except Exception:
+                    # if the request is at the end of the
+                    # list KeyError will be ignored
+                    break  # Continue to the next genre
+
             all_song_info += genre_song_list
 
         if not all_song_info:
@@ -287,15 +295,19 @@ class SpotifyHandler:
                 {key: artist[key] for key in artist_keys_to_extract}
                 for artist in song["artists"]
             ]
-        
+
         [x.update({"liked_by_user": False}) for x in requested_song_info]
 
         # Store whether or not the user has liked this song in the past
         if self._client_instance:
-            #liked_songs = thread.join()
-            liked_songs = self._client_instance.current_user_saved_tracks_contains([x.get("id") for x in requested_song_info])
-            for song in zip(requested_song_info, liked_songs):
-                song[0]["liked_by_user"] = song[1] 
+            liked_songs = self._client_instance. \
+                        current_user_saved_tracks_contains(
+                            [x.get("id") for x in requested_song_info]
+                        )
+
+            if liked_songs:
+                for song in zip(requested_song_info, liked_songs):
+                    song[0]["liked_by_user"] = song[1]
 
         return requested_song_info
 
@@ -398,28 +410,3 @@ class SpotifyHandler:
                 "A song cannot be un-liked via a base (non-user) client."
             )
         self._client_instance.current_user_saved_tracks_delete([song_id])
-
-
-class ThreadWithReturnValue(threading.Thread):
-    """
-    A thread that returns a value when joined for internal use in the
-    SpotifyHandler class
-    """
-
-    def __init__(
-                self, group=None, target=None, name=None,
-                args=(), kwargs={}, Verbose=None
-            ) -> None:
-        """Initializes the Thread"""
-        super().__init__(group, target, name, args, kwargs)
-        self._return = None
-
-    def run(self):
-        if self._target:  # type: ignore
-            self._return = self._target(  # type: ignore
-                *self._args, **self._kwargs  # type: ignore
-            )
-
-    def join(self, *args):
-        super().join(*args)
-        return self._return
