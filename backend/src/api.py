@@ -274,7 +274,7 @@ async def recommended_songs():
             token = None
         # Still need to see if the error of a user existing but not having a
         # spotify token is caught
-        if email_address is not None and token is not None:
+        if email_address and token:
             sp = SpotifyHandler.from_token(token)
         else:
             sp = SpotifyHandler()
