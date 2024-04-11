@@ -124,7 +124,7 @@ class SecretsHandler:
         token : str
             The token to store to the secrets file
         """
-        cls._write_json_value("spotify", "base-token", token)
+        cls._write_json_value("spotify", "base_token", token)
 
     @classmethod
     def get_spotify_redirect_uri(cls: type[SecretsHandler]) -> str:
