@@ -239,3 +239,14 @@ class SecretsHandler:
             The email passkey
         """
         return cls._get_json_value("email", "passkey")
+    @classmethod
+    def get_youtube_key(cls: type[SecretsHandler])-> str:
+        """
+        Retrieves the youtube key using key youtube and sub-key api-key
+
+        Returns
+        -------
+        str
+            The youtube key
+        """
+        return cls._get_json_value("youtube", "api-key")
