@@ -50,7 +50,7 @@ class SecretsHandler:
             json_data = json.load(s)
             json_data[key][sub_key] = value
             with open(SecretsHandler.SECRETS_FILE, 'w') as s:
-                json.dump(json_data, s)
+                json.dump(json_data, s, indent=4)
 
     @classmethod
     def get_openai_key(cls: type[SecretsHandler]) -> str:
