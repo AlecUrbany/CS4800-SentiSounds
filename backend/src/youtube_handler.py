@@ -3,6 +3,7 @@ from secrets_handler import SecretsHandler
 import queue
 import time
 import threading
+from googleapiclient.errors import HttpError
 
 
 class YoutubeHandler:
@@ -71,20 +72,26 @@ class YoutubeHandler:
         googleapiclient.discovery.Resource
             The search results
         """
-        youtube_url = "https://www.youtube.com/watch?v=%s" 
-
-        response = YoutubeHandler.get_client().search().list(
-            part = "id",
-            q = song["name"] + " " + song["artists"][0]["name"],
-            type = "video",
-            maxResults = 1,
-            order = "relevance",
-            fields = "items(id(videoId))"
-        ).execute()
-        if response["items"]:
+        youtube_url = "https://www.youtube.com/watch?v=%s"
+        response = None
+        try:
+            response = YoutubeHandler.get_client().search().list(
+                part = "id",
+                q = song["name"] + " " + song["artists"][0]["name"],
+                type = "video",
+                maxResults = 1,
+                order = "relevance",
+                fields = "items(id(videoId))"
+            ).execute()
+        except HttpError as e:
+            # If the request fails, it probably means the quota has been exceeded
+            # If this happens too often, consider applying for a quota increase at https://support.google.com/youtube/contact/yt_api_form
+            # For now, we'll just ignore the error and return nothing
+            pass
+        if response and response["items"]:
             song["youtube_url"] = youtube_url % response["items"][0]["id"]["videoId"]
         else:
-            song["youtube_url"] = None
+            song["youtube_url"] = ""
         return song 
     
     @classmethod
