@@ -1,4 +1,3 @@
-
 """A handler for interacting with Spotify's API through the Spotipy wrapper"""
 
 from __future__ import annotations
@@ -42,7 +41,7 @@ class SpotifyHandler:
             open_browser=False,
             client_id=SecretsHandler.get_spotify_client_id(),
             client_secret=SecretsHandler.get_spotify_client_secret(),
-            cache_handler=BaseClientCacheHandler()
+            cache_handler=BaseClientCacheHandler(),
         )
     )
     """Defines the base SentiSounds client for Spotify interactions"""
@@ -53,7 +52,7 @@ class SpotifyHandler:
         "user-top-read",
         "user-read-private",
         "user-library-modify",
-        "user-library-read"
+        "user-library-read",
     ]
     """The permission scope to request when initializing a user client"""
 
@@ -78,9 +77,8 @@ class SpotifyHandler:
 
     @classmethod
     def from_token(
-                cls: type[SpotifyHandler],
-                token_info: dict[str, str | int]
-            ) -> SpotifyHandler:
+        cls: type[SpotifyHandler], token_info: dict[str, str | int]
+    ) -> SpotifyHandler:
         """
         Initializes the Spotify client with user credentials.
 
@@ -98,16 +96,14 @@ class SpotifyHandler:
 
         auth_manager, cache_handler = cls.create_oauth(token_info=token_info)
         handler.cache_handler = cache_handler
-        handler._client_instance = Spotify(
-            auth_manager=auth_manager
-        )
+        handler._client_instance = Spotify(auth_manager=auth_manager)
 
         return handler
 
     @staticmethod
     def create_oauth(
-                token_info: dict[str, str | int] | None = None
-            ) -> tuple[SpotifyOAuth, CacheHandler]:
+        token_info: dict[str, str | int] | None = None
+    ) -> tuple[SpotifyOAuth, CacheHandler]:
         """
         Creates an OAuth handler for Spotify as well as a reference
         to the cache handler
@@ -124,14 +120,17 @@ class SpotifyHandler:
         """
         cache_handler = MemoryCacheHandler(token_info=token_info)
 
-        return SpotifyOAuth(
-            cache_handler=cache_handler,
-            scope=SpotifyHandler.user_scope,
-            redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
-            open_browser=False,
-            client_id=SecretsHandler.get_spotify_client_id(),
-            client_secret=SecretsHandler.get_spotify_client_secret()
-        ), cache_handler
+        return (
+            SpotifyOAuth(
+                cache_handler=cache_handler,
+                scope=SpotifyHandler.user_scope,
+                redirect_uri=SecretsHandler.get_spotify_redirect_uri(),
+                open_browser=False,
+                client_id=SecretsHandler.get_spotify_client_id(),
+                client_secret=SecretsHandler.get_spotify_client_secret(),
+            ),
+            cache_handler,
+        )
 
     @staticmethod
     def generate_oauth_url():
@@ -149,7 +148,7 @@ class SpotifyHandler:
             "client_id": SecretsHandler.get_spotify_client_id(),
             "response_type": "code",
             "redirect_uri": SecretsHandler.get_spotify_redirect_uri(),
-            "scope": normalize_scope(SpotifyHandler.user_scope)
+            "scope": normalize_scope(SpotifyHandler.user_scope),
         }
         return "%s?%s" % (OAUTH_URL, urlencode(payload))
 
@@ -180,11 +179,12 @@ class SpotifyHandler:
             return self.cache_handler.get_cached_token()
 
     def get_genre_songs(
-                self,
-                genres: list[str],
-                limit_per_genre: int = 10,
-                popularity_threshold: int = 20
-            ) -> list[dict[str, str | bool | int]]:
+        self,
+        genres: list[str],
+        limit_per_genre: int = 10,
+        popularity_threshold: int = 20,
+    ) -> list[dict[str, str | bool | int]]:
+        # TODO: Add better type hint for return value
         """
         Retrieves a list of songs in each genre sourced from the Spotify API.
 
@@ -229,17 +229,10 @@ class SpotifyHandler:
             "explicit",
             "is_playable",
             "popularity",
-            "id"
+            "id",
         ]
-        album_keys_to_extract = [
-            "name",
-            "images",
-            "external_urls"
-        ]
-        artist_keys_to_extract = [
-            "name",
-            "external_urls"
-        ]
+        album_keys_to_extract = ["name", "images", "external_urls"]
+        artist_keys_to_extract = ["name", "external_urls"]
 
         client_instance = self.get_client()
 
@@ -247,12 +240,10 @@ class SpotifyHandler:
         for genre in genres:
             # A page of results for this genre
             search_result = client_instance.search(
-                q='genre:' + genre,
-                type="track",
-                market="from_token"
+                q="genre:" + genre, type="track", market="from_token"
             )
 
-            if not search_result or not search_result['tracks']['items']:
+            if not search_result or not search_result["tracks"]["items"]:
                 continue
 
             # Keep filling this genre's list until there are no more results
@@ -260,14 +251,13 @@ class SpotifyHandler:
             genre_song_list = []
             while len(genre_song_list) < limit_per_genre:
                 genre_song_list += [
-                    song for song in search_result['tracks']["items"]
+                    song
+                    for song in search_result["tracks"]["items"]
                     if song["popularity"] > popularity_threshold
                 ]
                 try:
-                    search_result = client_instance.next(
-                        search_result
-                    )
-                    assert search_result and search_result['tracks']
+                    search_result = client_instance.next(search_result)
+                    assert search_result and search_result["tracks"]
                 except Exception:
                     # if the request is at the end of the
                     # list KeyError will be ignored
@@ -300,10 +290,11 @@ class SpotifyHandler:
 
         # Store whether or not the user has liked this song in the past
         if self._client_instance:
-            liked_songs = self._client_instance. \
-                        current_user_saved_tracks_contains(
-                            [x.get("id") for x in requested_song_info]
-                        )
+            liked_songs = (
+                self._client_instance.current_user_saved_tracks_contains(
+                    [x.get("id") for x in requested_song_info]
+                )
+            )
 
             if liked_songs:
                 for song in zip(requested_song_info, liked_songs):
@@ -330,11 +321,8 @@ class SpotifyHandler:
         return seeds_result["genres"]
 
     def create_playlist(
-                self,
-                playlist_name: str,
-                description: str,
-                song_ids: list[str]
-            ) -> str:
+        self, playlist_name: str, description: str, song_ids: list[str]
+    ) -> str:
         """
         Creates a playlist for a user on Spotify given a list of song IDs.
 
@@ -366,10 +354,7 @@ class SpotifyHandler:
             )
 
         playlist = client_instance.user_playlist_create(
-            user["id"],
-            playlist_name,
-            public=False,
-            description=description
+            user["id"], playlist_name, public=False, description=description
         )
 
         if not playlist:

@@ -1,4 +1,3 @@
-
 from secrets_handler import SecretsHandler
 from spotipy import CacheHandler
 

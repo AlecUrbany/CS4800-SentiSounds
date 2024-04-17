@@ -1,7 +1,6 @@
-from  googleapiclient import discovery
+from googleapiclient import discovery
 from secrets_handler import SecretsHandler
 import queue
-import time
 import threading
 from googleapiclient.errors import HttpError
 
@@ -17,6 +16,7 @@ class YoutubeHandler:
 
 
     """
+
     api_service_name = "youtube"
     api_version = "v3"
     MAX_THREAD_COUNT: int = 5
@@ -24,16 +24,16 @@ class YoutubeHandler:
     request_queue: queue.Queue = queue.Queue()
     thread_pool: list[threading.Thread] = []
 
-
     def __init__():
         """
         Raises a TypeError.
         YoutubeHandler instances must not be created as this is a singleton
         """
         raise TypeError(
-            "YoutubeHandler instances should not be created. " +
-            "Consider using the `get_client()` function."
+            "YoutubeHandler instances should not be created. "
+            + "Consider using the `get_client()` function."
         )
+
     @staticmethod
     def get_client():
         """
@@ -48,6 +48,7 @@ class YoutubeHandler:
             return YoutubeHandler._youtube_instance
 
         return YoutubeHandler._initialize_client()
+
     @staticmethod
     def _initialize_client():
         """
@@ -56,10 +57,10 @@ class YoutubeHandler:
         _youtube_instance = discovery.build(
             YoutubeHandler.api_service_name,
             YoutubeHandler.api_version,
-            developerKey=SecretsHandler.get_youtube_key()
+            developerKey=SecretsHandler.get_youtube_key(),
         )
         return _youtube_instance
-    
+
     @staticmethod
     def search_for_match(song: dict):
         """
@@ -75,25 +76,34 @@ class YoutubeHandler:
         youtube_url = "https://www.youtube.com/watch?v=%s"
         response = None
         try:
-            response = YoutubeHandler.get_client().search().list(
-                part = "id",
-                q = song["name"] + " " + song["artists"][0]["name"],
-                type = "video",
-                maxResults = 1,
-                order = "relevance",
-                fields = "items(id(videoId))"
-            ).execute()
-        except HttpError as e:
-            # If the request fails, it probably means the quota has been exceeded
-            # If this happens too often, consider applying for a quota increase at https://support.google.com/youtube/contact/yt_api_form
+            response = (
+                YoutubeHandler.get_client()
+                .search()
+                .list(
+                    part="id",
+                    q=song["name"] + " " + song["artists"][0]["name"],
+                    type="video",
+                    maxResults=1,
+                    order="relevance",
+                    fields="items(id(videoId))",
+                )
+                .execute()
+            )
+        except HttpError:
+            # If the request fails, it probably means the quota has been
+            # exceeded If this happens too often, consider applying for a
+            # quota increase at:
+            # https://support.google.com/youtube/contact/yt_api_form
             # For now, we'll just ignore the error and return nothing
             pass
         if response and response["items"]:
-            song["youtube_url"] = youtube_url % response["items"][0]["id"]["videoId"]
+            song["youtube_url"] = (
+                youtube_url % response["items"][0]["id"]["videoId"]
+            )
         else:
             song["youtube_url"] = ""
-        return song 
-    
+        return song
+
     @classmethod
     def match_list(cls, songs: list[dict[str, str | bool | int]]):
         """
@@ -104,7 +114,7 @@ class YoutubeHandler:
         songs : list[dict[str, str | bool | int]]
             A list of songs to match
         """
-        queue
+
         for song in songs:
             cls.request_queue.put(song)
         for _ in range(cls.MAX_THREAD_COUNT):
@@ -114,9 +124,10 @@ class YoutubeHandler:
 
         cls.request_queue.join()
 
-        for _ in range(cls.MAX_THREAD_COUNT): 
-            cls.request_queue.put(None) # Add a None to the queue for each thread to stop processing
-
+        for _ in range(cls.MAX_THREAD_COUNT):
+            cls.request_queue.put(
+                None
+            )  # Add a None to the queue for each thread to stop processing
 
     @classmethod
     def _process_queue(cls):
@@ -126,11 +137,11 @@ class YoutubeHandler:
         while True:
             # Get a request from the queue
             song = cls.request_queue.get()
-            
+
             # If the queue is empty, break the loop
             if song is None:
                 break
-            
+
             cls.search_for_match(song)
             # Mark the task as done
             cls.request_queue.task_done()

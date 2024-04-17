@@ -49,20 +49,20 @@ class SecretsHandler:
         with open(SecretsHandler.SECRETS_FILE) as s:
             json_data = json.load(s)
             json_data[key][sub_key] = value
-            with open(SecretsHandler.SECRETS_FILE, 'w') as s:
+            with open(SecretsHandler.SECRETS_FILE, "w") as s:
                 json.dump(json_data, s, indent=4)
 
     @classmethod
     def get_openai_key(cls: type[SecretsHandler]) -> str:
         """
-        Retrieves the OpenAI API key using key open-ai and sub-key api-key
+        Retrieves the OpenAI API key using key open-ai and sub-key api_key
 
         Returns
         -------
         str
             The OpenAI API key
         """
-        return cls._get_json_value("open-ai", "api-key")
+        return cls._get_json_value("open_ai", "api_key")
 
     @classmethod
     def get_gpt_prompt(cls: type[SecretsHandler]) -> str:
@@ -74,12 +74,13 @@ class SecretsHandler:
         str
             The OpenAI GPT prompt
         """
-        return cls._get_json_value("open-ai", "prompt")
+        return cls._get_json_value("open_ai", "prompt")
 
     @classmethod
     def get_spotify_client_id(cls: type[SecretsHandler]) -> str:
         """
-        Retrieves the Spotify API key using key spotify and sub-key api-key
+        Retrieves the Spotify API client id using key spotify and sub-key
+        client_id
 
         Returns
         -------
@@ -91,7 +92,8 @@ class SecretsHandler:
     @classmethod
     def get_spotify_client_secret(cls: type[SecretsHandler]) -> str:
         """
-        Retrieves the Spotify API key using key spotify and sub-key api-key
+        Retrieves the Spotify API client secret using key spotify and sub-key
+        client_secret
 
         Returns
         -------
@@ -104,7 +106,7 @@ class SecretsHandler:
     def get_spotify_base_token(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the Spotify API base token using key spotify and sub-key
-        base-token
+        base_token
 
         Returns
         -------
@@ -117,7 +119,7 @@ class SecretsHandler:
     def save_spotify_base_token(cls: type[SecretsHandler], token: str) -> None:
         """
         Save the Spotify API base token using key spotify and sub-key
-        base-token
+        base_token
 
         Parameters
         ----------
@@ -167,14 +169,14 @@ class SecretsHandler:
     def get_database_name(cls: type[SecretsHandler]) -> str:
         """
         Retrieves the database name using key database and
-        sub-key database-name
+        sub-key database_name
 
         Returns
         -------
         str
             The database name
         """
-        return cls._get_json_value("database", "database-name")
+        return cls._get_json_value("database", "database_name")
 
     @classmethod
     def get_database_host(cls: type[SecretsHandler]) -> str:
@@ -239,14 +241,15 @@ class SecretsHandler:
             The email passkey
         """
         return cls._get_json_value("email", "passkey")
+
     @classmethod
-    def get_youtube_key(cls: type[SecretsHandler])-> str:
+    def get_youtube_key(cls: type[SecretsHandler]) -> str:
         """
-        Retrieves the youtube key using key youtube and sub-key api-key
+        Retrieves the youtube key using key youtube and sub-key api_key
 
         Returns
         -------
         str
             The youtube key
         """
-        return cls._get_json_value("youtube", "api-key")
+        return cls._get_json_value("youtube", "api_key")
