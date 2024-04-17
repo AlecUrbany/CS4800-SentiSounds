@@ -31,8 +31,8 @@ class OpenAIHandler:
         OpenAIHandler instances must not be created as this is a singleton
         """
         raise TypeError(
-            "OpenAIHandler instances should not be created. " +
-            "Consider using the `get_client()` function."
+            "OpenAIHandler instances should not be created. "
+            + "Consider using the `get_client()` function."
         )
 
     # A static reference to the OpenAI client
@@ -114,16 +114,16 @@ class OpenAIHandler:
             seed=69,
             messages=[
                 {"role": "system", "content": OpenAIHandler.PROMPT},
-                {"role": "user", "content": sanitized_input}
-            ]
+                {"role": "user", "content": sanitized_input},
+            ],
         )
 
         # Ensure a response was found
         found_content = response.choices[0].message.content
         if not found_content:
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                "No response was provided."
+                "Something went wrong retrieving a response from GPT. "
+                + "No response was provided."
             )
 
         # Ensure the response is JSON
@@ -131,33 +131,31 @@ class OpenAIHandler:
             content_json = json.loads(found_content)
         except Exception:
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                "The provided response could not be parsed into JSON."
+                "Something went wrong retrieving a response from GPT. "
+                + "The provided response could not be parsed into JSON."
             )
 
         # Ensure the JSON contains the genres
         if "genres" not in content_json:
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                f"The parsed JSON `{content_json}` " +
-                "does not contain the `genres` key."
+                "Something went wrong retrieving a response from GPT. "
+                + f"The parsed JSON `{content_json}` "
+                + "does not contain the `genres` key."
             )
 
         # Ensure that genres is a list
-        content_genres = content_json['genres']
+        content_genres = content_json["genres"]
         if not isinstance(content_genres, list):
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                f"Genres retrieved are not a list: `{content_genres}`."
+                "Something went wrong retrieving a response from GPT. "
+                + f"Genres retrieved are not a list: `{content_genres}`."
             )
 
         # Ensure that each genre is a string and fix its casing
         content_genres = [str(genre).lower() for genre in content_genres]
 
         if not content_genres:
-            raise ValueError(
-                "No genres could be found from the given input."
-            )
+            raise ValueError("No genres could be found from the given input.")
 
         # Return the genres themselves
         return content_genres

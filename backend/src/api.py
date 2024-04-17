@@ -13,7 +13,7 @@ app = Quart(__name__)
 app = cors(app, allow_origin="http://127.0.0.1:5500")
 
 
-@app.route("/sign-up", methods=['POST'])
+@app.route("/sign-up", methods=["POST"])
 async def sign_up():
     """
     `POST /sign-up`
@@ -51,7 +51,7 @@ async def sign_up():
             email_address=passed.get("email_address", default=""),
             password=passed.get("password", default=""),
             first_name=passed.get("first_name", default=""),
-            last_initial=passed.get("last_initial", default="")
+            last_initial=passed.get("last_initial", default=""),
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -59,7 +59,7 @@ async def sign_up():
     return {"status": "success"}, 200
 
 
-@app.route("/authenticate", methods=['POST'])
+@app.route("/authenticate", methods=["POST"])
 async def authenticate():
     """
     `POST /authenticate`
@@ -106,7 +106,7 @@ async def authenticate():
             password=passed.get("password", default=""),
             entered_auth_code=passed.get("entered_auth_code", default=""),
             first_name=passed.get("first_name", default=""),
-            last_initial=passed.get("last_initial", default="")
+            last_initial=passed.get("last_initial", default=""),
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -114,7 +114,7 @@ async def authenticate():
     return {"status": "success"}, 200
 
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=["POST"])
 async def login():
     """
     `POST /login`
@@ -152,12 +152,15 @@ async def login():
 
     return (
         ({"status": "success"}, 200)
-        if result else
-        ({"status": "failure", "error": "Incorrect email or password"}, 401)
+        if result
+        else (
+            {"status": "failure", "error": "Incorrect email or password"},
+            401,
+        )
     )
 
 
-@app.route("/spotify-auth-link", methods=['GET'])
+@app.route("/spotify-auth-link", methods=["GET"])
 def spotify_get_auth_link():
     """
     `GET spotify-auth-link`
@@ -174,13 +177,14 @@ def spotify_get_auth_link():
     """
     try:
         return {
-            "status": "success", "url": SpotifyHandler.generate_oauth_url()
+            "status": "success",
+            "url": SpotifyHandler.generate_oauth_url(),
         }, 200
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
 
-@app.route("/spotify-authenticate", methods=['POST'])
+@app.route("/spotify-authenticate", methods=["POST"])
 async def spotify_authenticate():
     """
     `POST /spotify-authenticate`
@@ -224,7 +228,7 @@ async def spotify_authenticate():
     return {"status": "success"}, 200
 
 
-@app.route("/recommended-songs", methods=['GET'])
+@app.route("/recommended-songs", methods=["GET"])
 async def recommended_songs():
     """
     `GET /recommended-songs`
@@ -294,7 +298,7 @@ async def recommended_songs():
     return {"status": "success", "songs": songs}, 200
 
 
-@app.route("/export-playlist", methods=['POST'])
+@app.route("/export-playlist", methods=["POST"])
 async def export_playlist():
     """
     `POST /export-playlist`
@@ -340,7 +344,7 @@ async def export_playlist():
     return {"status": "success"}, 200
 
 
-@app.route("/spotify-check-authentication", methods=['GET'])
+@app.route("/spotify-check-authentication", methods=["GET"])
 async def spotify_check_authentication():
     await DatabaseHandler.get_pool()
 
@@ -356,7 +360,7 @@ async def spotify_check_authentication():
     except IndexError:
         return {
             "status": "failure",
-            "error": f"No token was found for {email_address} in database"
+            "error": f"No token was found for {email_address} in database",
         }, 400
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -364,7 +368,7 @@ async def spotify_check_authentication():
     return {"status": "success"}, 200
 
 
-@app.route("/spotify-like-song", methods=['POST'])
+@app.route("/spotify-like-song", methods=["POST"])
 async def spotify_like_song():
     await DatabaseHandler.get_pool()
 
@@ -376,13 +380,12 @@ async def spotify_like_song():
         sp.like_song(song_id)
         if token is not None and token != (new_token := sp.get_token()):
             await AuthHandler.save_spotify_token(
-                email_address,
-                new_token  # type: ignore
+                email_address, new_token  # type: ignore
             )
     except IndexError:
         return {
             "status": "failure",
-            "error": f"No token was found for {email_address} in database"
+            "error": f"No token was found for {email_address} in database",
         }, 400
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -390,7 +393,7 @@ async def spotify_like_song():
     return {"status": "success"}, 200
 
 
-@app.route("/spotify-unlike-song", methods=['POST'])
+@app.route("/spotify-unlike-song", methods=["POST"])
 async def spotify_unlike_song():
     await DatabaseHandler.get_pool()
 
@@ -402,13 +405,12 @@ async def spotify_unlike_song():
         sp.unlike_song(song_id)
         if token is not None and token != (new_token := sp.get_token()):
             await AuthHandler.save_spotify_token(
-                email_address,
-                new_token  # type: ignore
+                email_address, new_token  # type: ignore
             )
     except IndexError:
         return {
             "status": "failure",
-            "error": f"No token was found for {email_address} in database"
+            "error": f"No token was found for {email_address} in database",
         }, 400
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400

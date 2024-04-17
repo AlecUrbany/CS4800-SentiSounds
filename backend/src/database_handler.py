@@ -56,8 +56,8 @@ class DatabaseHandler:
         """
         if not cls.pool:
             raise ValueError(
-                "The DB pool was not pre-initialized. " +
-                "Ensure an async call to `_initialize_pool` is being made."
+                "The DB pool was not pre-initialized. "
+                + "Ensure an async call to `_initialize_pool` is being made."
             )
 
         return cls.pool.acquire(*args, **kwargs)  # type: ignore
@@ -115,14 +115,12 @@ class DatabaseHandler:
         str
             The database DSN
         """
-        return (
-            "postgres://{}:{}@{}:{}/{}"
-        ).format(
+        return ("postgres://{}:{}@{}:{}/{}").format(
             SecretsHandler.get_database_user(),
             SecretsHandler.get_database_password(),
             SecretsHandler.get_database_host(),
             SecretsHandler.get_database_port(),
-            SecretsHandler.get_database_name()
+            SecretsHandler.get_database_name(),
         )
 
     @staticmethod
@@ -137,7 +135,7 @@ class DatabaseHandler:
             If something goes wrong during the creation process
         """
         if not DatabaseHandler.SETUP_QUERY:
-            with open(DatabaseHandler.DATABASE_FILE, 'r') as file:
+            with open(DatabaseHandler.DATABASE_FILE, "r") as file:
                 DatabaseHandler.SETUP_QUERY = file.read()
 
         try:

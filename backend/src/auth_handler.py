@@ -35,14 +35,10 @@ class AuthHandler:
     )
     """A regex statement defining a valid email address"""
 
-    PASSWORD_REGEX = re.compile(
-        r".+"
-    )
+    PASSWORD_REGEX = re.compile(r".+")
     """A regex statement defining a valid password"""
 
-    PLAIN_TEXT = (
-        "Subject: {}\nTo: {}\n\n{}"
-    )
+    PLAIN_TEXT = "Subject: {}\nTo: {}\n\n{}"
     """A frame for the email to send a to-be authenticated user"""
 
     # email_address: (code, expiry time)
@@ -91,11 +87,11 @@ class AuthHandler:
 
     @staticmethod
     def check_identifiers(
-                email_address: str,
-                password: str,
-                first_name: str,
-                last_initial: str = ""
-            ) -> None:
+        email_address: str,
+        password: str,
+        first_name: str,
+        last_initial: str = "",
+    ) -> None:
         """
         Checks the validity of a user's email address, password, and display
         name.
@@ -129,11 +125,11 @@ class AuthHandler:
 
     @staticmethod
     def sign_up(
-                email_address: str,
-                password: str,
-                first_name: str,
-                last_initial: str = ""
-            ) -> None:
+        email_address: str,
+        password: str,
+        first_name: str,
+        last_initial: str = "",
+    ) -> None:
         """
         Creates a sign-in session and waits for an authentication code
 
@@ -156,10 +152,7 @@ class AuthHandler:
         """
 
         AuthHandler.check_identifiers(
-            email_address,
-            password,
-            first_name,
-            last_initial
+            email_address, password, first_name, last_initial
         )
 
         auth_code = AuthHandler.generate_random_code(email_address)
@@ -173,10 +166,7 @@ class AuthHandler:
             )
 
     @staticmethod
-    async def log_in(
-                email_address: str,
-                password: str
-            ) -> bool:
+    async def log_in(email_address: str, password: str) -> bool:
         """
         Attempts to log-in given a user's credentials
 
@@ -204,19 +194,20 @@ class AuthHandler:
                 AND
                     hashed_password = crypt($2, hashed_password)
                 """,
-                email_address, password
+                email_address,
+                password,
             )
 
         return bool(found)
 
     @staticmethod
     async def authenticate_user(
-                email_address: str,
-                password: str,
-                entered_auth_code: str,
-                first_name: str,
-                last_initial: str = ""
-            ) -> None:
+        email_address: str,
+        password: str,
+        entered_auth_code: str,
+        first_name: str,
+        last_initial: str = "",
+    ) -> None:
         """
         Attempt to authenticate a user's login via the code they were sent
 
@@ -245,10 +236,7 @@ class AuthHandler:
         """
 
         AuthHandler.check_identifiers(
-            email_address,
-            password,
-            first_name,
-            last_initial
+            email_address, password, first_name, last_initial
         )
 
         display_name = first_name + (
@@ -284,7 +272,9 @@ class AuthHandler:
                             $3
                         )
                     """,
-                    email_address, password, display_name
+                    email_address,
+                    password,
+                    display_name,
                 )
             except Exception:
                 raise ValueError(
@@ -316,7 +306,7 @@ class AuthHandler:
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
             s.login(
                 sender := SecretsHandler.get_email_address(),
-                SecretsHandler.get_email_passkey()
+                SecretsHandler.get_email_passkey(),
             )
             s.sendmail(
                 sender,
@@ -324,10 +314,11 @@ class AuthHandler:
                 AuthHandler.PLAIN_TEXT.format(
                     "Authenticate your SentiSounds Account!",
                     email_address,
-                    "Thank you for registering with SentiSounds!\n" +
-                    "You have 1 minute to enter this authentication code: " +
-                    auth_code + "\n"
-                )
+                    "Thank you for registering with SentiSounds!\n"
+                    + "You have 1 minute to enter this authentication code: "
+                    + auth_code
+                    + "\n",
+                ),
             )
 
     @staticmethod
@@ -381,7 +372,8 @@ class AuthHandler:
                 WHERE
                     email_address = $2
                 """,
-                json.dumps(token), email_address
+                json.dumps(token),
+                email_address,
             )
 
     @staticmethod
@@ -411,6 +403,6 @@ class AuthHandler:
                 WHERE
                     email_address = $1
                 """,
-                email_address
+                email_address,
             )
             return json.loads(found[0]["spotify_token"])
