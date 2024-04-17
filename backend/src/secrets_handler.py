@@ -50,7 +50,7 @@ class SecretsHandler:
             json_data = json.load(s)
             json_data[key][sub_key] = value
             with open(SecretsHandler.SECRETS_FILE, 'w') as s:
-                json.dump(json_data, s)
+                json.dump(json_data, s, indent=4)
 
     @classmethod
     def get_openai_key(cls: type[SecretsHandler]) -> str:
@@ -239,3 +239,14 @@ class SecretsHandler:
             The email passkey
         """
         return cls._get_json_value("email", "passkey")
+    @classmethod
+    def get_youtube_key(cls: type[SecretsHandler])-> str:
+        """
+        Retrieves the youtube key using key youtube and sub-key api-key
+
+        Returns
+        -------
+        str
+            The youtube key
+        """
+        return cls._get_json_value("youtube", "api-key")
