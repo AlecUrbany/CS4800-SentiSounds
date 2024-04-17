@@ -6,6 +6,7 @@ from openai_handler import OpenAIHandler
 from quart import Quart, request
 from quart_cors import cors
 from spotify_handler import SpotifyHandler
+from youtube_handler import YoutubeHandler
 
 app = Quart(__name__)
 """The Quart app to run"""
@@ -282,7 +283,8 @@ async def recommended_songs():
         songs = sp.get_genre_songs(found_genres)
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
-
+    # Match the song list to their YouTube links
+    YoutubeHandler.match_list(songs)
     # if the token has changed, update the database
     if token is not None and token != (new_token := sp.get_token()):
         await AuthHandler.save_spotify_token(
