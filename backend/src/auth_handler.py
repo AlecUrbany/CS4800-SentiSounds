@@ -1,11 +1,11 @@
 """A handler for signing up, authenticating emails, and logging in"""
 
+import json
 import random
 import re
 import smtplib
 import ssl
 from datetime import datetime, timedelta
-import json
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler

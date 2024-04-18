@@ -264,7 +264,11 @@ async def recommended_songs():
 
     entered_prompt = request.args.get("prompt", default="")
     email_address = request.args.get("email_address", default="")
-    popularity_score = request.args.get("popularity_score", default=20)
+    popularity_score = request.args.get(
+        "popularity_score",
+        default=20,
+        type=int,
+    )
 
     # TODO: Check entered prompt validity
 
