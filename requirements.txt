@@ -9,7 +9,3 @@ asyncpg
 # API
 quart
 quart-cors
-
-# URL Authentication
-urllib
-
