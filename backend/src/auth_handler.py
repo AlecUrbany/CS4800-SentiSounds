@@ -48,25 +48,20 @@ class AuthHandler:
     """A dictionary of currently authenticating users"""
 
     @staticmethod
-    def valid_password(password: str) -> bool:
-        """
-        Given a password string, return if it's valid
-
-        This does not check for the *existence* of the address, but rather
-        checks against an password pattern
-
-        Parameters
-        ----------
-        password : str
-            The password to check
-
-        Returns
-        -------
-        bool
-            Whether or not the address is valid
-        """
-        return bool(AuthHandler.PASSWORD_REGEX.match(password))
-
+    def valid_password(password: str):
+        if not any(w.islower() for w in password):
+            raise ValueError("Password must contain at least one lowercase letter a-z.")
+        if not any(w.isupper() for w in password):
+            raise ValueError("Password must contain at least one upper letter A-Z.")
+        if not any(w.isdigit() for w in password):
+            raise ValueError("Password must contain at least one number 0-.")
+        if not any(w in "?!@#$%^&*+-~" for w in password):
+            raise ValueError("Password must contain at least one special character ?!@#$%^&*+-~.")
+        if len(password) < 7:
+            raise ValueError("Password must be 7 characters or longer.")
+        if not AuthHandler.PASSWORD_REGEX.match(password):
+            raise ValueError("Password does match format")
+            
     @staticmethod
     def valid_email(email_address: str) -> bool:
         """
@@ -122,8 +117,10 @@ class AuthHandler:
         if not AuthHandler.valid_email(email_address):
             raise ValueError("An invalid email address was entered.")
 
-        if not AuthHandler.valid_password(password):
-            raise ValueError("An invalid password was entered.")
+        try: 
+            AuthHandler.valid_password(password)
+        except ValueError as e:
+            print(f"invalid password: {e}")
 
     @staticmethod
     def sign_up(
