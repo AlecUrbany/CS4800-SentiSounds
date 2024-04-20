@@ -35,7 +35,9 @@ class AuthHandler:
     )
     """A regex statement defining a valid email address"""
 
-    PASSWORD_REGEX = re.compile(r".+")
+    #password must contain one lowercase, one uppercase, a number, a special character, and be at least 7 characters long
+    PASSWORD_REGEX = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[?!@#$%^&*+\-~]).{7,}$")
+
     """A regex statement defining a valid password"""
 
     PLAIN_TEXT = "Subject: {}\nTo: {}\n\n{}"
