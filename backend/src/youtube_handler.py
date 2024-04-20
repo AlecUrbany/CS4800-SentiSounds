@@ -1,6 +1,7 @@
 import queue
 import threading
 from typing import Any
+import json
 
 from googleapiclient import discovery
 from googleapiclient.errors import HttpError
@@ -25,6 +26,7 @@ class YoutubeHandler:
     _youtube_instance: discovery.Resource | None = None
     request_queue: queue.Queue = queue.Queue()
     thread_pool: list[threading.Thread] = []
+    _id_cache: dict[str, str] = {}
 
     def __init__(self):
         """
@@ -56,6 +58,12 @@ class YoutubeHandler:
         """
         Initializes the YouTube client.
         """
+        with open("cache/youtube_id_cache.json", "r") as file:
+            contents = file.read()
+            if contents == "":
+                YoutubeHandler._id_cache = {}
+            else:
+                YoutubeHandler._id_cache = json.loads(contents)
         _youtube_instance: Any = discovery.build(
             YoutubeHandler.api_service_name,
             YoutubeHandler.api_version,
@@ -77,34 +85,43 @@ class YoutubeHandler:
         """
         youtube_url = "https://www.youtube.com/watch?v=%s"
         response = None
-        try:
-            client = YoutubeHandler.get_client()
-
-            response = (
-                client.search()  # type: ignore
-                .list(
-                    part="id",
-                    q=song["name"] + " " + song["artists"][0]["name"],
-                    type="video",
-                    maxResults=1,
-                    order="relevance",
-                    fields="items(id(videoId))",
-                )
-                .execute()
-            )
-        except HttpError:
-            # If the request fails, it probably means the quota has been
-            # exceeded If this happens too often, consider applying for a
-            # quota increase at:
-            # https://support.google.com/youtube/contact/yt_api_form
-            # For now, we'll just ignore the error and return nothing
-            pass
-        if response and response["items"]:
+        if song["name"] in YoutubeHandler._id_cache:
             song["youtube_url"] = (
-                youtube_url % response["items"][0]["id"]["videoId"]
+                youtube_url % YoutubeHandler._id_cache[song["name"]]
             )
         else:
-            song["youtube_url"] = ""
+            try:
+                client = YoutubeHandler.get_client()
+
+                response = (
+                    client.search()  # type: ignore
+                    .list(
+                        part="id",
+                        q=song["name"] + " " + song["artists"][0]["name"],
+                        type="video",
+                        maxResults=1,
+                        order="relevance",
+                        fields="items(id(videoId))",
+                    )
+                    .execute()
+                )
+            except HttpError:
+                # If the request fails, it probably means the quota has been
+                # exceeded If this happens too often, consider applying for a
+                # quota increase at:
+                # https://support.google.com/youtube/contact/yt_api_form
+                # For now, we'll just ignore the error and return nothing
+                pass
+            if response and response["items"]:
+                song["youtube_url"] = (
+                    youtube_url % response["items"][0]["id"]["videoId"]
+                )
+                # Cache the id
+                YoutubeHandler._id_cache[song["name"]] = response["items"][0][
+                    "id"
+                ]["videoId"]
+            else:
+                song["youtube_url"] = ""
         return song
 
     @classmethod
@@ -148,3 +165,24 @@ class YoutubeHandler:
             cls.search_for_match(song)
             # Mark the task as done
             cls.request_queue.task_done()
+
+    @classmethod
+    def save_cache(cls):
+        """
+        Saves the id cache to a file
+        """
+        with open("cache/youtube_id_cache.json", "w") as file:
+            json.dump(cls._id_cache, file)
+
+
+if __name__ == "__main__":
+    YoutubeHandler.get_client()
+    print(
+        YoutubeHandler.search_for_match(
+            {
+                "name": "Gamma Knife",
+                "artists": [{"name": "King Gizzard & The Lizard Wizard"}],
+            }
+        )
+    )
+    YoutubeHandler.save_cache()

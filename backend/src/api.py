@@ -301,6 +301,7 @@ async def recommended_songs():
         await AuthHandler.save_spotify_token(
             email_address, new_token  # type: ignore
         )
+    YoutubeHandler.save_cache()
 
     return {"status": "success", "songs": songs}, 200
 
