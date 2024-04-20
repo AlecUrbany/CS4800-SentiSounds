@@ -60,7 +60,7 @@ class AuthHandler:
         if len(password) < 7:
             raise ValueError("Password must be 7 characters or longer.")
         if not AuthHandler.PASSWORD_REGEX.match(password):
-            raise ValueError("Password does match format")
+            raise ValueError("Password does match format.")
             
     @staticmethod
     def valid_email(email_address: str) -> bool:
@@ -120,7 +120,7 @@ class AuthHandler:
         try: 
             AuthHandler.valid_password(password)
         except ValueError as e:
-            print(f"invalid password: {e}")
+            print(f"Invalid password: {e}")
 
     @staticmethod
     def sign_up(
