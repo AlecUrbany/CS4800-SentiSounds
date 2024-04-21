@@ -472,5 +472,3 @@ class AuthHandler:
         """
         if old_token is not None and old_token != new_token:
             AuthHandler.save_spotify_token(email_address, new_token)
-        else:
-            return None
