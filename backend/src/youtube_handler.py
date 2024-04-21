@@ -1,8 +1,10 @@
-from googleapiclient import discovery
-from secrets_handler import SecretsHandler
 import queue
 import threading
+from typing import Any
+
+from googleapiclient import discovery
 from googleapiclient.errors import HttpError
+from secrets_handler import SecretsHandler
 
 
 class YoutubeHandler:
@@ -24,7 +26,7 @@ class YoutubeHandler:
     request_queue: queue.Queue = queue.Queue()
     thread_pool: list[threading.Thread] = []
 
-    def __init__():
+    def __init__(self):
         """
         Raises a TypeError.
         YoutubeHandler instances must not be created as this is a singleton
@@ -50,11 +52,11 @@ class YoutubeHandler:
         return YoutubeHandler._initialize_client()
 
     @staticmethod
-    def _initialize_client():
+    def _initialize_client() -> Any:
         """
         Initializes the YouTube client.
         """
-        _youtube_instance = discovery.build(
+        _youtube_instance: Any = discovery.build(
             YoutubeHandler.api_service_name,
             YoutubeHandler.api_version,
             developerKey=SecretsHandler.get_youtube_key(),
@@ -76,9 +78,10 @@ class YoutubeHandler:
         youtube_url = "https://www.youtube.com/watch?v=%s"
         response = None
         try:
+            client = YoutubeHandler.get_client()
+
             response = (
-                YoutubeHandler.get_client()
-                .search()
+                client.search()  # type: ignore
                 .list(
                     part="id",
                     q=song["name"] + " " + song["artists"][0]["name"],

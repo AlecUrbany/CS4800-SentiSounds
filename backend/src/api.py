@@ -264,6 +264,11 @@ async def recommended_songs():
 
     entered_prompt = request.args.get("prompt", default="")
     email_address = request.args.get("email_address", default="")
+    popularity_score = request.args.get(
+        "popularity_score",
+        default=20,
+        type=int,
+    )
 
     # TODO: Check entered prompt validity
 
@@ -284,7 +289,9 @@ async def recommended_songs():
         else:
             sp = SpotifyHandler()
         # The meat and potatoes of this endpoint
-        songs = sp.get_genre_songs(found_genres)
+        songs = sp.get_genre_songs(
+            found_genres, popularity_threshold=popularity_score
+        )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
     # Match the song list to their YouTube links
