@@ -33,8 +33,8 @@
         <div class="w-1/2 p-8">
             <div class="space-y-6">
                 <div class="flex items-center space-x-2">
-                    <img src="https://cdn.discordapp.com/attachments/1201987045799493673/1210420109072408626/KzFf0DN9bzAAAAAElFTkSuQmCC.png?ex=6621dd92&is=660f6892&hm=777b85b4e62159087f78ed6dd60c6bb94d1c125865f354daccb0e303b808f857&"
-                        alt="SentiSounds logo" class="rounded-full" style="width: 100px; height: 100px;">
+                    <img src="assets/sentisound_icon.png" alt="SentiSounds logo" class="rounded-full"
+                        style="width: 100px; height: 100px;">
                     <h1 class="text-4xl font-bold">SentiSounds</h1>
                     <p class="text-[#D19900]">im gay - jack | ME TOO - SAM</p>
                 </div>
@@ -60,6 +60,13 @@
                     </div>
                     <button id="signupButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN
                         UP</button>
+
+                    <!-- <div>
+                            <label for="auth_code" class="block mb-2">Authenticate</label>
+                            <input type="auth_code" id="auth_code" placeholder="Ex. abc@xyz.com"
+                                class="w-full p-2 border rounded-md">
+                        </div>
+                        <button id="authenticateButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">AUTHENTICATE</button> -->
                 </div>
             </div>
         </div>
@@ -104,9 +111,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const baseURL = 'http://127.0.0.1:5000'; // REPLACE IT WITH BASE URL
+            let email, password, firstName, lastInitial; // Declaring variables here
             const signupButton = document.querySelector('#signupButton');
+            const authenticateButton = document.querySelector('#authenticateButton');
 
             signupButton.addEventListener('click', async function () {
+                email = document.querySelector('#email').value;
+                password = document.querySelector('#password').value;
+                firstName = document.querySelector('#username').value;
+                lastInitial = document.querySelector('#last_initial').value;
                 const formData = new FormData();
                 formData.append('email_address', document.querySelector('#email').value);
                 formData.append('password', document.querySelector('#password').value);
@@ -123,7 +136,15 @@
 
                     if (response.ok) {
                         alert('Signup successful. Please check your email for further instructions.');
-                        window.location.href = "index.html"; // not working!
+                        // Get user input values
+                        const email = document.querySelector('#email').value;
+                        const password = document.querySelector('#password').value;
+                        const firstName = document.querySelector('#username').value;
+                        const lastInitial = document.querySelector('#last_initial').value;
+
+                        // Redirect to authenticate.html with URL parameters
+                        window.location.href = `authenticate.html?email=${email}&password=${password}&firstName=${firstName}&lastInitial=${lastInitial}`;
+                        // window.location.href = "authenticate.html";
                     } else {
                         alert(data.error);
                     }
@@ -132,7 +153,38 @@
                     alert("An error occurred during signup. Please try again.")
                 }
             });
+
+            // authenticateButton.addEventListener('click', async function () {
+            //     const formData = new FormData();
+            //     formData.append('email_address', email);
+            //     formData.append('password', password);
+            //     formData.append('first_name', firstName);
+            //     formData.append('last_initial', lastInitial);
+            //     formData.append('entered_auth_code', document.querySelector('#auth_code').value);
+
+            //     try {
+            //         const response = await fetch(`${baseURL}/authenticate`, {
+            //             method: 'POST',
+            //             body: formData
+            //         });
+
+            //         const data = await response.json();
+
+            //         if (response.ok) {
+            //             alert('Authentication successful. You can now proceed.');
+            //             window.location.href = "index.html"; // Redirect to index page upon successful authentication
+            //         } else {
+            //             alert(data.error);
+            //         }
+            //     } catch (error) {
+            //         console.error('Error during authentication:', error);
+            //         alert("An error occurred during authentication. Please try again.")
+            //     }
+            // });
         });
+
+
+
     </script>
 
 

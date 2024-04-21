@@ -139,7 +139,7 @@ async def login():
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
         (either success or failure), and an `error` if an error occured.
-        int is 400 if an incorrect pair was passed and 200 if the operation was
+        int is 401 if an incorrect pair was passed and 200 if the operation was
         successful
     """
     await DatabaseHandler.get_pool()
