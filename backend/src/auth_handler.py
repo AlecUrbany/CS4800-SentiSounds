@@ -6,6 +6,7 @@ import re
 import smtplib
 import ssl
 from datetime import datetime, timedelta
+from typing import Callable
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler
@@ -35,10 +36,52 @@ class AuthHandler:
     )
     """A regex statement defining a valid email address"""
 
-    #password must contain one lowercase, one uppercase, a number, a special character, and be at least 7 characters long
-    PASSWORD_REGEX = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[?!@#$%^&*+\-~]).{7,}$")
+    EMAIL_CHECK: list[tuple[Callable[[str], bool], str]] = [
+        (
+            lambda x: bool(x),
+            "No email address was entered."
+        ),
+        (
+            lambda x: bool(AuthHandler.EMAIL_REGEX.match(x)),
+            "An invalid email address was entered."
+        ),
+    ]
+    """
+    Defines the checks to make for an email as a list of lambdas returning
+    bools and the associated error messages
+    """
 
-    """A regex statement defining a valid password"""
+    PASSWORD_CHECK: list[tuple[Callable[[str], bool], str]] = [
+        (
+            lambda x: bool(x),
+            "No password was entered."
+        ),
+        (
+            lambda x: any(chr.islower() for chr in x),
+            "Password must contain at least one lowercase letter a-z"
+        ),
+        (
+            lambda x: any(chr.isupper() for chr in x),
+            "Password must contain at least one uppercase letter a-z"
+        ),
+        (
+            lambda x: any(chr.isdigit() for chr in x),
+            "Password must contain at least one digit 0-9"
+        ),
+        (
+            lambda x: any(chr in "~!@#$%^&*-_+" for chr in x),
+            "Password must contain at least one special character " +
+            "e.g. ~!@#$%^&*-_+"
+        ),
+        (
+            lambda x: len(x) > 7,
+            "Password must be at least 7 characters long"
+        )
+    ]
+    """
+    Defines the checks to make for a password as a list of lambdas returning
+    bools and the associated error messages
+    """
 
     PLAIN_TEXT = "Subject: {}\nTo: {}\n\n{}"
     """A frame for the email to send a to-be authenticated user"""
@@ -48,27 +91,38 @@ class AuthHandler:
     """A dictionary of currently authenticating users"""
 
     @staticmethod
-    def valid_password(password: str):
-        if not any(w.islower() for w in password):
-            raise ValueError("Password must contain at least one lowercase letter a-z.")
-        if not any(w.isupper() for w in password):
-            raise ValueError("Password must contain at least one upper letter A-Z.")
-        if not any(w.isdigit() for w in password):
-            raise ValueError("Password must contain at least one number 0-.")
-        if not any(w in "?!@#$%^&*+-~" for w in password):
-            raise ValueError("Password must contain at least one special character ?!@#$%^&*+-~.")
-        if len(password) < 7:
-            raise ValueError("Password must be 7 characters or longer.")
-        if not AuthHandler.PASSWORD_REGEX.match(password):
-            raise ValueError("Password does match format.")
-            
+    def valid_password(password: str) -> bool:
+        """
+        Given a password string, return if it's valid
+
+        Parameters
+        ----------
+        password : str
+            The password to check
+
+        Returns
+        -------
+        bool
+            If a return value is given, it is guaranteed to be True. If the
+            password is invalid, an error will be raised
+
+        Raises
+        ------
+        ValueError
+            The reason why the password wasn't valid (if it is not)
+        """
+        for check, error_message in AuthHandler.PASSWORD_CHECK:
+            if not check(password):
+                raise ValueError(error_message)
+        return True
+
     @staticmethod
     def valid_email(email_address: str) -> bool:
         """
         Given an email address string, return if it's valid
 
-        This does not check for the *existence* of the address, but rather
-        checks against an email address pattern
+        This does not check for the *existence* of the email address, but
+        rather checks against an email address pattern
 
         Parameters
         ----------
@@ -78,9 +132,18 @@ class AuthHandler:
         Returns
         -------
         bool
-            Whether or not the address is valid
+            If a return value is given, it is guaranteed to be True. If the
+            password is invalid, an error will be raised
+
+        Raises
+        ------
+        ValueError
+            The reason why the email address wasn't valid (if it is not)
         """
-        return bool(AuthHandler.EMAIL_REGEX.match(email_address))
+        for check, error_message in AuthHandler.EMAIL_CHECK:
+            if not check(email_address):
+                raise ValueError(error_message)
+        return True
 
     @staticmethod
     def check_identifiers(
@@ -102,8 +165,8 @@ class AuthHandler:
             If the first name is too short (empty)
             If the first name is too long (longer than 29 characters)
             If the last initial is too long (longer than 1 character)
-            If the email does not pass the regex checker `EMAIL_REGEX`
-            If the password does not pass the password checker `PASSWORD_REGEX`
+            If the email does not pass the email checker `valid_email`
+            If the password does not pass the password checker `valid_password`
         """
         if not first_name:
             raise ValueError("The first name entered was too short.")
@@ -114,13 +177,21 @@ class AuthHandler:
         if len(last_initial) > 1:
             raise ValueError("The last initial entered was too long.")
 
-        if not AuthHandler.valid_email(email_address):
-            raise ValueError("An invalid email address was entered.")
+        try:
+            AuthHandler.valid_email(email_address)
+        except Exception as e:
+            raise ValueError(
+                "The email address is invalid: "
+                + str(e)
+            )
 
-        try: 
+        try:
             AuthHandler.valid_password(password)
-        except ValueError as e:
-            print(f"Invalid password: {e}")
+        except Exception as e:
+            raise ValueError(
+                "That password is invalid: "
+                + str(e)
+            )
 
     @staticmethod
     def sign_up(
@@ -160,7 +231,7 @@ class AuthHandler:
             AuthHandler.send_authentication_email(email_address, auth_code)
         except Exception as e:
             raise ValueError(
-                "Something went wrong sending the authentication email "
+                "Something went wrong sending the authentication email: "
                 + str(e)
             )
 
@@ -339,12 +410,7 @@ class AuthHandler:
         expiry_time = (datetime.now() + timedelta(minutes=1)).timestamp()
 
         AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
-        print(random_code)
         return random_code
-
-    # TODO: Spotify Authentication
-    # TODO: Figure out the flow of how authentication should work
-    # TODO: Cache taken email addresses to return an error on signup
 
     @staticmethod
     async def save_spotify_token(email_address: str, token: dict) -> None:
@@ -358,8 +424,6 @@ class AuthHandler:
         token : str
             The user's Spotify token
         """
-        # TODO: Would be useful if this could check for the existence of the
-        # email. For now we'll assume the email exists
 
         async with DatabaseHandler.acquire() as conn:
             await conn.execute(
@@ -390,8 +454,6 @@ class AuthHandler:
         str
             The user's Spotify token
         """
-        # TODO: Would be useful if this could check for the existence of the
-        # email. For now we'll assume the email exists
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
                 """
