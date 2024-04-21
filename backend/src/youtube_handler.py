@@ -113,7 +113,7 @@ class YoutubeHandler:
                 # For now, we'll just ignore the error and return nothing
                 pass
             if response and response["items"]:
-                song["youtube_url"] = (
+                song["external_urls"]["youtube"] = (
                     youtube_url % response["items"][0]["id"]["videoId"]
                 )
                 # Cache the id
@@ -121,7 +121,7 @@ class YoutubeHandler:
                     "id"
                 ]["videoId"]
             else:
-                song["youtube_url"] = ""
+                song["external_urls"]["youtube"] = ""
         return song
 
     @classmethod
@@ -173,16 +173,3 @@ class YoutubeHandler:
         """
         with open("cache/youtube_id_cache.json", "w") as file:
             json.dump(cls._id_cache, file)
-
-
-if __name__ == "__main__":
-    YoutubeHandler.get_client()
-    print(
-        YoutubeHandler.search_for_match(
-            {
-                "name": "Gamma Knife",
-                "artists": [{"name": "King Gizzard & The Lizard Wizard"}],
-            }
-        )
-    )
-    YoutubeHandler.save_cache()
