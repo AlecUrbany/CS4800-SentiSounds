@@ -37,13 +37,10 @@ class AuthHandler:
     """A regex statement defining a valid email address"""
 
     EMAIL_CHECK: list[tuple[Callable[[str], bool], str]] = [
-        (
-            lambda x: bool(x),
-            "No email address was entered."
-        ),
+        (lambda x: bool(x), "No email address was entered."),
         (
             lambda x: bool(AuthHandler.EMAIL_REGEX.match(x)),
-            "An invalid email address was entered."
+            "An invalid email address was entered.",
         ),
     ]
     """
@@ -52,31 +49,25 @@ class AuthHandler:
     """
 
     PASSWORD_CHECK: list[tuple[Callable[[str], bool], str]] = [
-        (
-            lambda x: bool(x),
-            "No password was entered."
-        ),
+        (lambda x: bool(x), "No password was entered."),
         (
             lambda x: any(chr.islower() for chr in x),
-            "Password must contain at least one lowercase letter a-z"
+            "Password must contain at least one lowercase letter a-z",
         ),
         (
             lambda x: any(chr.isupper() for chr in x),
-            "Password must contain at least one uppercase letter a-z"
+            "Password must contain at least one uppercase letter a-z",
         ),
         (
             lambda x: any(chr.isdigit() for chr in x),
-            "Password must contain at least one digit 0-9"
+            "Password must contain at least one digit 0-9",
         ),
         (
             lambda x: any(chr in "~!@#$%^&*-_+" for chr in x),
-            "Password must contain at least one special character " +
-            "e.g. ~!@#$%^&*-_+"
+            "Password must contain at least one special character "
+            + "e.g. ~!@#$%^&*-_+",
         ),
-        (
-            lambda x: len(x) > 7,
-            "Password must be at least 7 characters long"
-        )
+        (lambda x: len(x) > 7, "Password must be at least 7 characters long"),
     ]
     """
     Defines the checks to make for a password as a list of lambdas returning
@@ -180,18 +171,12 @@ class AuthHandler:
         try:
             AuthHandler.valid_email(email_address)
         except Exception as e:
-            raise ValueError(
-                "The email address is invalid: "
-                + str(e)
-            )
+            raise ValueError("The email address is invalid: " + str(e))
 
         try:
             AuthHandler.valid_password(password)
         except Exception as e:
-            raise ValueError(
-                "That password is invalid: "
-                + str(e)
-            )
+            raise ValueError("That password is invalid: " + str(e))
 
     @staticmethod
     def sign_up(
@@ -467,3 +452,25 @@ class AuthHandler:
                 email_address,
             )
             return json.loads(found[0]["spotify_token"])
+
+    @staticmethod
+    def check_and_save_spotify_token(
+        email_address: str, old_token: dict, new_token: dict
+    ) -> None:
+        """
+        Given an email address, check if the user's Spotify token has changed
+        and save it
+
+        Parameters
+        ----------
+        email_address : str
+            The email address of the user
+        old_token : dict
+            The user's old Spotify token
+        new_token : dict
+            The user's new Spotify token
+        """
+        if old_token is not None and old_token != new_token:
+            AuthHandler.save_spotify_token(email_address, new_token)
+        else:
+            return None

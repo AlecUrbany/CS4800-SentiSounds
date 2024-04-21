@@ -297,10 +297,9 @@ async def recommended_songs():
     # Match the song list to their YouTube links
     YoutubeHandler.match_list(songs)
     # if the token has changed, update the database
-    if token is not None and token != (new_token := sp.get_token()):
-        await AuthHandler.save_spotify_token(
-            email_address, new_token  # type: ignore
-        )
+    AuthHandler.check_and_save_spotify_token(
+        email_address, token, sp.get_token()
+    )
     YoutubeHandler.save_cache()
 
     return {"status": "success", "songs": songs}, 200
@@ -361,10 +360,9 @@ async def spotify_check_authentication():
         token = await AuthHandler.get_spotify_token(email_address)
         sp = SpotifyHandler.from_token(token)
         sp.get_client().me()
-        if token is not None and token != (new_token := sp.get_token()):
-            await AuthHandler.save_spotify_token(
-                email_address, new_token  # type: ignore
-            )
+        AuthHandler.check_and_save_spotify_token(
+            email_address, token, sp.get_token()
+        )
     except IndexError:
         return {
             "status": "failure",
@@ -386,10 +384,9 @@ async def spotify_like_song():
         token = await AuthHandler.get_spotify_token(email_address)
         sp = SpotifyHandler.from_token(token)
         sp.like_song(song_id)
-        if token is not None and token != (new_token := sp.get_token()):
-            await AuthHandler.save_spotify_token(
-                email_address, new_token  # type: ignore
-            )
+        AuthHandler.check_and_save_spotify_token(
+            email_address, token, sp.get_token()
+        )
     except IndexError:
         return {
             "status": "failure",
@@ -411,10 +408,9 @@ async def spotify_unlike_song():
         token = await AuthHandler.get_spotify_token(email_address)
         sp = SpotifyHandler.from_token(token)
         sp.unlike_song(song_id)
-        if token is not None and token != (new_token := sp.get_token()):
-            await AuthHandler.save_spotify_token(
-                email_address, new_token  # type: ignore
-            )
+        AuthHandler.check_and_save_spotify_token(
+            email_address, token, sp.get_token()
+        )
     except IndexError:
         return {
             "status": "failure",
