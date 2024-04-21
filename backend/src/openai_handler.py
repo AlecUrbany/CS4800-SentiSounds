@@ -1,7 +1,10 @@
-from openai import OpenAI
+"""A handler for interacting with OpenAI's API and the GPT model"""
+
 import json
 
+from openai import OpenAI
 from secrets_handler import SecretsHandler
+
 
 class OpenAIHandler:
     """
@@ -12,17 +15,24 @@ class OpenAIHandler:
     this field if it does not yet exist. Any other accesses to this instance
     are unsafe and should not be used.
 
-    `get_response(str)` is what should be used to retrieve a list of genres
+    `get_genres(str)` is what should be used to retrieve a list of genres
     given a sanitized user input.
     """
 
     GPT_MODEL = "gpt-3.5-turbo"
+    """The AI model to retrieve responses from"""
+
     PROMPT = SecretsHandler.get_gpt_prompt()
+    """The system prompt to feed the AI model"""
 
     def __init__(self) -> None:
+        """
+        Raises a TypeError.
+        OpenAIHandler instances must not be created as this is a singleton
+        """
         raise TypeError(
-            "OpenAIHandler instances should not be created. " +
-            "Consider using the `get_client()` function."
+            "OpenAIHandler instances should not be created. "
+            + "Consider using the `get_client()` function."
         )
 
     # A static reference to the OpenAI client
@@ -63,7 +73,7 @@ class OpenAIHandler:
         return OpenAIHandler._client_instance
 
     @staticmethod
-    def get_response(sanitized_input: str) -> list[str]:
+    def get_genres(sanitized_input: str) -> list[str]:
         """
         Retrieves a response from the supplied GPT model given an input.
 
@@ -78,7 +88,7 @@ class OpenAIHandler:
 
         Parameters
         ----------
-        sanitized_input: str
+        sanitized_input : str
             The user input (probably an emotion or a phrase describing one)
             to pass to the GPT model
 
@@ -86,7 +96,7 @@ class OpenAIHandler:
         -------
         list[str]
             A list of genres retrieved via the user's input. Unless GPT messes
-            up, this list should contain 5 genres.
+            up, this list should contain 5 genres
 
         Raises
         ------
@@ -94,8 +104,8 @@ class OpenAIHandler:
             if no response was provided by the OpenAI API,
             if the provided response couldn't be parsed into JSON,
             if the parsed JSON did not contain the `genres` key
+            if no genres were found
         """
-
         # Retrieve a response from GPT
         client = OpenAIHandler.get_client()
         response = client.chat.completions.create(
@@ -104,45 +114,48 @@ class OpenAIHandler:
             seed=69,
             messages=[
                 {"role": "system", "content": OpenAIHandler.PROMPT},
-                {"role": "user", "content": sanitized_input}
-            ]
+                {"role": "user", "content": sanitized_input},
+            ],
         )
 
         # Ensure a response was found
         found_content = response.choices[0].message.content
         if not found_content:
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                "No response was provided."
+                "Something went wrong retrieving a response from GPT. "
+                + "No response was provided."
             )
 
         # Ensure the response is JSON
         try:
             content_json = json.loads(found_content)
-        except:
+        except Exception:
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                "The provided response could not be parsed into JSON."
+                "Something went wrong retrieving a response from GPT. "
+                + "The provided response could not be parsed into JSON."
             )
 
         # Ensure the JSON contains the genres
-        if not "genres" in content_json:
+        if "genres" not in content_json:
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                f"The parsed JSON `{content_json}` " +
-                "does not contain the `genres` key."
+                "Something went wrong retrieving a response from GPT. "
+                + f"The parsed JSON `{content_json}` "
+                + "does not contain the `genres` key."
             )
 
         # Ensure that genres is a list
-        content_genres = content_json['genres']
+        content_genres = content_json["genres"]
         if not isinstance(content_genres, list):
             raise ValueError(
-                "Something went wrong retrieving a response from GPT. " +
-                f"Genres retrieved are not a list: `{content_genres}`."
+                "Something went wrong retrieving a response from GPT. "
+                + f"Genres retrieved are not a list: `{content_genres}`."
             )
 
         # Ensure that each genre is a string and fix its casing
         content_genres = [str(genre).lower() for genre in content_genres]
+
+        if not content_genres:
+            raise ValueError("No genres could be found from the given input.")
 
         # Return the genres themselves
         return content_genres

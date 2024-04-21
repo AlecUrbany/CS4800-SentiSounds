@@ -31,20 +31,20 @@
     <div class="w-full max-w-xs m-auto">
         <!-- Logo and header -->
         <div class="mb-10 text-center">
-            <img src="https://cdn.discordapp.com/attachments/393192862730420225/1215603813474377749/testicon.png?ex=65fd5a45&is=65eae545&hm=ed392b77a65298a805aa3dada72c45f23b42b25321b03d001545ed483f01ce88&"
-                alt="SentiSounds logo" class="mb-3 mx-auto" style="width: 100px; height: 100px;">
+            <img src="assets/sentisound_icon.png" alt="SentiSounds logo" class="mb-3 mx-auto"
+                style="width: 100px; height: 100px;">
             <h1 class="text-3xl text-white font-bold">SentiSounds</h1>
-            <p class="text-[#D19900]">im gay - jack | ME TOO - SAM</p>
+            <p class="text-[#D19900]">code is awesome - jack | code is cool - SAM</p>
         </div>
 
         <!-- Login form -->
         <div class="bg-white rounded-lg overflow-hidden shadow-xl">
             <div class="py-4 px-8">
                 <div class="mb-4">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
-                        Email/Username
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
+                        Email
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email"
                         type="text" placeholder="Ex. abc@xyz.com">
                 </div>
                 <div class="mb-6">
@@ -55,8 +55,8 @@
                         id="password" type="password" placeholder="********">
                 </div>
                 <div class="flex items-center justify-between">
-                    <button class="bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded"
-                        type="button" id="loginButton">
+                    <button class="bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded" type="button"
+                        id="loginButton">
                         LOGIN
                     </button>
                     <a class="inline-block align-baseline font-bold text-sm text-[#D19900] hover:text-[#B88A00]"
@@ -91,27 +91,24 @@
     </script>
 
     <script>
-       const API_BASE_URL = 'https://your-backend-api-domain.com'; // Replace this with the actual base URL of your backend API
-
         document.addEventListener('DOMContentLoaded', function () {
+            const API_BASE_URL = 'http://127.0.0.1:5000';
             const loginButton = document.querySelector('#loginButton');
 
             loginButton.addEventListener('click', async function () {
-                const email = document.querySelector('#username').value;
-                const password = document.querySelector('#password').value;
+                const formData = new FormData();
+                formData.append('email_address', document.querySelector('#email').value);
+                formData.append('password', document.querySelector('#password').value);
 
                 try {
-                    const response = await fetch(API_BASE_URL + '/login', { // Include the API base URL here
+                    const response = await fetch(`${API_BASE_URL}/login`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `email_address=${email}&password=${password}`
+                        body: formData
                     });
 
                     const data = await response.json();
 
-                    if (response.status === 200) {
+                    if (response.ok) {
                         // Login successful, redirect to homepage
                         window.location.href = 'index.html';
                     } else {
@@ -124,10 +121,6 @@
                 }
             });
         });
-
     </script>
-
-
 </body>
-
 </html>
