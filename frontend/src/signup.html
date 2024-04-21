@@ -60,6 +60,13 @@
                     </div>
                     <button id="signupButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN
                         UP</button>
+
+                        <div>
+                            <label for="auth_code" class="block mb-2">Authenticate</label>
+                            <input type="auth_code" id="auth_code" placeholder="Ex. abc@xyz.com"
+                                class="w-full p-2 border rounded-md">
+                        </div>
+                        <button id="authenticateButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">AUTHENTICATE</button>
                 </div>
             </div>
         </div>
@@ -123,7 +130,15 @@
 
                     if (response.ok) {
                         alert('Signup successful. Please check your email for further instructions.');
-                        window.location.href = "index.html"; // not working!
+                        // Get user input values
+                        const email = document.querySelector('#email').value;
+                        const password = document.querySelector('#password').value;
+                        const firstName = document.querySelector('#username').value;
+                        const lastInitial = document.querySelector('#last_initial').value;
+
+                        // Redirect to authenticate.html with URL parameters
+                        window.location.href = `authenticate.html?email=${email}&password=${password}&firstName=${firstName}&lastInitial=${lastInitial}`;
+                        // window.location.href = "authenticate.html";
                     } else {
                         alert(data.error);
                     }
@@ -132,7 +147,49 @@
                     alert("An error occurred during signup. Please try again.")
                 }
             });
+
+            const authenticateButton = document.querySelector('#authenticateButton');
+            authenticateButton.addEventListener('click', async function () {
+                const email = document.querySelector('#email').value;
+                const password = document.querySelector('#password').value;
+                const firstName = document.querySelector('#firstName').value;
+                const lastInitial = document.querySelector('#lastInitial').value;
+                const authCode = document.querySelector('#auth_code').value;
+                
+                const baseURL = 'http://127.0.0.1:5000'; // REPLACE IT WITH BASE URL
+
+                try {
+                    const response = await fetch(`${baseURL}/authenticate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email_address: email,
+                            password: password,
+                            first_name: firstName,
+                            last_initial: lastInitial,
+                            entered_auth_code: authCode
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Authentication successful. You can now proceed.');
+                        window.location.href = "index.html"; // Redirect to index page upon successful authentication
+                    } else {
+                        alert(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error during authentication:', error);
+                    alert("An error occurred during authentication. Please try again.");
+                }
+            });
         });
+
+       
+            
     </script>
 
 
