@@ -417,7 +417,7 @@ class AuthHandler:
                 SecretsHandler.get_email_passkey(),
             )
 
-            message["From"] = sender
+            message["From"] = f"SentiSounds <{sender}>"
             message["To"] = email_address
             message.attach(
                 MIMEText(
