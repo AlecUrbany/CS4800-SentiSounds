@@ -324,19 +324,24 @@ async def export_playlist():
     ----------
     email_address : str, default=""
         The email address of the Spotify account to export the playlist to
+    song_ids : str, default=""
+        The songs to save in this playlist. This will be a space-separated
+        string of songs ex: "123 123 123"
 
     Returns
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
         (either success or failure), and an `error` if an error occurred.
+        We also pass a `playlist_url` field to successful operations containing
+        the link to the playlist we created
         int is 400 if an error occurred and 200 if the operation was
         successful
     """
     email_address = request.args.get("email_address", default="")
-    # playlist_name = request.args.get("playlist_name", default="")
-    # playlist_description = request.args.get("playlist_description",
-    # default="")
+    song_ids = request.args.get("song_ids", default="")
+    playlist_name = request.args.get("playlist_name", default="")
+    playlist_description = request.args.get("playlist_description", default="")
     # TODO: How to get playlist name and description from this endpoint if
     # they are to come from ChatGPT
     try:
@@ -347,14 +352,20 @@ async def export_playlist():
                 f"No Spotify account was found for {email_address} in database"
             )
 
-        # Still need to see if the error of a user existing but not having a
-        # Spotify token is caught
-        if email_address and token:
-            SpotifyHandler.from_token(token)
+        if not song_ids:
+            raise ValueError("No song IDs were entered.")
+
+        sp = SpotifyHandler.from_token(token)
+        created_url = sp.create_playlist(
+            playlist_name,
+            playlist_description,
+            song_ids.split(" ")
+        )
+
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
-    return {"status": "success"}, 200
+    return {"status": "success", "playlist_url": created_url}, 200
 
 
 @app.route("/spotify-check-authentication", methods=["GET"])
