@@ -247,7 +247,7 @@ async def recommend_songs():
     Given a user's sentiment-littered prompt, return a list of matching
     songs recommended by Spotify
 
-    The prompt must be passed as a header argument to the API call, but the
+    The prompt must be passed as a URL parameter to the API call, but the
     email address must be passed as a body argument (similar to the
     authentication endpoints). Again, ensure the spelling of the arguments
 
@@ -313,7 +313,7 @@ async def export_playlist():
 
     Exports a playlist of song IDs to a user's connected Spotify account
 
-    The song IDs must be passed as a header argument to the API call, but the
+    The song IDs must be passed as a URL parameter to the API call, but the
     email address must be passed as a body argument (similar to the
     authentication endpoints). Again, ensure the spelling of the arguments
 
@@ -407,7 +407,7 @@ async def spotify_like_song():
 
     Likes a song. If it was already liked, nothing will happen.
 
-    The song ID must be passed as a header argument to the API call, but the
+    The song ID must be passed as a URL parameter to the API call, but the
     email address must be passed as a body argument (similar to the
     authentication endpoints). Again, ensure the spelling of the arguments
 
@@ -451,7 +451,7 @@ async def spotify_unlike_song():
 
     Unlikes a song. If it wasn't already liked, nothing will happen.
 
-    The song ID must be passed as a header argument to the API call, but the
+    The song ID must be passed as a URL parameter to the API call, but the
     email address must be passed as a body argument (similar to the
     authentication endpoints). Again, ensure the spelling of the arguments
 
