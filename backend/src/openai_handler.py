@@ -16,8 +16,8 @@ class OpenAIHandler:
     this field if it does not yet exist. Any other accesses to this instance
     are unsafe and should not be used.
 
-    `get_genres(str)` is what should be used to retrieve a list of genres
-    given a sanitized user input.
+    `OpenAIHandler.get_genres()` is what should be used to retrieve a list of
+    genres given a sanitized user input.
     """
 
     GPT_MODEL = "gpt-3.5-turbo"
@@ -79,7 +79,7 @@ class OpenAIHandler:
 
         Returns
         -------
-        OpenAI
+        openai.OpenAI
             The static OpenAI client
         """
         OpenAIHandler._client_instance = OpenAI(

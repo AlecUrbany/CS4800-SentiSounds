@@ -124,7 +124,7 @@
 
 
 
-            <div class="itemName"><code><a href="#recommended_songs" class="internal-link" title="src.api.recommended_songs">recommended<wbr></wbr>_songs</a></code>
+            <div class="itemName"><code><a href="#recommend_songs" class="internal-link" title="src.api.recommend_songs">recommend<wbr></wbr>_songs</a></code>
             </div>
 
 
@@ -145,6 +145,56 @@
 
 
             <div class="itemName"><code><a href="#spotify_authenticate" class="internal-link" title="src.api.spotify_authenticate">spotify<wbr></wbr>_authenticate</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#spotify_check_authentication" class="internal-link" title="src.api.spotify_check_authentication">spotify<wbr></wbr>_check<wbr></wbr>_authentication</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#spotify_get_auth_link" class="internal-link" title="src.api.spotify_get_auth_link">spotify<wbr></wbr>_get<wbr></wbr>_auth<wbr></wbr>_link</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#spotify_like_song" class="internal-link" title="src.api.spotify_like_song">spotify<wbr></wbr>_like<wbr></wbr>_song</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#spotify_unlike_song" class="internal-link" title="src.api.spotify_unlike_song">spotify<wbr></wbr>_unlike<wbr></wbr>_song</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#uses_token" class="internal-link" title="src.api.uses_token">uses<wbr></wbr>_token</a></code>
             </div>
 
 
@@ -253,7 +303,37 @@
 
 
 
+            <div class="itemName"><code><a href="src.senti_types.html" class="internal-link" title="src.senti_types">senti<wbr></wbr>_types</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="src.spotify_cache_handlers.html" class="internal-link" title="src.spotify_cache_handlers">spotify<wbr></wbr>_cache<wbr></wbr>_handlers</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
             <div class="itemName"><code><a href="src.spotify_handler.html" class="internal-link" title="src.spotify_handler">spotify<wbr></wbr>_handler</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="src.youtube_handler.html" class="internal-link" title="src.youtube_handler">youtube<wbr></wbr>_handler</a></code>
             </div>
 
 
@@ -400,8 +480,8 @@
   </tr><tr class="function">
 
     <td>Async Function</td>
-    <td><code><a href="#recommended_songs" class="internal-link" title="src.api.recommended_songs">recommended<wbr></wbr>_songs</a></code></td>
-    <td><code>GET /recommended-songs</code></td>
+    <td><code><a href="#recommend_songs" class="internal-link" title="src.api.recommend_songs">recommend<wbr></wbr>_songs</a></code></td>
+    <td><code>GET /recommend-songs</code></td>
   </tr><tr class="function">
 
     <td>Async Function</td>
@@ -412,6 +492,31 @@
     <td>Async Function</td>
     <td><code><a href="#spotify_authenticate" class="internal-link" title="src.api.spotify_authenticate">spotify<wbr></wbr>_authenticate</a></code></td>
     <td><code>POST /spotify-authenticate</code></td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
+    <td><code><a href="#spotify_check_authentication" class="internal-link" title="src.api.spotify_check_authentication">spotify<wbr></wbr>_check<wbr></wbr>_authentication</a></code></td>
+    <td><code>GET /spotify-check-authentication</code></td>
+  </tr><tr class="function">
+
+    <td>Function</td>
+    <td><code><a href="#spotify_get_auth_link" class="internal-link" title="src.api.spotify_get_auth_link">spotify<wbr></wbr>_get<wbr></wbr>_auth<wbr></wbr>_link</a></code></td>
+    <td><code>GET spotify-auth-link</code></td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
+    <td><code><a href="#spotify_like_song" class="internal-link" title="src.api.spotify_like_song">spotify<wbr></wbr>_like<wbr></wbr>_song</a></code></td>
+    <td><code>POST /spotify-like-song</code></td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
+    <td><code><a href="#spotify_unlike_song" class="internal-link" title="src.api.spotify_unlike_song">spotify<wbr></wbr>_unlike<wbr></wbr>_song</a></code></td>
+    <td><code>POST /spotify-unlike-song</code></td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
+    <td><code><a href="#uses_token" class="internal-link" title="src.api.uses_token">uses<wbr></wbr>_token</a></code></td>
+    <td>Wraps a call to the Spotify API with token-ensuring functionality</td>
   </tr><tr class="variable">
 
     <td>Variable</td>
@@ -458,8 +563,8 @@ parameters list</p>
 <code><a href="#authenticate" class="internal-link" title="src.api.authenticate">authenticate</a></code> will still ensure the validity of the passed parameters</p>
 <table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The authentication code entered by the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The first name of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The last initial of the user (this will be used with the first name
 to create a display name)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
-(either success or failure), and an <code>error</code> if an error occured.
-int is 400 if an error occured and 200 if the operation was
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
 successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
@@ -486,11 +591,16 @@ successful</td></tr></table></div>
 
     <div><p><code>POST /export-playlist</code></p>
 <p>Exports a playlist of song IDs to a user's connected Spotify account</p>
-<p><strong>WIP</strong></p>
-<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
-keys of the data given must be spelled exactly as displayed in the
-parameters list</p>
-<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A literal "Hello, World!"</td></tr></table></div>
+<p>The song IDs must be passed as a URL parameter to the API call, but the
+email address must be passed as a body argument (similar to the
+authentication endpoints). Again, ensure the spelling of the arguments</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address of the Spotify account to export the playlist to</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">song<wbr></wbr>_ids:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The songs to save in this playlist. This will be a space-separated
+string of songs ex: "123 123 123"</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+We also pass a <code>playlist_url</code> field to successful operations containing
+the link to the playlist we created
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
@@ -522,25 +632,25 @@ proper credentials</p>
 keys of the data given must be spelled exactly as displayed in the
 parameters list</p>
 <table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to check</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to check</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
-(either success or failure), and an <code>error</code> if an error occured.
-int is 400 if an incorrect pair was passed and 200 if the operation was
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 401 if an incorrect pair was passed and 200 if the operation was
 successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
 
-  <a name="src.api.recommended_songs">
+  <a name="src.api.recommend_songs">
 
   </a>
-  <a name="recommended_songs">
+  <a name="recommend_songs">
 
   </a>
   <div class="functionHeader">
 
-    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/recommended-songs</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">GET</span><span class="rst-variable-quote">'</span>])<br />
-    <span class="py-keyword">async def</span> <span class="py-defname">recommended_songs</span><span class="function-signature">()</span>:
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/recommend-songs</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">GET</span><span class="rst-variable-quote">'</span>])<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">recommend_songs</span><span class="function-signature">()</span>:
 
-    <a class="headerLink" href="#recommended_songs" title="src.api.recommended_songs">
+    <a class="headerLink" href="#recommend_songs" title="src.api.recommend_songs">
 
 
       ¶
@@ -548,18 +658,24 @@ successful</td></tr></table></div>
   </div>
   <div class="docstring functionBody">
 
-    <div><p><code>GET /recommended-songs</code></p>
+    <div><p><code>GET /recommend-songs</code></p>
 <p>Given a user's sentiment-littered prompt, return a list of matching
 songs recommended by Spotify</p>
-<p><strong>WIP</strong></p>
-<p>The prompt must be passed as a header argument to the API call, but the
+<p>The prompt must be passed as a URL parameter to the API call, but the
 email address must be passed as a body argument (similar to the
 authentication endpoints). Again, ensure the spelling of the arguments</p>
 <table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_prompt:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The prompt entered by the user. This should be sanitized, and an error
 will occur if it is not</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">An optional email address. If it is provided, we attempt to return a
 personalized list of songs to the user based on their Spotify activity
 (Note: this requires that the user has previously linked their
-Spotify account)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A literal "Hello, World!"</td></tr></table></div>
+Spotify account)</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">popularity<wbr></wbr>_score:</span><code>int</code>, <em>default</em> <span class="literal">20</span></td><td class="fieldArgDesc">The popularity score of the songs to retrieve. The lower the score,
+the more... 'special'... songs you'll get. The default (20) strikes
+a fine balance, but this can be adjusted.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+We also pass a <code>songs</code> field to successful operations containing
+the songs recommended by Spotify
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
 
@@ -591,8 +707,8 @@ keys of the data given must be spelled exactly as displayed in the
 parameters list</p>
 <table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to send the code to</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to eventually store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The first name of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The last initial of the user (this will be used with the first name
 to create a display name)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
-(either success or failure), and an <code>error</code> if an error occured.
-int is 400 if an error occured and 200 if the operation was
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
 successful</td></tr></table></div>
   </div>
 </div><div class="basefunction">
@@ -618,12 +734,170 @@ successful</td></tr></table></div>
   <div class="docstring functionBody">
 
     <div><p><code>POST /spotify-authenticate</code></p>
-<p>Takes the user through the Spotify authentication process</p>
-<p><strong>WIP</strong></p>
+<p>Attempts to authenticate a user with their Spotify account given
+an email address and the 'code' token</p>
 <p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
 keys of the data given must be spelled exactly as displayed in the
 parameters list</p>
-<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A literal "Hello, World!"</td></tr></table></div>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to check</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">code:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The code to use for token retrieval</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+
+
+  <a name="src.api.spotify_check_authentication">
+
+  </a>
+  <a name="spotify_check_authentication">
+
+  </a>
+  <div class="functionHeader">
+
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/spotify-check-authentication</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">GET</span><span class="rst-variable-quote">'</span>])<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">spotify_check_authentication</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#spotify_check_authentication" title="src.api.spotify_check_authentication">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p><code>GET /spotify-check-authentication</code></p>
+<p>Checks if a user has authenticated their Spotify account</p>
+<p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
+keys of the data given must be spelled exactly as displayed in the
+parameters list</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address of the user with an associated Spotify account</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+
+
+  <a name="src.api.spotify_get_auth_link">
+
+  </a>
+  <a name="spotify_get_auth_link">
+
+  </a>
+  <div class="functionHeader">
+
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/spotify-auth-link</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">GET</span><span class="rst-variable-quote">'</span>])<br />
+    <span class="py-keyword">def</span> <span class="py-defname">spotify_get_auth_link</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#spotify_get_auth_link" title="src.api.spotify_get_auth_link">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p><code>GET spotify-auth-link</code></p>
+<p>Retrieves a link to be used to authenticate with Spotify</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+
+
+  <a name="src.api.spotify_like_song">
+
+  </a>
+  <a name="spotify_like_song">
+
+  </a>
+  <div class="functionHeader">
+
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/spotify-like-song</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">POST</span><span class="rst-variable-quote">'</span>])<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">spotify_like_song</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#spotify_like_song" title="src.api.spotify_like_song">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p><code>POST /spotify-like-song</code></p>
+<p>Likes a song. If it was already liked, nothing will happen.</p>
+<p>The song ID must be passed as a URL parameter to the API call, but the
+email address must be passed as a body argument (similar to the
+authentication endpoints). Again, ensure the spelling of the arguments</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address of the user whose Spotify account to unlike a song
+from</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">song<wbr></wbr>_id:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The song ID of the song to unlike</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+
+
+  <a name="src.api.spotify_unlike_song">
+
+  </a>
+  <a name="spotify_unlike_song">
+
+  </a>
+  <div class="functionHeader">
+
+    @app.route(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">/spotify-unlike-song</span><span class="rst-variable-quote">'</span>, <wbr></wbr>methods=[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">POST</span><span class="rst-variable-quote">'</span>])<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">spotify_unlike_song</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#spotify_unlike_song" title="src.api.spotify_unlike_song">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p><code>POST /spotify-unlike-song</code></p>
+<p>Unlikes a song. If it wasn't already liked, nothing will happen.</p>
+<p>The song ID must be passed as a URL parameter to the API call, but the
+email address must be passed as a body argument (similar to the
+authentication endpoints). Again, ensure the spelling of the arguments</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address of the user whose Spotify account to unlike a song
+from</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">song<wbr></wbr>_id:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The song ID of the song to unlike</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+(either success or failure), and an <code>error</code> if an error occurred.
+int is 400 if an error occurred and 200 if the operation was
+successful</td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+
+
+  <a name="src.api.uses_token">
+
+  </a>
+  <a name="uses_token">
+
+  </a>
+  <div class="functionHeader">
+
+
+    <span class="py-keyword">async def</span> <span class="py-defname">uses_token</span><span class="function-signature">(email_address: <code>str</code>, requires_token: <code>bool</code>, spotify_function: <code>Callable[<wbr></wbr><span class="rst-variable-ellipsis">...</span>, <wbr></wbr>(Any|None)]</code>, *args: <code>Any</code>, **kwargs: <code>Any</code>) -&gt; <code>Any|None</code></span>:
+
+    <a class="headerLink" href="#uses_token" title="src.api.uses_token">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p>Wraps a call to the Spotify API with token-ensuring functionality</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the associated Spotify account</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">requires<wbr></wbr>_token:</span><code>bool</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">spotify<wbr></wbr>_function:</span><code>Callable[...</code>, Any|<blockquote>
+None</blockquote>
+]</td><td class="fieldArgDesc">Any of the SpotifyHandler's functions</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">*args:</span><code>Any</code></td><td class="fieldArgDesc">The arguments to pass to the SpotifyHandler function</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">**kwargs:</span><code>Any</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer">Any|<blockquote>
+None</blockquote>
+</td><td class="fieldArgDesc">The return value of the function that was called</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If the there is no associated Spotify account for this email address</td></tr></table></div>
   </div>
 </div><div class="basevariable">
 
@@ -662,7 +936,7 @@ parameters list</p>
     <div class="container">
       <a href="index.html">Documentation</a> for SentiSounds,
     generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-      23.9.1 at 2024-03-15 21:03:54.
+      23.9.1 at 2024-04-22 00:16:51.
     </div>
 
     <script src="ajax.js" type="text/javascript"></script>

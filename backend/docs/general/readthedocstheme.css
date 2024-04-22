@@ -133,11 +133,10 @@ p.caption, h1, h2, h3, h4, h5, h6, legend, .categoryHeader, #search-status{
 
 .navbar-brand {
     display: block;
-    color: rgb(215, 143, 76);
 }
 
 .navbar-brand >  a {
-    color: rgb(252, 252, 252)!important;
+    color: rgb(215, 143, 76)!important;
     padding: 3px 5px!important;
 }
 

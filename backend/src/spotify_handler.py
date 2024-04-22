@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 from secrets_handler import SecretsHandler
 from senti_types import song_type, token_type
 from spotify_cache_handlers import BaseClientCacheHandler, MemoryCacheHandler
-from spotipy import CacheHandler, Spotify
+from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.util import normalize_scope
 
@@ -24,14 +24,14 @@ class SpotifyHandler:
 
     Attributes
     ----------
-    BASE_CLIENT : Spotify
+    BASE_CLIENT : spotipy.Spotify
         The base Spotify client instance.
         This instance is not authenticated with a particular user
     user_scope : list[str]
         The list of scopes required to access user data
-    _client_instance : Spotify
+    _client_instance : spotipy.Spotify
         The Spotify client instance, which should not be accessed directly
-    cache_handler : CacheHandler
+    cache_handler : MemoryCacheHandler
         The object getting and storing the Spotify authentication token. It is
         exposed here for direct control of the tokens outside of this object
     """
@@ -60,16 +60,13 @@ class SpotifyHandler:
 
     def __init__(self) -> None:
         """
-        Initializes a SpotifyHandler instance. This instance gives you full
-        control of how to initialize and use the handler. However,
-        this comes at the cost of the comfort and abstraction capabilities
-        provided by this class.
+        Initializes a base SpotifyHandler instance
 
-        Consider using the `from_base_client()` or `from_user_client()`
-        class methods to retrieve the type of handler that you are expecting
+        Consider using the `from_token()` classmethod to retrieve the
+        user client
         """
 
-        self.cache_handler: CacheHandler | None = None
+        self.cache_handler: MemoryCacheHandler | None = None
         """The cache handler used for user authentication"""
 
         self._client_instance: Spotify | None = None
@@ -105,7 +102,7 @@ class SpotifyHandler:
     @staticmethod
     def create_oauth(
         token_info: token_type | None = None,
-    ) -> tuple[SpotifyOAuth, CacheHandler]:
+    ) -> tuple[SpotifyOAuth, MemoryCacheHandler]:
         """
         Creates an OAuth handler for Spotify as well as a reference
         to the cache handler
@@ -117,8 +114,8 @@ class SpotifyHandler:
 
         Returns
         -------
-        tuple[SpotifyOAuth, CacheHandler]
-            The SpotifyOAuth object and the CacheHandler object
+        tuple[spotipy.oauth2.SpotifyOAuth, MemoryCacheHandler]
+            The SpotifyOAuth object and the MemoryCacheHandler object
         """
         cache_handler = MemoryCacheHandler(token_info=token_info)
 
@@ -158,11 +155,12 @@ class SpotifyHandler:
         """
         Retrieves a Spotify object. This instance can either be
         authenticated with a user or a base client.
-        If you would like a user client, use the `load_token` function first.
+        If you would like a user client, use the `SpotifyHandler.from_token`
+        classmethod for initialization
 
         Returns
         -------
-        Spotify
+        spotipy.Spotify
             The Spotify client instance, either the base client or a user
             client
         """
@@ -174,7 +172,7 @@ class SpotifyHandler:
 
         Returns
         -------
-        Any
+        typing.Any
             The result of Spotify.me()
         """
         return self.get_client().me()
@@ -202,7 +200,7 @@ class SpotifyHandler:
 
         Parameters
         ----------
-        genre : list[str]
+        genres : list[str]
             The list genres to search songs for. Even if provided with one
             genre, a list must be given
         limit_per_genre : int, default=10
@@ -214,24 +212,24 @@ class SpotifyHandler:
         Returns
         -------
         list[song_type]
-            The list of songs from the Spotify API with the following:
-            - name: The name of the song
-            - album: The album the song is from
-                - external_urls: A URL to the album
-                - images: A list of images for the album
-                - name: The name of the album
-            - artists: A list of artists for the song
-                - external_urls: A URL to the artist
-                - name: The name of the artist
-            - preview_url: A URL to a 30-second preview of the song
-            - external_urls: A URL to the song in different contexts
+            The list of songs from the Spotify API with the following fields:
 
-            - explicit: Whether the song is explicit
-            - is_playable: Whether the song is playable
-            - popularity: The popularity of the song
-            - id: The ID of the song (useful for creating a playlist)
-            - liked_by_user: Whether the user has liked the song. Default False
-            if a user has not been authenticated.
+            | - name: The name of the song
+            | - album: The album the song is from
+            |   - - external_urls: A URL to the album
+            |   - - images: A list of images for the album
+            |   - - name: The name of the album
+            | - artists: A list of artists for the song
+            |   - - external_urls: A URL to the artist
+            |   - - name: The name of the artist
+            | - preview_url: A URL to a 30-second preview of the song
+            | - external_urls: A URL to the song in different contexts
+            | - explicit: Whether the song is explicit
+            | - is_playable: Whether the song is playable
+            | - popularity: The popularity of the song
+            | - id: The ID of the song (useful for creating a playlist)
+            | - liked_by_user: Whether the user has liked the song.
+                default=False if a user has not been authenticated.
         """
         song_keys_to_extract = [
             "name",

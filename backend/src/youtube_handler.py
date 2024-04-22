@@ -1,3 +1,5 @@
+"""A handler for interacting with YouTube's API through googleapiclient"""
+
 import json
 import queue
 import threading

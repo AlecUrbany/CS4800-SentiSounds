@@ -1,3 +1,5 @@
+"""A handler for the token cache used by Spotipy"""
+
 from secrets_handler import SecretsHandler
 from senti_types import token_type
 from spotipy import CacheHandler

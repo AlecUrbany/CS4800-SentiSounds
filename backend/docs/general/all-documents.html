@@ -73,7 +73,7 @@
             <div class="type">Package</div>
             <div class="kind">Package</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">The complete backend code-base for SentiSounds</div>
+            <div class="summary">The source code of SentiSounds' backend</div>
           </li><li id="src.api">
 
             <div class="fullName">src<wbr></wbr>.api</div>
@@ -122,6 +122,22 @@
             <div class="kind">Module</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">A one-stop-shop for interacting with the secrets.json file safely</div>
+          </li><li id="src.senti_types">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types</div>
+            <div class="url">src.senti_types.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Short-hands for types used throughout SentiSounds</div>
+          </li><li id="src.spotify_cache_handlers">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers</div>
+            <div class="url">src.spotify_cache_handlers.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A handler for the token cache used by Spotipy</div>
           </li><li id="src.spotify_handler">
 
             <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler</div>
@@ -130,6 +146,14 @@
             <div class="kind">Module</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">A handler for interacting with Spotify's API through the Spotipy wrapper</div>
+          </li><li id="src.youtube_handler">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler</div>
+            <div class="url">src.youtube_handler.html</div>
+            <div class="type">Module</div>
+            <div class="kind">Module</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A handler for interacting with YouTube's API through googleapiclient</div>
           </li><li id="src.api.app">
 
             <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.app</div>
@@ -162,6 +186,14 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary"><code>POST /login</code></div>
+          </li><li id="src.api.spotify_get_auth_link">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.spotify<wbr></wbr>_get<wbr></wbr>_auth<wbr></wbr>_link</div>
+            <div class="url">src.api.html#spotify_get_auth_link</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><code>GET spotify-auth-link</code></div>
           </li><li id="src.api.spotify_authenticate">
 
             <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.spotify<wbr></wbr>_authenticate</div>
@@ -170,14 +202,14 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary"><code>POST /spotify-authenticate</code></div>
-          </li><li id="src.api.recommended_songs">
+          </li><li id="src.api.recommend_songs">
 
-            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.recommended<wbr></wbr>_songs</div>
-            <div class="url">src.api.html#recommended_songs</div>
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.recommend<wbr></wbr>_songs</div>
+            <div class="url">src.api.html#recommend_songs</div>
             <div class="type">Function</div>
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary"><code>GET /recommended-songs</code></div>
+            <div class="summary"><code>GET /recommend-songs</code></div>
           </li><li id="src.api.export_playlist">
 
             <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.export<wbr></wbr>_playlist</div>
@@ -186,6 +218,38 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary"><code>POST /export-playlist</code></div>
+          </li><li id="src.api.spotify_check_authentication">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.spotify<wbr></wbr>_check<wbr></wbr>_authentication</div>
+            <div class="url">src.api.html#spotify_check_authentication</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><code>GET /spotify-check-authentication</code></div>
+          </li><li id="src.api.spotify_like_song">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.spotify<wbr></wbr>_like<wbr></wbr>_song</div>
+            <div class="url">src.api.html#spotify_like_song</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><code>POST /spotify-like-song</code></div>
+          </li><li id="src.api.spotify_unlike_song">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.spotify<wbr></wbr>_unlike<wbr></wbr>_song</div>
+            <div class="url">src.api.html#spotify_unlike_song</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><code>POST /spotify-unlike-song</code></div>
+          </li><li id="src.api.uses_token">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.uses<wbr></wbr>_token</div>
+            <div class="url">src.api.html#uses_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Wraps a call to the Spotify API with token-ensuring functionality</div>
           </li><li id="src.auth_handler.AuthHandler">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler</div>
@@ -202,14 +266,22 @@
             <div class="kind">Constant</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">A regex statement defining a valid email address</div>
-          </li><li id="src.auth_handler.AuthHandler.PASSWORD_REGEX">
+          </li><li id="src.auth_handler.AuthHandler.EMAIL_CHECK">
 
-            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.PASSWORD<wbr></wbr>_REGEX</div>
-            <div class="url">src.auth_handler.AuthHandler.html#PASSWORD_REGEX</div>
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.EMAIL<wbr></wbr>_CHECK</div>
+            <div class="url">src.auth_handler.AuthHandler.html#EMAIL_CHECK</div>
             <div class="type">Attribute</div>
             <div class="kind">Constant</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">A regex statement defining a valid password</div>
+            <div class="summary">Defines the checks to make for an email as a list of lambdas returning bools and the associated error messages</div>
+          </li><li id="src.auth_handler.AuthHandler.PASSWORD_CHECK">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.PASSWORD<wbr></wbr>_CHECK</div>
+            <div class="url">src.auth_handler.AuthHandler.html#PASSWORD_CHECK</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Defines the checks to make for a password as a list of lambdas returning bools and the associated error messages</div>
           </li><li id="src.auth_handler.AuthHandler.PLAIN_TEXT">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.PLAIN<wbr></wbr>_TEXT</div>
@@ -290,6 +362,30 @@
             <div class="kind">Static Method</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Generates a random code and stores it in the authentication cache</div>
+          </li><li id="src.auth_handler.AuthHandler.save_spotify_token">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.save<wbr></wbr>_spotify<wbr></wbr>_token</div>
+            <div class="url">src.auth_handler.AuthHandler.html#save_spotify_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Given an email address, save the user's Spotify token</div>
+          </li><li id="src.auth_handler.AuthHandler.get_spotify_token">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_spotify<wbr></wbr>_token</div>
+            <div class="url">src.auth_handler.AuthHandler.html#get_spotify_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Given an email address, return the user's Spotify token</div>
+          </li><li id="src.auth_handler.AuthHandler.check_and_save_spotify_token">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.check<wbr></wbr>_and<wbr></wbr>_save<wbr></wbr>_spotify<wbr></wbr>_token</div>
+            <div class="url">src.auth_handler.AuthHandler.html#check_and_save_spotify_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Given an email address, check if the user's Spotify token has changed and save it</div>
           </li><li id="src.database_handler.PoolAcquireContext">
 
             <div class="fullName">src<wbr></wbr>.database<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Pool<wbr></wbr>Acquire<wbr></wbr>Context</div>
@@ -410,6 +506,14 @@
             <div class="kind">Constant</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">The system prompt to feed the AI model</div>
+          </li><li id="src.openai_handler.OpenAIHandler.PROMPT_CHECK">
+
+            <div class="fullName">src<wbr></wbr>.openai<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Open<wbr></wbr>AIHandler<wbr></wbr>.PROMPT<wbr></wbr>_CHECK</div>
+            <div class="url">src.openai_handler.OpenAIHandler.html#PROMPT_CHECK</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Defines the checks to make for a prompt as a list of lambdas returning bools and the associated error messages</div>
           </li><li id="src.openai_handler.OpenAIHandler.__init__">
 
             <div class="fullName">src<wbr></wbr>.openai<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Open<wbr></wbr>AIHandler<wbr></wbr>.__init__</div>
@@ -442,6 +546,14 @@
             <div class="kind">Static Method</div>
             <div class="privacy">PRIVATE</div>
             <div class="summary">Initializes the OpenAI client.</div>
+          </li><li id="src.openai_handler.OpenAIHandler.sanitize_input">
+
+            <div class="fullName">src<wbr></wbr>.openai<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Open<wbr></wbr>AIHandler<wbr></wbr>.sanitize<wbr></wbr>_input</div>
+            <div class="url">src.openai_handler.OpenAIHandler.html#sanitize_input</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Given an unsanitized input, return its sanitized counterpart and perform checks to ensure that it is valid</div>
           </li><li id="src.openai_handler.OpenAIHandler.get_genres">
 
             <div class="fullName">src<wbr></wbr>.openai<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Open<wbr></wbr>AIHandler<wbr></wbr>.get<wbr></wbr>_genres</div>
@@ -474,6 +586,14 @@
             <div class="kind">Static Method</div>
             <div class="privacy">PRIVATE</div>
             <div class="summary">Returns any value from the provided SECRETS_FILE given a key and sub-key</div>
+          </li><li id="src.secrets_handler.SecretsHandler._write_json_value">
+
+            <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>._write<wbr></wbr>_json<wbr></wbr>_value</div>
+            <div class="url">src.secrets_handler.SecretsHandler.html#_write_json_value</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Writes a value to the provided SECRETS_FILE given a key and sub-key</div>
           </li><li id="src.secrets_handler.SecretsHandler.get_openai_key">
 
             <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_openai<wbr></wbr>_key</div>
@@ -481,7 +601,7 @@
             <div class="type">Function</div>
             <div class="kind">Class Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves the OpenAI API key using key open-ai and sub-key api-key</div>
+            <div class="summary">Retrieves the OpenAI API key using key open-ai and sub-key api_key</div>
           </li><li id="src.secrets_handler.SecretsHandler.get_gpt_prompt">
 
             <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_gpt<wbr></wbr>_prompt</div>
@@ -497,7 +617,7 @@
             <div class="type">Function</div>
             <div class="kind">Class Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves the Spotify API key using key spotify and sub-key api-key</div>
+            <div class="summary">Retrieves the Spotify API client id using key spotify and sub-key client_id</div>
           </li><li id="src.secrets_handler.SecretsHandler.get_spotify_client_secret">
 
             <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_spotify<wbr></wbr>_client<wbr></wbr>_secret</div>
@@ -505,7 +625,31 @@
             <div class="type">Function</div>
             <div class="kind">Class Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves the Spotify API key using key spotify and sub-key api-key</div>
+            <div class="summary">Retrieves the Spotify API client secret using key spotify and sub-key client_secret</div>
+          </li><li id="src.secrets_handler.SecretsHandler.get_spotify_base_token">
+
+            <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_spotify<wbr></wbr>_base<wbr></wbr>_token</div>
+            <div class="url">src.secrets_handler.SecretsHandler.html#get_spotify_base_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves the Spotify API base token using key spotify and sub-key base_token</div>
+          </li><li id="src.secrets_handler.SecretsHandler.save_spotify_base_token">
+
+            <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.save<wbr></wbr>_spotify<wbr></wbr>_base<wbr></wbr>_token</div>
+            <div class="url">src.secrets_handler.SecretsHandler.html#save_spotify_base_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Save the Spotify API base token using key spotify and sub-key base_token</div>
+          </li><li id="src.secrets_handler.SecretsHandler.get_spotify_redirect_uri">
+
+            <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_spotify<wbr></wbr>_redirect<wbr></wbr>_uri</div>
+            <div class="url">src.secrets_handler.SecretsHandler.html#get_spotify_redirect_uri</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves the Spotify API refresh token using key spotify and sub-key redirect_uri</div>
           </li><li id="src.secrets_handler.SecretsHandler.get_database_user">
 
             <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_database<wbr></wbr>_user</div>
@@ -529,7 +673,7 @@
             <div class="type">Function</div>
             <div class="kind">Class Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves the database name using key database and sub-key database-name</div>
+            <div class="summary">Retrieves the database name using key database and sub-key database_name</div>
           </li><li id="src.secrets_handler.SecretsHandler.get_database_host">
 
             <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_database<wbr></wbr>_host</div>
@@ -570,6 +714,230 @@
             <div class="kind">Class Method</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Retrieves the email passkey using key email and sub-key passkey</div>
+          </li><li id="src.secrets_handler.SecretsHandler.get_youtube_key">
+
+            <div class="fullName">src<wbr></wbr>.secrets<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Secrets<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_youtube<wbr></wbr>_key</div>
+            <div class="url">src.secrets_handler.SecretsHandler.html#get_youtube_key</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves the youtube key using key youtube and sub-key api_key</div>
+          </li><li id="src.senti_types.song_type">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type</div>
+            <div class="url">src.senti_types.song_type.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.name">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.name</div>
+            <div class="url">src.senti_types.song_type.html#name</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.album">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.album</div>
+            <div class="url">src.senti_types.song_type.html#album</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.artists">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.artists</div>
+            <div class="url">src.senti_types.song_type.html#artists</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.preview_url">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.preview<wbr></wbr>_url</div>
+            <div class="url">src.senti_types.song_type.html#preview_url</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.external_urls">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.external<wbr></wbr>_urls</div>
+            <div class="url">src.senti_types.song_type.html#external_urls</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.explicit">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.explicit</div>
+            <div class="url">src.senti_types.song_type.html#explicit</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.is_playable">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.is<wbr></wbr>_playable</div>
+            <div class="url">src.senti_types.song_type.html#is_playable</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.popularity">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.popularity</div>
+            <div class="url">src.senti_types.song_type.html#popularity</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.id">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.id</div>
+            <div class="url">src.senti_types.song_type.html#id</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.song_type.liked_by_user">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.song<wbr></wbr>_type<wbr></wbr>.liked<wbr></wbr>_by<wbr></wbr>_user</div>
+            <div class="url">src.senti_types.song_type.html#liked_by_user</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type</div>
+            <div class="url">src.senti_types.token_type.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type.access_token">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type<wbr></wbr>.access<wbr></wbr>_token</div>
+            <div class="url">src.senti_types.token_type.html#access_token</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type.token_type">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type<wbr></wbr>.token<wbr></wbr>_type</div>
+            <div class="url">src.senti_types.token_type.html#token_type</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type.expires_in">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type<wbr></wbr>.expires<wbr></wbr>_in</div>
+            <div class="url">src.senti_types.token_type.html#expires_in</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type.scope">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type<wbr></wbr>.scope</div>
+            <div class="url">src.senti_types.token_type.html#scope</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type.expires_at">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type<wbr></wbr>.expires<wbr></wbr>_at</div>
+            <div class="url">src.senti_types.token_type.html#expires_at</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.senti_types.token_type.refresh_token">
+
+            <div class="fullName">src<wbr></wbr>.senti<wbr></wbr>_types<wbr></wbr>.token<wbr></wbr>_type<wbr></wbr>.refresh<wbr></wbr>_token</div>
+            <div class="url">src.senti_types.token_type.html#refresh_token</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.spotify_cache_handlers.MemoryCacheHandler">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Memory<wbr></wbr>Cache<wbr></wbr>Handler</div>
+            <div class="url">src.spotify_cache_handlers.MemoryCacheHandler.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A cache handler that simply stores the token info in memory as an instance attribute of this class. The token info will be lost when this instance is freed.</div>
+          </li><li id="src.spotify_cache_handlers.MemoryCacheHandler.__init__">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Memory<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.__init__</div>
+            <div class="url">src.spotify_cache_handlers.MemoryCacheHandler.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Initializes the cache handler</div>
+          </li><li id="src.spotify_cache_handlers.MemoryCacheHandler.token_info">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Memory<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.token<wbr></wbr>_info</div>
+            <div class="url">src.spotify_cache_handlers.MemoryCacheHandler.html#token_info</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.spotify_cache_handlers.MemoryCacheHandler.get_cached_token">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Memory<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_cached<wbr></wbr>_token</div>
+            <div class="url">src.spotify_cache_handlers.MemoryCacheHandler.html#get_cached_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves the cached token</div>
+          </li><li id="src.spotify_cache_handlers.MemoryCacheHandler.save_token_to_cache">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Memory<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.save<wbr></wbr>_token<wbr></wbr>_to<wbr></wbr>_cache</div>
+            <div class="url">src.spotify_cache_handlers.MemoryCacheHandler.html#save_token_to_cache</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Saves a given token to the cache</div>
+          </li><li id="src.spotify_cache_handlers.BaseClientCacheHandler">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Base<wbr></wbr>Client<wbr></wbr>Cache<wbr></wbr>Handler</div>
+            <div class="url">src.spotify_cache_handlers.BaseClientCacheHandler.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A cache handler that simply stores the token info in memory as an instance attribute of this class. The token info will be lost when this instance is freed.</div>
+          </li><li id="src.spotify_cache_handlers.BaseClientCacheHandler.__init__">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Base<wbr></wbr>Client<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.__init__</div>
+            <div class="url">src.spotify_cache_handlers.BaseClientCacheHandler.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.spotify_cache_handlers.BaseClientCacheHandler.get_cached_token">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Base<wbr></wbr>Client<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_cached<wbr></wbr>_token</div>
+            <div class="url">src.spotify_cache_handlers.BaseClientCacheHandler.html#get_cached_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves the base client's stored token</div>
+          </li><li id="src.spotify_cache_handlers.BaseClientCacheHandler.save_token_to_cache">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_cache<wbr></wbr>_handlers<wbr></wbr>.<wbr></wbr>Base<wbr></wbr>Client<wbr></wbr>Cache<wbr></wbr>Handler<wbr></wbr>.save<wbr></wbr>_token<wbr></wbr>_to<wbr></wbr>_cache</div>
+            <div class="url">src.spotify_cache_handlers.BaseClientCacheHandler.html#save_token_to_cache</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Saves a given token as belonging to the base client</div>
           </li><li id="src.spotify_handler.SpotifyHandler">
 
             <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler</div>
@@ -578,14 +946,22 @@
             <div class="kind">Class</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">A class to handle all Spotify API interactions.</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.__init__">
+          </li><li id="src.spotify_handler.SpotifyHandler.BASE_CLIENT">
 
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.__init__</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#__init__</div>
-            <div class="type">Function</div>
-            <div class="kind">Method</div>
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.BASE<wbr></wbr>_CLIENT</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#BASE_CLIENT</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Initializes a SpotifyHandler instance. This instance gives you full control of how to initialize and use the handler. However, this comes at the cost of the comfort and abstraction capabilities provided by this class.</div>
+            <div class="summary">The base Spotify client instance. This instance is not authenticated with a particular user</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.user_scope">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.user<wbr></wbr>_scope</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#user_scope</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">The list of scopes required to access user data</div>
           </li><li id="src.spotify_handler.SpotifyHandler._client_instance">
 
             <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>._client<wbr></wbr>_instance</div>
@@ -593,71 +969,71 @@
             <div class="type">Attribute</div>
             <div class="kind">Instance Variable</div>
             <div class="privacy">PRIVATE</div>
-            <div class="summary">The client instance (Spotify) used to interact with the API</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.is_user_client">
+            <div class="summary">The Spotify client instance, which should not be accessed directly</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.cache_handler">
 
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.is<wbr></wbr>_user<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#is_user_client</div>
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.cache<wbr></wbr>_handler</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#cache_handler</div>
             <div class="type">Attribute</div>
             <div class="kind">Instance Variable</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Whether or not we have a base or user-specific client instance</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.from_base_client">
+            <div class="summary">The object getting and storing the Spotify authentication token. It is exposed here for direct control of the tokens outside of this object</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.__init__">
 
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.from<wbr></wbr>_base<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#from_base_client</div>
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.__init__</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Initializes a base SpotifyHandler instance</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.from_token">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.from<wbr></wbr>_token</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#from_token</div>
             <div class="type">Function</div>
             <div class="kind">Class Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Creates a SpotifyHandler initialized with a base client</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.from_user_client">
-
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.from<wbr></wbr>_user<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#from_user_client</div>
-            <div class="type">Function</div>
-            <div class="kind">Class Method</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Creates a SpotifyHandler initialized with a user client</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.get_any_client">
-
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_any<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#get_any_client</div>
-            <div class="type">Function</div>
-            <div class="kind">Method</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves or creates a Spotify client. This client can either be authenticated or a base client. As such, this function should only be used if you're absolutely certain you don't care what type of client you're retrieving.</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.get_base_client">
-
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_base<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#get_base_client</div>
-            <div class="type">Function</div>
-            <div class="kind">Method</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves or creates the Spotify client instance with no user credentials</div>
-          </li><li id="src.spotify_handler.SpotifyHandler._initialize_base_client">
-
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>._initialize<wbr></wbr>_base<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#_initialize_base_client</div>
-            <div class="type">Function</div>
-            <div class="kind">Method</div>
-            <div class="privacy">PRIVATE</div>
-            <div class="summary">Initializes the Spotify client with no user credentials.</div>
-          </li><li id="src.spotify_handler.SpotifyHandler.get_user_client">
-
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#get_user_client</div>
-            <div class="type">Function</div>
-            <div class="kind">Method</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves or creates a Spotify client instance with user credentials</div>
-          </li><li id="src.spotify_handler.SpotifyHandler._initialize_user_client">
-
-            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>._initialize<wbr></wbr>_user<wbr></wbr>_client</div>
-            <div class="url">src.spotify_handler.SpotifyHandler.html#_initialize_user_client</div>
-            <div class="type">Function</div>
-            <div class="kind">Method</div>
-            <div class="privacy">PRIVATE</div>
             <div class="summary">Initializes the Spotify client with user credentials.</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.create_oauth">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.create<wbr></wbr>_oauth</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#create_oauth</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Creates an OAuth handler for Spotify as well as a reference to the cache handler</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.generate_oauth_url">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.generate<wbr></wbr>_oauth<wbr></wbr>_url</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#generate_oauth_url</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generates the URL to authenticate a user with Spotify</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.get_client">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_client</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#get_client</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves a Spotify object. This instance can either be authenticated with a user or a base client. If you would like a user client, use the <code><a href="src.spotify_handler.SpotifyHandler.html#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">SpotifyHandler.from_token</a></code> classmethod for initialization</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.ensure_authentication">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.ensure<wbr></wbr>_authentication</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#ensure_authentication</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A passthrough for the Spotify.me field</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.get_token">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_token</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#get_token</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Gets the token from the cache handler if there has been a token loaded</div>
           </li><li id="src.spotify_handler.SpotifyHandler.get_genre_songs">
 
             <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_genre<wbr></wbr>_songs</div>
@@ -665,7 +1041,7 @@
             <div class="type">Function</div>
             <div class="kind">Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieves a pseudo-random list of songs in a genre sourced from the Spotify API.</div>
+            <div class="summary">Retrieves a list of songs in each genre sourced from the Spotify API.</div>
           </li><li id="src.spotify_handler.SpotifyHandler.get_available_genre_seeds">
 
             <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_available<wbr></wbr>_genre<wbr></wbr>_seeds</div>
@@ -682,6 +1058,142 @@
             <div class="kind">Method</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Creates a playlist for a user on Spotify given a list of song IDs.</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.like_song">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.like<wbr></wbr>_song</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#like_song</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Likes a song on Spotify.</div>
+          </li><li id="src.spotify_handler.SpotifyHandler.unlike_song">
+
+            <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.unlike<wbr></wbr>_song</div>
+            <div class="url">src.spotify_handler.SpotifyHandler.html#unlike_song</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Un-likes a song on Spotify.</div>
+          </li><li id="src.youtube_handler.YoutubeHandler">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A handler for interacting with the YouTube API.</div>
+          </li><li id="src.youtube_handler.YoutubeHandler.api_service_name">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.api<wbr></wbr>_service<wbr></wbr>_name</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#api_service_name</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler.api_version">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.api<wbr></wbr>_version</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#api_version</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler.MAX_THREAD_COUNT">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.MAX<wbr></wbr>_THREAD<wbr></wbr>_COUNT</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#MAX_THREAD_COUNT</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler._youtube_instance">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>._youtube<wbr></wbr>_instance</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#_youtube_instance</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler.request_queue">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.request<wbr></wbr>_queue</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#request_queue</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler.thread_pool">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.thread<wbr></wbr>_pool</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#thread_pool</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler._id_cache">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>._id<wbr></wbr>_cache</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#_id_cache</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler.__init__">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.__init__</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Raises a TypeError. YoutubeHandler instances must not be created as this is a singleton</div>
+          </li><li id="src.youtube_handler.YoutubeHandler.get_client">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_client</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#get_client</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves or creates the YouTube client instance</div>
+          </li><li id="src.youtube_handler.YoutubeHandler._initialize_client">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>._initialize<wbr></wbr>_client</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#_initialize_client</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Initializes the YouTube client.</div>
+          </li><li id="src.youtube_handler.YoutubeHandler.search_for_match">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.search<wbr></wbr>_for<wbr></wbr>_match</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#search_for_match</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Searches for a matching song on youtube given the song and artist name Adds the youtube url to the song dictionary if no match is found, the song is returned as None</div>
+          </li><li id="src.youtube_handler.YoutubeHandler.match_list">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.match<wbr></wbr>_list</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#match_list</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Matches a list of songs to their respective youtube videos</div>
+          </li><li id="src.youtube_handler.YoutubeHandler._process_queue">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>._process<wbr></wbr>_queue</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#_process_queue</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Processes the request queue</div>
+          </li><li id="src.youtube_handler.YoutubeHandler.save_cache">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>.save<wbr></wbr>_cache</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#save_cache</div>
+            <div class="type">Function</div>
+            <div class="kind">Class Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Saves the id cache to a file</div>
           </li>
        </ul>
     </div>

@@ -1,3 +1,6 @@
+"""Short-hands for types used throughout SentiSounds"""
+
+
 from typing import TypedDict
 
 
