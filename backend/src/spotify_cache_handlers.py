@@ -1,4 +1,5 @@
 from secrets_handler import SecretsHandler
+from senti_types import token_type
 from spotipy import CacheHandler
 
 
@@ -9,35 +10,35 @@ class MemoryCacheHandler(CacheHandler):
     instance is freed.
     """
 
-    def __init__(self, token_info: dict[str, str | int] | None = None):
+    def __init__(self, token_info: token_type | None = None):
         """
         Initializes the cache handler
 
         Parameters
         ----------
-        token_info : dict[str, str | int], default=None
+        token_info : token_type, default=None
             The token info to store in memory
         """
         self.token_info = token_info
 
-    def get_cached_token(self) -> dict[str, str | int] | None:
+    def get_cached_token(self) -> token_type | None:
         """
         Retrieves the cached token
 
         Returns
         -------
-        dict[str, str | int] | None
+        token_type | None
             The token_info if it exists
         """
         return self.token_info
 
-    def save_token_to_cache(self, token_info: dict[str, str | int]) -> None:
+    def save_token_to_cache(self, token_info: token_type) -> None:
         """
         Saves a given token to the cache
 
         Parameters
         ----------
-        token_info : dict[str, str | int]
+        token_info : token_type
             The token info to store in memory
         """
         self.token_info = token_info

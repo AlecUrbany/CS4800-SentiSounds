@@ -6,6 +6,7 @@ import json
 from googleapiclient import discovery
 from googleapiclient.errors import HttpError
 from secrets_handler import SecretsHandler
+from senti_types import song_type
 
 
 class YoutubeHandler:
@@ -72,7 +73,7 @@ class YoutubeHandler:
         return _youtube_instance
 
     @classmethod
-    def search_for_match(cls, song: dict):
+    def search_for_match(cls, song: song_type):
         """
         Searches for a matching song on youtube given the song and artist name
         Adds the youtube url to the song dictionary
@@ -96,7 +97,11 @@ class YoutubeHandler:
                     client.search()  # type: ignore
                     .list(
                         part="id",
-                        q=song["name"] + " " + song["artists"][0]["name"],
+                        q=(
+                            song["name"]
+                            + " "
+                            + song["artists"][0]["name"]  # type: ignore
+                        ),
                         type="video",
                         maxResults=1,
                         order="relevance",
@@ -124,13 +129,13 @@ class YoutubeHandler:
         return song
 
     @classmethod
-    def match_list(cls, songs: list[dict[str, str | bool | int]]):
+    def match_list(cls, songs: list[song_type]):
         """
         Matches a list of songs to their respective youtube videos
 
         Parameters
         ----------
-        songs : list[dict[str, str | bool | int]]
+        songs : list[song_type]
             A list of songs to match
         """
 

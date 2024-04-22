@@ -10,6 +10,7 @@ from typing import Callable
 
 from database_handler import DatabaseHandler
 from secrets_handler import SecretsHandler
+from senti_types import token_type
 
 
 class AuthHandler:
@@ -398,7 +399,10 @@ class AuthHandler:
         return random_code
 
     @staticmethod
-    async def save_spotify_token(email_address: str, token: dict) -> None:
+    async def save_spotify_token(
+                email_address: str,
+                token: token_type
+            ) -> None:
         """
         Given an email address, save the user's Spotify token
 
@@ -425,7 +429,7 @@ class AuthHandler:
             )
 
     @staticmethod
-    async def get_spotify_token(email_address: str) -> dict:
+    async def get_spotify_token(email_address: str) -> token_type:
         """
         Given an email address, return the user's Spotify token
 
@@ -454,9 +458,11 @@ class AuthHandler:
             return json.loads(found[0]["spotify_token"])
 
     @staticmethod
-    def check_and_save_spotify_token(
-        email_address: str, old_token: dict, new_token: dict
-    ) -> None:
+    async def check_and_save_spotify_token(
+                email_address: str,
+                old_token: token_type | None,
+                new_token: token_type | None
+            ) -> None:
         """
         Given an email address, check if the user's Spotify token has changed
         and save it
@@ -470,5 +476,5 @@ class AuthHandler:
         new_token : dict
             The user's new Spotify token
         """
-        if old_token is not None and old_token != new_token:
-            AuthHandler.save_spotify_token(email_address, new_token)
+        if old_token and new_token and old_token != new_token:
+            await AuthHandler.save_spotify_token(email_address, new_token)

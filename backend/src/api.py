@@ -297,7 +297,7 @@ async def recommended_songs():
     # Match the song list to their YouTube links
     YoutubeHandler.match_list(songs)
     # if the token has changed, update the database
-    AuthHandler.check_and_save_spotify_token(
+    await AuthHandler.check_and_save_spotify_token(
         email_address, token, sp.get_token()
     )
     YoutubeHandler.save_cache()
@@ -360,7 +360,7 @@ async def spotify_check_authentication():
         token = await AuthHandler.get_spotify_token(email_address)
         sp = SpotifyHandler.from_token(token)
         sp.get_client().me()
-        AuthHandler.check_and_save_spotify_token(
+        await AuthHandler.check_and_save_spotify_token(
             email_address, token, sp.get_token()
         )
     except IndexError:
@@ -384,7 +384,7 @@ async def spotify_like_song():
         token = await AuthHandler.get_spotify_token(email_address)
         sp = SpotifyHandler.from_token(token)
         sp.like_song(song_id)
-        AuthHandler.check_and_save_spotify_token(
+        await AuthHandler.check_and_save_spotify_token(
             email_address, token, sp.get_token()
         )
     except IndexError:
@@ -408,7 +408,7 @@ async def spotify_unlike_song():
         token = await AuthHandler.get_spotify_token(email_address)
         sp = SpotifyHandler.from_token(token)
         sp.unlike_song(song_id)
-        AuthHandler.check_and_save_spotify_token(
+        await AuthHandler.check_and_save_spotify_token(
             email_address, token, sp.get_token()
         )
     except IndexError:

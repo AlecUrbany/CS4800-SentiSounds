@@ -2,37 +2,14 @@
 
 from __future__ import annotations
 
-from typing import TypedDict
-
 from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
+from senti_types import song_type, token_type
 from spotify_cache_handlers import BaseClientCacheHandler, MemoryCacheHandler
 from spotipy import CacheHandler, Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.util import normalize_scope
-
-
-class song_type(TypedDict):
-    name: str
-    album: dict[str, str | list[dict[str, str | int]] | dict[str, str]]
-    artists: list[dict[str, str | dict[str, str]]]
-    preview_url: str
-    external_urls: dict[str, str]
-    explicit: bool
-    is_playable: bool
-    popularity: int
-    id: str
-    liked_by_user: bool
-
-
-class token_type(TypedDict):
-    access_token: str
-    token_type: str
-    expires_in: int
-    scope: str | list[str]
-    expires_at: int
-    refresh_token: str
 
 
 class SpotifyHandler:
@@ -108,7 +85,7 @@ class SpotifyHandler:
 
         Parameters
         ----------
-        token_info : dict[str, str | int]
+        token_info : token_type
             The token information to load into the cache handler
 
         Returns
@@ -134,7 +111,7 @@ class SpotifyHandler:
 
         Parameters
         ----------
-        token_info : dict[str, str | int], default=None
+        token_info : token_type | None, default=None
             The token information to load into the cache handler
 
         Returns
@@ -196,7 +173,7 @@ class SpotifyHandler:
 
         Returns
         -------
-        dict[str, str | int] | None
+        token_type | None
             The token information if it exists
         """
         if self.cache_handler:
@@ -224,7 +201,7 @@ class SpotifyHandler:
 
         Returns
         -------
-        list[dict[str, str | bool | int]]
+        list[song_type]
             The list of songs from the Spotify API with the following:
             - name: The name of the song
             - album: The album the song is from
@@ -260,7 +237,7 @@ class SpotifyHandler:
 
         client_instance = self.get_client()
 
-        all_song_info = []
+        all_song_info: list[song_type] = []
         for genre in genres:
             # A page of results for this genre
             search_result = client_instance.search(
@@ -272,7 +249,7 @@ class SpotifyHandler:
 
             # Keep filling this genre's list until there are no more results
             # or we run out of space
-            genre_song_list = []
+            genre_song_list: list[song_type] = []
             while len(genre_song_list) < limit_per_genre:
                 genre_song_list += [
                     song
@@ -295,10 +272,10 @@ class SpotifyHandler:
             )
 
         # Only store the information we want to store
-        requested_song_info = [
+        requested_song_info: list[song_type] = [
             {key: song[key] for key in song_keys_to_extract}
             for song in all_song_info
-        ]
+        ]  # type: ignore
 
         # Only store the album and artist info that we want to store
         for song in requested_song_info:
