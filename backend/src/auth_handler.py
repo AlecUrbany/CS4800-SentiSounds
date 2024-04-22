@@ -537,10 +537,10 @@ class AuthHandler:
                 email_address,
             )
 
-            if not found:
+            if not found or not (token := found[0]["spotify_token"]):
                 return None
 
-            return json.loads(found[0]["spotify_token"])
+            return json.loads(token)
 
     @staticmethod
     async def check_and_save_spotify_token(
