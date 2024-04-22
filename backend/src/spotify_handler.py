@@ -176,8 +176,7 @@ class SpotifyHandler:
         """
         try:
             self.get_client().me()
-        except Exception as e:
-            print(e)
+        except Exception:
             return False
 
         return True
