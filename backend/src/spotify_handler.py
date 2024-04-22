@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
 from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
@@ -166,16 +165,21 @@ class SpotifyHandler:
         """
         return self._client_instance or SpotifyHandler.BASE_CLIENT
 
-    def ensure_authentication(self) -> Any:
+    def ensure_authentication(self) -> bool:
         """
-        A passthrough for the Spotify.me field
+        A passthrough for the Spotify.me field.
 
         Returns
         -------
-        typing.Any
-            The result of Spotify.me()
+        bool
+            True if a user client was successfully found, False otherwise
         """
-        return self.get_client().me()
+        try:
+            self.get_client().me()
+        except Exception:
+            return False
+
+        return True
 
     def get_token(self) -> token_type | None:
         """

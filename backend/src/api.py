@@ -402,13 +402,13 @@ async def spotify_check_authentication():
     email_address = passed.get("email_address", default="")
 
     try:
-        await uses_token(
+        is_auth = await uses_token(
             email_address, True, SpotifyHandler.ensure_authentication
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
-    return {"status": "success"}, 200
+    return {"status": "success", "is-authenticated": is_auth}, 200
 
 
 @app.route("/spotify-like-song", methods=["POST"])
