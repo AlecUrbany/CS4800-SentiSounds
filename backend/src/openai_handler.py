@@ -1,6 +1,7 @@
 """A handler for interacting with OpenAI's API and the GPT model"""
 
 import json
+from typing import Callable
 
 from openai import OpenAI
 from secrets_handler import SecretsHandler
@@ -24,6 +25,21 @@ class OpenAIHandler:
 
     PROMPT = SecretsHandler.get_gpt_prompt()
     """The system prompt to feed the AI model"""
+
+    PROMPT_CHECK: list[tuple[Callable[[str], bool], str]] = [
+        (lambda x: bool(x), "No prompt was entered."),
+        (lambda x: len(x) > 5, "That prompt was too short. Min 5 chars."),
+        (lambda x: len(x) < 200, "That prompt was too long. Max 200 chars."),
+        (
+            lambda x: all(chr not in "^*_=+;\\|" for chr in x),
+            "The prompt cannot contain the following characters: "
+            + "^*_=+;\\|",
+        ),
+    ]
+    """
+    Defines the checks to make for a prompt as a list of lambdas returning
+    bools and the associated error messages
+    """
 
     def __init__(self) -> None:
         """
@@ -71,6 +87,35 @@ class OpenAIHandler:
         )
 
         return OpenAIHandler._client_instance
+
+    @staticmethod
+    def sanitize_input(unsanitized_input: str) -> str:
+        """
+        Given an unsanitized input, return its sanitized counterpart and
+        perform checks to ensure that it is valid
+
+        Parameters
+        ----------
+        unsanitized_input : str
+            The input to sanitize
+
+        Returns
+        -------
+        str
+            The newly sanitized input
+
+        Raises
+        ------
+        ValueError
+            The reason why the input couldn't be sanitized
+        """
+        sanitized_input = unsanitized_input.strip()
+
+        for check, error_message in OpenAIHandler.PROMPT_CHECK:
+            if not check(sanitized_input):
+                raise ValueError(error_message)
+
+        return sanitized_input
 
     @staticmethod
     def get_genres(sanitized_input: str) -> list[str]:

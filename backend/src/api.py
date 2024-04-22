@@ -289,9 +289,9 @@ async def recommend_songs():
         type=int,
     )
 
-    # TODO: Check entered prompt validity
-
     try:
+        entered_prompt = OpenAIHandler.sanitize_input(entered_prompt)
+
         found_genres = OpenAIHandler.get_genres(entered_prompt)
         songs: list[song_type] = await uses_token(
             email_address, False, SpotifyHandler.get_genre_songs,
