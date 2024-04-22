@@ -41,8 +41,8 @@ async def sign_up():
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
-        int is 400 if an error occured and 200 if the operation was
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
         successful
     """
     passed = await request.form
@@ -93,8 +93,8 @@ async def authenticate():
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
-        int is 400 if an error occured and 200 if the operation was
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
         successful
     """
     await DatabaseHandler.get_pool()
@@ -138,7 +138,7 @@ async def login():
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
+        (either success or failure), and an `error` if an error occurred.
         int is 401 if an incorrect pair was passed and 200 if the operation was
         successful
     """
@@ -171,8 +171,8 @@ def spotify_get_auth_link():
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
-        int is 400 if an incorrect pair was passed and 200 if the operation was
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
         successful
     """
     try:
@@ -207,8 +207,8 @@ async def spotify_authenticate():
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
-        int is 400 if an incorrect pair was passed and 200 if the operation was
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
         successful
     """
     await DatabaseHandler.get_pool()
@@ -250,13 +250,17 @@ async def recommended_songs():
         personalized list of songs to the user based on their Spotify activity
         (Note: this requires that the user has previously linked their
         Spotify account)
+    popularity_score: int, default=20
+        The popularity score of the songs to retrieve. The lower the score,
+        the more... 'special'... songs you'll get. The default (20) strikes
+        a fine balance, but this can be adjusted.
 
     Returns
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
-        int is 400 if an incorrect pair was passed and 200 if the operation was
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
         successful
     """
 
@@ -278,22 +282,22 @@ async def recommended_songs():
         # if email's spotify token exists in the database, then we must grab
         # the user's token
         # if the token is not in the database, then we must use the base client
-        try:
-            token = await AuthHandler.get_spotify_token(email_address)
-        except IndexError:  # no token found in database
-            token = None
-        # Still need to see if the error of a user existing but not having a
-        # spotify token is caught
+        token = await AuthHandler.get_spotify_token(email_address)
+
+        # TODO Still need to see if the error of a user existing but not
+        # having a spotify token is caught
         if email_address and token:
             sp = SpotifyHandler.from_token(token)
         else:
             sp = SpotifyHandler()
-        # The meat and potatoes of this endpoint
+
+        # The meat and potatoes of this endpoint, yummy
         songs = sp.get_genre_songs(
             found_genres, popularity_threshold=popularity_score
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
+
     # Match the song list to their YouTube links
     YoutubeHandler.match_list(songs)
     # if the token has changed, update the database
@@ -316,12 +320,17 @@ async def export_playlist():
     keys of the data given must be spelled exactly as displayed in the
     parameters list
 
+    Parameters
+    ----------
+    email_address : str, default=""
+        The email address of the Spotify account to export the playlist to
+
     Returns
     -------
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
-        (either success or failure), and an `error` if an error occured.
-        int is 400 if an incorrect pair was passed and 200 if the operation was
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
         successful
     """
     email_address = request.args.get("email_address", default="")
@@ -331,19 +340,16 @@ async def export_playlist():
     # TODO: How to get playlist name and description from this endpoint if
     # they are to come from ChatGPT
     try:
-        if not email_address:
-            raise ValueError("No email address provided")
-        try:
-            token = await AuthHandler.get_spotify_token(email_address)
-        except IndexError:  # no token found in database
+        token = await AuthHandler.get_spotify_token(email_address)
+
+        if not token:
             raise ValueError(
-                "No spotify account was found for %s in database"
-                % email_address
+                f"No Spotify account was found for {email_address} in database"
             )
+
         # Still need to see if the error of a user existing but not having a
-        # spotify token is caught
-        if email_address is not None and token is not None:
-            token = await AuthHandler.get_spotify_token(email_address)
+        # Spotify token is caught
+        if email_address and token:
             SpotifyHandler.from_token(token)
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -353,21 +359,45 @@ async def export_playlist():
 
 @app.route("/spotify-check-authentication", methods=["GET"])
 async def spotify_check_authentication():
+    """
+    `GET /spotify-check-authentication`
+
+    Checks if a user has authenticated their Spotify account
+
+    Parameters must be given in the **body of the API call as form-data**. The
+    keys of the data given must be spelled exactly as displayed in the
+    parameters list
+
+    Parameters
+    ----------
+    email_address : str, default=""
+        The email address of the user with an associated Spotify account
+
+    Returns
+    -------
+    tuple[dict[str, str], int]
+        dict[str, str] is a dictionary denoting the `status` of the operation
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
+        successful
+    """
     await DatabaseHandler.get_pool()
 
     email_address = request.args.get("email_address", default="")
+
     try:
         token = await AuthHandler.get_spotify_token(email_address)
+
+        if not token:
+            raise ValueError(
+                f"No Spotify account was found for {email_address} in database"
+            )
+
         sp = SpotifyHandler.from_token(token)
         sp.get_client().me()
         await AuthHandler.check_and_save_spotify_token(
             email_address, token, sp.get_token()
         )
-    except IndexError:
-        return {
-            "status": "failure",
-            "error": f"No token was found for {email_address} in database",
-        }, 400
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
@@ -376,22 +406,49 @@ async def spotify_check_authentication():
 
 @app.route("/spotify-like-song", methods=["POST"])
 async def spotify_like_song():
+    """
+    `POST /spotify-like-song`
+
+    Likes a song. If it was already liked, nothing will happen.
+
+    Parameters must be given in the **body of the API call as form-data**. The
+    keys of the data given must be spelled exactly as displayed in the
+    parameters list
+
+    Parameters
+    ----------
+    email_address : str, default=""
+        The email address of the user whose Spotify account to unlike a song
+        from
+    song_id: str, default=""
+        The song ID of the song to unlike
+
+    Returns
+    -------
+    tuple[dict[str, str], int]
+        dict[str, str] is a dictionary denoting the `status` of the operation
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
+        successful
+    """
     await DatabaseHandler.get_pool()
 
     email_address = request.args.get("email_address", default="")
     song_id = request.args.get("song_id", default="")
+
     try:
         token = await AuthHandler.get_spotify_token(email_address)
+
+        if not token:
+            raise ValueError(
+                f"No Spotify account was found for {email_address} in database"
+            )
+
         sp = SpotifyHandler.from_token(token)
         sp.like_song(song_id)
         await AuthHandler.check_and_save_spotify_token(
             email_address, token, sp.get_token()
         )
-    except IndexError:
-        return {
-            "status": "failure",
-            "error": f"No token was found for {email_address} in database",
-        }, 400
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
@@ -400,22 +457,49 @@ async def spotify_like_song():
 
 @app.route("/spotify-unlike-song", methods=["POST"])
 async def spotify_unlike_song():
+    """
+    `POST /spotify-unlike-song`
+
+    Unlikes a song. If it wasn't already liked, nothing will happen.
+
+    Parameters must be given in the **body of the API call as form-data**. The
+    keys of the data given must be spelled exactly as displayed in the
+    parameters list
+
+    Parameters
+    ----------
+    email_address : str, default=""
+        The email address of the user whose Spotify account to unlike a song
+        from
+    song_id: str, default=""
+        The song ID of the song to unlike
+
+    Returns
+    -------
+    tuple[dict[str, str], int]
+        dict[str, str] is a dictionary denoting the `status` of the operation
+        (either success or failure), and an `error` if an error occurred.
+        int is 400 if an error occurred and 200 if the operation was
+        successful
+    """
     await DatabaseHandler.get_pool()
 
     email_address = request.args.get("email_address", default="")
     song_id = request.args.get("song_id", default="")
+
     try:
         token = await AuthHandler.get_spotify_token(email_address)
+
+        if not token:
+            raise ValueError(
+                f"No Spotify account was found for {email_address} in database"
+            )
+
         sp = SpotifyHandler.from_token(token)
         sp.unlike_song(song_id)
         await AuthHandler.check_and_save_spotify_token(
             email_address, token, sp.get_token()
         )
-    except IndexError:
-        return {
-            "status": "failure",
-            "error": f"No token was found for {email_address} in database",
-        }, 400
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 

@@ -414,6 +414,9 @@ class AuthHandler:
             The user's Spotify token
         """
 
+        if not email_address:
+            raise ValueError("No email address was entered.")
+
         async with DatabaseHandler.acquire() as conn:
             await conn.execute(
                 """
@@ -429,7 +432,7 @@ class AuthHandler:
             )
 
     @staticmethod
-    async def get_spotify_token(email_address: str) -> token_type:
+    async def get_spotify_token(email_address: str) -> token_type | None:
         """
         Given an email address, return the user's Spotify token
 
@@ -440,9 +443,18 @@ class AuthHandler:
 
         Returns
         -------
-        str
-            The user's Spotify token
+        token_type | None
+            The user's Spotify token if it exists
+
+        Raises
+        ------
+        ValueError
+            If no email address is entered
         """
+
+        if not email_address:
+            raise ValueError("No email address was entered.")
+
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
                 """
@@ -455,6 +467,10 @@ class AuthHandler:
                 """,
                 email_address,
             )
+
+            if not found:
+                return None
+
             return json.loads(found[0]["spotify_token"])
 
     @staticmethod
