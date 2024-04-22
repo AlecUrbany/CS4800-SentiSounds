@@ -1,9 +1,6 @@
 """The main driver for beginning the program's execution"""
 
-# from api import app
-from spotify_handler import SpotifyHandler
+from api import app
 
 if __name__ == "__main__":
-    s = SpotifyHandler()
-    print(s.get_genre_songs(["rock"]))
-    # app.run()
+    app.run()
