@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TypedDict
+
 from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
@@ -9,6 +11,28 @@ from spotify_cache_handlers import BaseClientCacheHandler, MemoryCacheHandler
 from spotipy import CacheHandler, Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.util import normalize_scope
+
+
+class song_type(TypedDict):
+    name: str
+    album: dict[str, str | list[dict[str, str | int]] | dict[str, str]]
+    artists: list[dict[str, str | dict[str, str]]]
+    preview_url: str
+    external_urls: dict[str, str]
+    explicit: bool
+    is_playable: bool
+    popularity: int
+    id: str
+    liked_by_user: bool
+
+
+class token_type(TypedDict):
+    access_token: str
+    token_type: str
+    expires_in: int
+    scope: str | list[str]
+    expires_at: int
+    refresh_token: str
 
 
 class SpotifyHandler:
@@ -77,7 +101,7 @@ class SpotifyHandler:
 
     @classmethod
     def from_token(
-        cls: type[SpotifyHandler], token_info: dict[str, str | int]
+        cls: type[SpotifyHandler], token_info: token_type
     ) -> SpotifyHandler:
         """
         Initializes the Spotify client with user credentials.
@@ -102,7 +126,7 @@ class SpotifyHandler:
 
     @staticmethod
     def create_oauth(
-        token_info: dict[str, str | int] | None = None
+        token_info: token_type | None = None,
     ) -> tuple[SpotifyOAuth, CacheHandler]:
         """
         Creates an OAuth handler for Spotify as well as a reference
@@ -166,7 +190,7 @@ class SpotifyHandler:
         """
         return self._client_instance or SpotifyHandler.BASE_CLIENT
 
-    def get_token(self) -> dict[str, str | int] | None:
+    def get_token(self) -> token_type | None:
         """
         Gets the token from the cache handler if there has been a token loaded
 
@@ -183,8 +207,7 @@ class SpotifyHandler:
         genres: list[str],
         limit_per_genre: int = 10,
         popularity_threshold: int = 20,
-    ) -> list[dict[str, str | bool | int]]:
-        # TODO: Add better type hint for return value
+    ) -> list[song_type]:
         """
         Retrieves a list of songs in each genre sourced from the Spotify API.
 
@@ -212,7 +235,8 @@ class SpotifyHandler:
                 - external_urls: A URL to the artist
                 - name: The name of the artist
             - preview_url: A URL to a 30-second preview of the song
-            - external_urls: A URL to the song
+            - external_urls: A URL to the song in different contexts
+
             - explicit: Whether the song is explicit
             - is_playable: Whether the song is playable
             - popularity: The popularity of the song
