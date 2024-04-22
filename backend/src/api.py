@@ -172,7 +172,10 @@ def spotify_get_auth_link():
     """
     `GET spotify-auth-link`
 
-    Retrieves a link to be used to authenticate with Spotify
+    Retrieves a link to be used to authenticate with Spotify. After the user
+    authenticates, they will be redirected to a URL with a code=... parameter.
+    This code will need to be passed to `POST spotify-authenticate` to complete
+    authentication
 
     Returns
     -------
@@ -198,7 +201,9 @@ async def spotify_authenticate():
     `POST /spotify-authenticate`
 
     Attempts to authenticate a user with their Spotify account given
-    an email address and the 'code' token
+    an email address and the 'code' token. To retrieve this code,
+    the user must first be redirected to the URL retrieved from
+    `GET /spotify-auth-link`.
 
     Parameters must be given in the **body of the API call as form-data**. The
     keys of the data given must be spelled exactly as displayed in the
