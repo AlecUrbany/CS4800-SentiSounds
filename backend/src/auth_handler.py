@@ -1,11 +1,14 @@
 """A handler for signing up, authenticating emails, and logging in"""
 
+from email.mime.image import MIMEImage
 import json
 import random
 import re
 import smtplib
 import ssl
 from datetime import datetime, timedelta
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from typing import Callable
 
 from database_handler import DatabaseHandler
@@ -75,12 +78,57 @@ class AuthHandler:
     bools and the associated error messages
     """
 
-    PLAIN_TEXT = "Subject: {}\nTo: {}\n\n{}"
-    """A frame for the email to send a to-be authenticated user"""
+    PLAIN_TEXT = (
+        "Thank you for registering with SentiSounds!\n" +
+        "You have 1 minute to enter this authentication code: {}"
+    )
+    """A frame for the email to send a to-be authed user"""
+
+    HTML_PATH = r"frontend\src\email.html"
+    """The path to the HTML for the email to send a to-be authed user"""
+
+    LOGO_PATH = r"frontend\src\assets\sentisounds_icon.png"
+    """The path to the logo to be added to the HTML"""
 
     # email_address: (code, expiry time)
     ACTIVE_AUTHS: dict[str, tuple[str, float]] = {}
     """A dictionary of currently authenticating users"""
+
+    @staticmethod
+    def get_html(auth_code: str) -> str:
+        """
+        Retrieves the literal HTML code from `HTML_PATH`
+
+        Parameters
+        ----------
+        auth_code : str
+            The auth code to send the user in the HTML
+
+        Returns
+        -------
+        str
+            The HTML code
+        """
+        with open(AuthHandler.HTML_PATH) as f:
+            html = f.read()
+
+        return html.replace("IN_CODE", auth_code)
+
+    @staticmethod
+    def get_logo() -> MIMEImage:
+        """
+        Retrieves a MIMEImage of the SentiSounds logo to send with the email
+       from `LOGO_PATH`
+
+        Returns
+        -------
+        MIMEImage
+            The logo image to send
+        """
+        with open(AuthHandler.LOGO_PATH, 'rb') as f:
+            logo = f.read()
+
+        return MIMEImage(logo)
 
     @staticmethod
     def valid_password(password: str) -> bool:
@@ -359,22 +407,42 @@ class AuthHandler:
         """
         port = 465
         context = ssl.create_default_context()
+
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Authenticate your SentiSounds Account!"
+
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
             s.login(
                 sender := SecretsHandler.get_email_address(),
                 SecretsHandler.get_email_passkey(),
             )
+
+            message["From"] = sender
+            message["To"] = email_address
+            message.attach(
+                MIMEText(
+                    AuthHandler.PLAIN_TEXT.format(auth_code),
+                    "plain"
+                )
+            )
+            message.attach(
+                MIMEText(
+                    AuthHandler.get_html(auth_code),
+                    "html"
+                )
+            )
+
+            logo = AuthHandler.get_logo()
+            logo.add_header("Content-ID", "sentisounds-logo")
+            logo.add_header(
+                "Content-Disposition", "inline", filename="sentisounds-logo"
+            )
+            message.attach(logo)
+
             s.sendmail(
                 sender,
                 email_address,
-                AuthHandler.PLAIN_TEXT.format(
-                    "Authenticate your SentiSounds Account!",
-                    email_address,
-                    "Thank you for registering with SentiSounds!\n"
-                    + "You have 1 minute to enter this authentication code: "
-                    + auth_code
-                    + "\n",
-                ),
+                message.as_string(),
             )
 
     @staticmethod

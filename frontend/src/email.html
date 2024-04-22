@@ -1,111 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Confirmation - SentiSounds</title>
-    <style>
-        /* Reset Styles */
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        ul,
-        ol {
-            margin: 0;
-            padding: 0;
-        }
-
-
-        body {
-            background-color: #1C0D2C;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-        }
-
-
-        /* Container Styles */
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-
-        /* Logo Styles */
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-
-        .logo img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-        }
-
-
-        /* Content Styles */
-        .content {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            color: #333333;
-        }
-
-
-        /* Thank you message Styles */
-        .thank-you {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #D19900;
-        }
-
-
-        /* Authentication Code Styles */
-        .authentication-code {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333333;
-            background-color: #D19900;
-            padding: 10px 20px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-top: 20px;
-        }
-    </style>
 </head>
 
-
-<body>
-    <div class="container">
+<body style="background-color: #1C0D2C; font-family: Arial, sans-serif; color: #ffffff;">
+    <div class="container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <!-- Logo -->
-        <div class="logo">
-            <img src="assets/sentisound_icon.png" alt="SentiSounds logo">
+        <div class="logo" style="text-align: center; margin-bottom: 20px;">
+            <img src="cid:sentisounds-logo" alt="SentiSounds logo" style="width: 100px; height: 100px; border-radius: 50%;">
         </div>
 
-
         <!-- Content -->
-        <div class="content">
+        <div class="content" style="background-color: #ffffff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; color: #333333;">
             <!-- Thank you message -->
-            <p class="thank-you">Thank you for registering with SentiSounds!</p>
+            <p class="thank-you" style="font-size: 24px; margin-bottom: 20px; color: #D19900;">Thank you for registering with SentiSounds!</p>
             <p>You have 1 minute to enter this authentication code</p>
             <!-- Authentication Code -->
             <br>
-            <p class="authentication-code">Your Authentication Code:</p>
-
+            <p class="authentication-code" style="font-size: 20px; font-weight: bold; color: #333333; background-color: #D19900; padding: 10px 20px; border-radius: 6px; display: inline-block; margin-top: 20px;">Your Authentication Code: IN_CODE</p>
         </div>
     </div>
 </body>
-
 
 </html>
