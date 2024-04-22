@@ -1,7 +1,6 @@
+import json
 import queue
 import threading
-from typing import Any
-import json
 
 from googleapiclient import discovery
 from googleapiclient.errors import HttpError
@@ -14,11 +13,9 @@ class YoutubeHandler:
     A handler for interacting with the YouTube API.
 
     Contains a definition for a static _client_instance. This should only be
-    accessed via the `youtube` field, which will automatically fill this field
-    if it does not yet exist. Any other accesses to this instance are unsafe
-    and should not be used.
-
-
+    accessed via the `get_client()` function, which will automatically fill
+    this field if it does not yet exist. Any other accesses to this instance
+    are unsafe and should not be used.
     """
 
     api_service_name = "youtube"
@@ -55,7 +52,7 @@ class YoutubeHandler:
         return YoutubeHandler._initialize_client()
 
     @staticmethod
-    def _initialize_client() -> Any:
+    def _initialize_client() -> discovery.Resource:
         """
         Initializes the YouTube client.
         """
@@ -65,7 +62,7 @@ class YoutubeHandler:
                 YoutubeHandler._id_cache = {}
             else:
                 YoutubeHandler._id_cache = json.loads(contents)
-        _youtube_instance: Any = discovery.build(
+        _youtube_instance: discovery.Resource = discovery.build(
             YoutubeHandler.api_service_name,
             YoutubeHandler.api_version,
             developerKey=SecretsHandler.get_youtube_key(),
