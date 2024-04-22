@@ -408,41 +408,44 @@ class AuthHandler:
         port = 465
         context = ssl.create_default_context()
 
-        message = MIMEMultipart("alternative")
-        message["Subject"] = "Authenticate your SentiSounds Account!"
-
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as s:
             s.login(
                 sender := SecretsHandler.get_email_address(),
                 SecretsHandler.get_email_passkey(),
             )
 
-            message["From"] = f"SentiSounds <{sender}>"
-            message["To"] = email_address
-            message.attach(
+            master_message = MIMEMultipart("related")
+            master_message["From"] = f"SentiSounds <{sender}>"
+            master_message["To"] = email_address
+            master_message["Reply-to"] = "noreply@sentisounds.com"
+            master_message["Subject"] = "Authenticate your SentiSounds Account"
+
+            content = MIMEMultipart("alternative")
+            content.attach(
                 MIMEText(
                     AuthHandler.PLAIN_TEXT.format(auth_code),
                     "plain"
                 )
             )
-            message.attach(
+            content.attach(
                 MIMEText(
                     AuthHandler.get_html(auth_code),
                     "html"
                 )
             )
+            master_message.attach(content)
 
             logo = AuthHandler.get_logo()
             logo.add_header("Content-ID", "sentisounds-logo")
             logo.add_header(
                 "Content-Disposition", "inline", filename="sentisounds-logo"
             )
-            message.attach(logo)
+            master_message.attach(logo)
 
             s.sendmail(
                 sender,
                 email_address,
-                message.as_string(),
+                master_message.as_string().encode("utf-8"),
             )
 
     @staticmethod
