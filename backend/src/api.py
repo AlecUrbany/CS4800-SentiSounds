@@ -226,6 +226,12 @@ async def spotify_authenticate():
     code = passed.get("code", default="")
 
     try:
+        if not email_address:
+            raise ValueError("No email address was entered")
+
+        if not code:
+            raise ValueError("No Spotify authentiction code was entered")
+
         sp, _ = SpotifyHandler.create_oauth()
         token: token_type = sp.get_access_token(
             code, as_dict=True
