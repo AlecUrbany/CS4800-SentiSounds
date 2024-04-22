@@ -71,8 +71,8 @@ class YoutubeHandler:
         )
         return _youtube_instance
 
-    @staticmethod
-    def search_for_match(song: dict):
+    @classmethod
+    def search_for_match(cls, song: dict):
         """
         Searches for a matching song on youtube given the song and artist name
         Adds the youtube url to the song dictionary
@@ -85,14 +85,13 @@ class YoutubeHandler:
         """
         youtube_url = "https://www.youtube.com/watch?v=%s"
         response = None
-        if song["name"] in YoutubeHandler._id_cache:
-            song["youtube_url"] = (
-                youtube_url % YoutubeHandler._id_cache[song["name"]]
+        if song["name"] in cls._id_cache:
+            song["external_urls"]["youtube"] = (
+                youtube_url % cls._id_cache[song["name"]]
             )
         else:
             try:
-                client = YoutubeHandler.get_client()
-
+                client = cls.get_client()
                 response = (
                     client.search()  # type: ignore
                     .list(
@@ -117,9 +116,9 @@ class YoutubeHandler:
                     youtube_url % response["items"][0]["id"]["videoId"]
                 )
                 # Cache the id
-                YoutubeHandler._id_cache[song["name"]] = response["items"][0][
-                    "id"
-                ]["videoId"]
+                cls._id_cache[song["name"]] = response["items"][0]["id"][
+                    "videoId"
+                ]
             else:
                 song["external_urls"]["youtube"] = ""
         return song
