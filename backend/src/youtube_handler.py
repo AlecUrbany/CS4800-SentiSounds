@@ -58,7 +58,7 @@ class YoutubeHandler:
         """
         Initializes the YouTube client.
         """
-        with open("cache/youtube_id_cache.json", "r") as file:
+        with open(".cache/youtube_id_cache.json", "r") as file:
             contents = file.read()
             if contents == "":
                 YoutubeHandler._id_cache = {}
@@ -170,5 +170,5 @@ class YoutubeHandler:
         """
         Saves the id cache to a file
         """
-        with open("cache/youtube_id_cache.json", "w") as file:
+        with open(".cache/youtube_id_cache.json", "w") as file:
             json.dump(cls._id_cache, file)
