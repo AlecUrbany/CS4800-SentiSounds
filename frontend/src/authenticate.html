@@ -74,17 +74,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Retrieve URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const email = urlParams.get('email');
-            const password = urlParams.get('password');
-            const firstName = urlParams.get('firstName');
-            const lastInitial = urlParams.get('lastInitial');
-
+    
             const baseURL = 'http://127.0.0.1:5000'; // REPLACE IT WITH BASE URL
             const authenticateButton = document.querySelector('#authenticateButton');
 
+
             authenticateButton.addEventListener('click', async function () {
+
+
+                // Retrieving data from localStorage
+                const email = localStorage.getItem('email');
+                const password = localStorage.getItem('password');
+                const firstName = localStorage.getItem('firstName');
+                const lastInitial = localStorage.getItem('lastInitial');
+
+
                 const formData = new FormData();
                 formData.append('email_address', email);
                 formData.append('password', password);
@@ -92,13 +96,16 @@
                 formData.append('last_initial', lastInitial);
                 formData.append('entered_auth_code', document.querySelector('#auth_code').value);
 
+
                 try {
                     const response = await fetch(`${baseURL}/authenticate`, {
                         method: 'POST',
                         body: formData
                     });
 
+
                     const data = await response.json();
+
 
                     if (response.ok) {
                         alert('Authentication successful. You can now proceed.');
