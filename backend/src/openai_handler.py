@@ -111,7 +111,7 @@ class OpenAIHandler:
         response = client.chat.completions.create(
             model=OpenAIHandler.GPT_MODEL,
             response_format={"type": "json_object"},
-            seed=69,
+            # seed=69,
             messages=[
                 {"role": "system", "content": OpenAIHandler.PROMPT},
                 {"role": "user", "content": sanitized_input},

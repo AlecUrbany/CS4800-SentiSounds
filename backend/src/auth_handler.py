@@ -412,6 +412,11 @@ class AuthHandler:
             The email address of the user
         token : str
             The user's Spotify token
+
+        Raises
+        ------
+        ValueError
+            If no email address was entered
         """
 
         if not email_address:
@@ -439,21 +444,17 @@ class AuthHandler:
         Parameters
         ----------
         email_address : str
-            The email address of the user
+            The email address of the user. If not provided, None will be
+            returned
 
         Returns
         -------
         token_type | None
             The user's Spotify token if it exists
-
-        Raises
-        ------
-        ValueError
-            If no email address is entered
         """
 
         if not email_address:
-            raise ValueError("No email address was entered.")
+            return None
 
         async with DatabaseHandler.acquire() as conn:
             found = await conn.fetch(
@@ -487,10 +488,11 @@ class AuthHandler:
         ----------
         email_address : str
             The email address of the user
-        old_token : dict
+        old_token : token_type
             The user's old Spotify token
-        new_token : dict
+        new_token : token_type
             The user's new Spotify token
         """
-        if old_token and new_token and old_token != new_token:
+        if email_address and old_token and new_token and \
+                old_token != new_token:
             await AuthHandler.save_spotify_token(email_address, new_token)

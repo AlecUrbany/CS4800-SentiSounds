@@ -1,10 +1,14 @@
 """The callable API functions to be used to communicate with the backend"""
 
+from functools import partial
+from typing import Any, Callable
+
 from auth_handler import AuthHandler
 from database_handler import DatabaseHandler
 from openai_handler import OpenAIHandler
 from quart import Quart, request
 from quart_cors import cors
+from senti_types import song_type, token_type
 from spotify_handler import SpotifyHandler
 from youtube_handler import YoutubeHandler
 
@@ -45,6 +49,7 @@ async def sign_up():
         int is 400 if an error occurred and 200 if the operation was
         successful
     """
+
     passed = await request.form
     try:
         AuthHandler.sign_up(
@@ -97,6 +102,7 @@ async def authenticate():
         int is 400 if an error occurred and 200 if the operation was
         successful
     """
+
     await DatabaseHandler.get_pool()
 
     passed = await request.form
@@ -142,6 +148,7 @@ async def login():
         int is 401 if an incorrect pair was passed and 200 if the operation was
         successful
     """
+
     await DatabaseHandler.get_pool()
 
     passed = await request.form
@@ -175,6 +182,7 @@ def spotify_get_auth_link():
         int is 400 if an error occurred and 200 if the operation was
         successful
     """
+
     try:
         return {
             "status": "success",
@@ -216,11 +224,14 @@ async def spotify_authenticate():
     passed = await request.form
     email_address = passed.get("email_address", default="")
     code = passed.get("code", default="")
+
     try:
         sp, _ = SpotifyHandler.create_oauth()
-        token = sp.get_access_token(code, as_dict=True)
+        token: token_type = sp.get_access_token(
+            code, as_dict=True
+        )  # type: ignore
         await AuthHandler.save_spotify_token(
-            email_address, token  # type: ignore
+            email_address, token
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -228,10 +239,10 @@ async def spotify_authenticate():
     return {"status": "success"}, 200
 
 
-@app.route("/recommended-songs", methods=["GET"])
-async def recommended_songs():
+@app.route("/recommend-songs", methods=["GET"])
+async def recommend_songs():
     """
-    `GET /recommended-songs`
+    `GET /recommend-songs`
 
     Given a user's sentiment-littered prompt, return a list of matching
     songs recommended by Spotify
@@ -260,14 +271,18 @@ async def recommended_songs():
     tuple[dict[str, str], int]
         dict[str, str] is a dictionary denoting the `status` of the operation
         (either success or failure), and an `error` if an error occurred.
+        We also pass a `songs` field to successful operations containing
+        the songs recommended by Spotify
         int is 400 if an error occurred and 200 if the operation was
         successful
     """
 
     await DatabaseHandler.get_pool()
 
-    entered_prompt = request.args.get("prompt", default="")
-    email_address = request.args.get("email_address", default="")
+    passed = await request.form
+    email_address = passed.get("email_address", default="")
+
+    entered_prompt = request.args.get("entered_prompt", default="")
     popularity_score = request.args.get(
         "popularity_score",
         default=20,
@@ -278,34 +293,16 @@ async def recommended_songs():
 
     try:
         found_genres = OpenAIHandler.get_genres(entered_prompt)
-        # if email address is None, then we're using the base client
-        # if email's spotify token exists in the database, then we must grab
-        # the user's token
-        # if the token is not in the database, then we must use the base client
-        token = await AuthHandler.get_spotify_token(email_address)
-
-        # TODO Still need to see if the error of a user existing but not
-        # having a spotify token is caught
-        if email_address and token:
-            sp = SpotifyHandler.from_token(token)
-        else:
-            sp = SpotifyHandler()
-
-        # The meat and potatoes of this endpoint, yummy
-        songs = sp.get_genre_songs(
+        songs: list[song_type] = await uses_token(
+            email_address, False, SpotifyHandler.get_genre_songs,
             found_genres, popularity_threshold=popularity_score
-        )
+        )  # type: ignore
+
+        YoutubeHandler.match_list(songs)
+        YoutubeHandler.save_cache()
+
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
-
-    # Match the song list to their YouTube links
-    YoutubeHandler.match_list(songs)
-    # if the token has changed, update the database
-    await AuthHandler.check_and_save_spotify_token(
-        email_address, token, sp.get_token()
-    )
-    YoutubeHandler.save_cache()
-
     return {"status": "success", "songs": songs}, 200
 
 
@@ -316,9 +313,9 @@ async def export_playlist():
 
     Exports a playlist of song IDs to a user's connected Spotify account
 
-    Parameters must be given in the **body of the API call as form-data**. The
-    keys of the data given must be spelled exactly as displayed in the
-    parameters list
+    The song IDs must be passed as a header argument to the API call, but the
+    email address must be passed as a body argument (similar to the
+    authentication endpoints). Again, ensure the spelling of the arguments
 
     Parameters
     ----------
@@ -338,30 +335,26 @@ async def export_playlist():
         int is 400 if an error occurred and 200 if the operation was
         successful
     """
-    email_address = request.args.get("email_address", default="")
+
+    await DatabaseHandler.get_pool()
+
+    passed = await request.form
+    email_address = passed.get("email_address", default="")
+
     song_ids = request.args.get("song_ids", default="")
     playlist_name = request.args.get("playlist_name", default="")
     playlist_description = request.args.get("playlist_description", default="")
     # TODO: How to get playlist name and description from this endpoint if
     # they are to come from ChatGPT
     try:
-        token = await AuthHandler.get_spotify_token(email_address)
-
-        if not token:
-            raise ValueError(
-                f"No Spotify account was found for {email_address} in database"
-            )
-
-        if not song_ids:
-            raise ValueError("No song IDs were entered.")
-
-        sp = SpotifyHandler.from_token(token)
-        created_url = sp.create_playlist(
+        created_url: str = await uses_token(
+            email_address,
+            True,
+            SpotifyHandler.create_playlist,
             playlist_name,
             playlist_description,
             song_ids.split(" ")
-        )
-
+        )  # type: ignore
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
@@ -394,20 +387,12 @@ async def spotify_check_authentication():
     """
     await DatabaseHandler.get_pool()
 
-    email_address = request.args.get("email_address", default="")
+    passed = await request.form
+    email_address = passed.get("email_address", default="")
 
     try:
-        token = await AuthHandler.get_spotify_token(email_address)
-
-        if not token:
-            raise ValueError(
-                f"No Spotify account was found for {email_address} in database"
-            )
-
-        sp = SpotifyHandler.from_token(token)
-        sp.get_client().me()
-        await AuthHandler.check_and_save_spotify_token(
-            email_address, token, sp.get_token()
+        await uses_token(
+            email_address, True, SpotifyHandler.ensure_authentication
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -422,9 +407,9 @@ async def spotify_like_song():
 
     Likes a song. If it was already liked, nothing will happen.
 
-    Parameters must be given in the **body of the API call as form-data**. The
-    keys of the data given must be spelled exactly as displayed in the
-    parameters list
+    The song ID must be passed as a header argument to the API call, but the
+    email address must be passed as a body argument (similar to the
+    authentication endpoints). Again, ensure the spelling of the arguments
 
     Parameters
     ----------
@@ -444,21 +429,14 @@ async def spotify_like_song():
     """
     await DatabaseHandler.get_pool()
 
-    email_address = request.args.get("email_address", default="")
+    passed = await request.form
+    email_address = passed.get("email_address", default="")
+
     song_id = request.args.get("song_id", default="")
 
     try:
-        token = await AuthHandler.get_spotify_token(email_address)
-
-        if not token:
-            raise ValueError(
-                f"No Spotify account was found for {email_address} in database"
-            )
-
-        sp = SpotifyHandler.from_token(token)
-        sp.like_song(song_id)
-        await AuthHandler.check_and_save_spotify_token(
-            email_address, token, sp.get_token()
+        await uses_token(
+            email_address, True, SpotifyHandler.like_song, song_id
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -473,9 +451,9 @@ async def spotify_unlike_song():
 
     Unlikes a song. If it wasn't already liked, nothing will happen.
 
-    Parameters must be given in the **body of the API call as form-data**. The
-    keys of the data given must be spelled exactly as displayed in the
-    parameters list
+    The song ID must be passed as a header argument to the API call, but the
+    email address must be passed as a body argument (similar to the
+    authentication endpoints). Again, ensure the spelling of the arguments
 
     Parameters
     ----------
@@ -495,23 +473,72 @@ async def spotify_unlike_song():
     """
     await DatabaseHandler.get_pool()
 
-    email_address = request.args.get("email_address", default="")
+    passed = await request.form
+    email_address = passed.get("email_address", default="")
+
     song_id = request.args.get("song_id", default="")
 
     try:
-        token = await AuthHandler.get_spotify_token(email_address)
-
-        if not token:
-            raise ValueError(
-                f"No Spotify account was found for {email_address} in database"
-            )
-
-        sp = SpotifyHandler.from_token(token)
-        sp.unlike_song(song_id)
-        await AuthHandler.check_and_save_spotify_token(
-            email_address, token, sp.get_token()
+        await uses_token(
+            email_address, True, SpotifyHandler.unlike_song, song_id
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
     return {"status": "success"}, 200
+
+
+async def uses_token(
+            email_address: str,
+            requires_token: bool,
+            spotify_function: Callable[..., Any | None],
+            *args: Any,
+            **kwargs: Any
+        ) -> Any | None:
+    """
+    Wraps a call to the Spotify API with token-ensuring functionality
+
+    Parameters
+    ----------
+    email_address : str
+        The email address of the associated Spotify account
+    spotify_function : Callable[..., Any | None]
+        Any of the SpotifyHandler's functions
+    *args : Any
+        The arguments to pass to the SpotifyHandler function
+
+    Returns
+    -------
+    Any | None
+        The return value of the function that was called
+
+    Raises
+    ------
+    ValueError
+        If the there is no associated Spotify account for this email address
+    """
+    token = await AuthHandler.get_spotify_token(email_address)
+
+    if not email_address and requires_token:
+        raise ValueError("No email address was entered.")
+
+    if not token and requires_token:
+        raise ValueError(
+            f"No Spotify account was found for {email_address} in database"
+        )
+
+    # By this point, if we *need* the token we are guaranteed to have it
+    # If we got to this point, it is safe to *not* have the token and still
+    # proceed
+    if token:
+        sp = SpotifyHandler.from_token(token)
+    else:
+        sp = SpotifyHandler()
+
+    ret = partial(spotify_function, sp, *args, **kwargs)()
+
+    await AuthHandler.check_and_save_spotify_token(
+        email_address, token, sp.get_token()
+    )
+
+    return ret

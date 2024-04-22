@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Any
 from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
@@ -167,6 +168,17 @@ class SpotifyHandler:
         """
         return self._client_instance or SpotifyHandler.BASE_CLIENT
 
+    def ensure_authentication(self) -> Any:
+        """
+        A passthrough for the Spotify.me field
+
+        Returns
+        -------
+        Any
+            The result of Spotify.me()
+        """
+        return self.get_client().me()
+
     def get_token(self) -> token_type | None:
         """
         Gets the token from the cache handler if there has been a token loaded
@@ -243,7 +255,6 @@ class SpotifyHandler:
             search_result = client_instance.search(
                 q="genre:" + genre, type="track", market="from_token"
             )
-
             if not search_result or not search_result["tracks"]["items"]:
                 continue
 
