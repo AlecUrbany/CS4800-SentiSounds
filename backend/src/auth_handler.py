@@ -5,7 +5,7 @@ import random
 import re
 import smtplib
 import ssl
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -99,6 +99,34 @@ class AuthHandler:
     A dictionary of currently authenticating users
     as email_address: (code, expiry time)
     """
+
+    @staticmethod
+    async def clean_authentication() -> None:
+        # Clean cache
+        for email, (_, expiry) in AuthHandler.ACTIVE_AUTHS.items():
+            if datetime.now().timestamp() > expiry:
+                AuthHandler.ACTIVE_AUTHS.pop(email)
+
+        # Clean DB
+        async with DatabaseHandler.acquire() as conn:
+            try:
+                await conn.execute(
+                    """
+                    DELETE FROM
+                        user_auth
+                    WHERE
+                        authenticated = FALSE
+                    AND
+                        time_created < $1
+                    """,
+                    datetime.now(timezone.utc) -
+                    timedelta(minutes=AuthHandler.EXPIRY_TIME)
+                )
+            except Exception as e:
+                raise ValueError(
+                    "Something went wrong clearing the database: "
+                    + str(e)
+                )
 
     @staticmethod
     def get_html(auth_code: str, expiry_identifier: str) -> str:
@@ -492,7 +520,8 @@ class AuthHandler:
         """
         random_code = "".join([str(random.randint(0, 9)) for _ in range(5)])
         expiry_time = (
-            datetime.now() + timedelta(minutes=AuthHandler.EXPIRY_TIME)
+            datetime.now(timezone.utc) +
+            timedelta(minutes=AuthHandler.EXPIRY_TIME)
         ).timestamp()
 
         AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
