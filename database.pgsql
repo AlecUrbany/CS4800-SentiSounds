@@ -6,5 +6,7 @@ CREATE TABLE IF NOT EXISTS user_auth(
 
     display_name VARCHAR(32) NOT NULL DEFAULT '',
 
-    spotify_token TEXT DEFAULT NULL
+    spotify_token TEXT DEFAULT NULL,
+
+    time_created TIMESTAMP
 );

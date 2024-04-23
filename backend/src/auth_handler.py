@@ -35,6 +35,9 @@ class AuthHandler:
     The login function takes an email and password
     """
 
+    EXPIRY_TIME = 5
+    """The time in minutes it takes for the authentication code to expire"""
+
     EMAIL_REGEX = re.compile(
         r"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$", flags=re.IGNORECASE
     )
@@ -80,7 +83,7 @@ class AuthHandler:
 
     PLAIN_TEXT = (
         "Thank you for registering with SentiSounds!\n" +
-        "You have 1 minute to enter this authentication code: {}"
+        "You have {} to enter this authentication code: {}"
     )
     """A frame for the email to send a to-be authed user"""
 
@@ -95,7 +98,7 @@ class AuthHandler:
     """A dictionary of currently authenticating users"""
 
     @staticmethod
-    def get_html(auth_code: str) -> str:
+    def get_html(auth_code: str, expiry_identifier: str) -> str:
         """
         Retrieves the literal HTML code from `HTML_PATH`
 
@@ -112,7 +115,13 @@ class AuthHandler:
         with open(AuthHandler.HTML_PATH) as f:
             html = f.read()
 
-        return html.replace("IN_CODE", auth_code)
+        html = html.replace(
+            "IN_CODE", auth_code
+        ).replace(
+            "IN_TIME_LIM", expiry_identifier
+        )
+
+        return html
 
     @staticmethod
     def get_logo() -> MIMEImage:
@@ -420,18 +429,20 @@ class AuthHandler:
             master_message["Reply-to"] = "noreply@sentisounds.com"
             master_message["Subject"] = "Authenticate your SentiSounds Account"
 
-            content = MIMEMultipart("alternative")
-            content.attach(
-                MIMEText(
-                    AuthHandler.PLAIN_TEXT.format(auth_code),
-                    "plain"
-                )
+            expiry_identifier = (
+                f"{AuthHandler.EXPIRY_TIME} " +
+                f"minute{'s' if AuthHandler.EXPIRY_TIME > 1 else ''}"
             )
-            content.attach(
-                MIMEText(
-                    AuthHandler.get_html(auth_code),
-                    "html"
-                )
+
+            plain_message = AuthHandler.PLAIN_TEXT.format(
+                expiry_identifier,
+                auth_code
+            )
+
+            content = MIMEMultipart("alternative")
+            content.attach(MIMEText(plain_message, "plain"))
+            content.attach(MIMEText(
+                AuthHandler.get_html(auth_code, expiry_identifier), "html")
             )
             master_message.attach(content)
 
@@ -464,7 +475,9 @@ class AuthHandler:
             The generated code
         """
         random_code = "".join([str(random.randint(0, 9)) for _ in range(5)])
-        expiry_time = (datetime.now() + timedelta(minutes=1)).timestamp()
+        expiry_time = (
+            datetime.now() + timedelta(minutes=AuthHandler.EXPIRY_TIME)
+        ).timestamp()
 
         AuthHandler.ACTIVE_AUTHS[email_address] = (random_code, expiry_time)
         return random_code
