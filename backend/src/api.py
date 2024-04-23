@@ -241,9 +241,7 @@ async def spotify_authenticate():
         token: token_type = sp.get_access_token(
             code, as_dict=True
         )  # type: ignore
-        await AuthHandler.save_spotify_token(
-            email_address, token
-        )
+        await AuthHandler.save_spotify_token(email_address, token)
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
@@ -305,8 +303,11 @@ async def recommend_songs():
 
         found_genres = OpenAIHandler.get_genres(entered_prompt)
         songs: list[song_type] = await uses_token(
-            email_address, False, SpotifyHandler.get_genre_songs,
-            found_genres, popularity_threshold=popularity_score
+            email_address,
+            False,
+            SpotifyHandler.get_genre_songs,
+            found_genres,
+            popularity_threshold=popularity_score,
         )  # type: ignore
 
         YoutubeHandler.match_list(songs)
@@ -364,7 +365,7 @@ async def export_playlist():
             SpotifyHandler.create_playlist,
             playlist_name,
             playlist_description,
-            song_ids.split(" ")
+            song_ids.split(" "),
         )  # type: ignore
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -500,12 +501,12 @@ async def spotify_unlike_song():
 
 
 async def uses_token(
-            email_address: str,
-            requires_token: bool,
-            spotify_function: Callable[..., Any | None],
-            *args: Any,
-            **kwargs: Any
-        ) -> Any | None:
+    email_address: str,
+    requires_token: bool,
+    spotify_function: Callable[..., Any | None],
+    *args: Any,
+    **kwargs: Any,
+) -> Any | None:
     """
     Wraps a call to the Spotify API with token-ensuring functionality
 

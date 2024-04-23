@@ -27,6 +27,7 @@ class YoutubeHandler:
     request_queue: queue.Queue = queue.Queue()
     thread_pool: list[threading.Thread] = []
     _id_cache: dict[str, str] = {}
+    _id_cache_lock: threading.Lock = threading.Lock()
 
     def __init__(self):
         """
@@ -89,6 +90,9 @@ class YoutubeHandler:
             song["external_urls"]["youtube"] = (
                 youtube_url % cls._id_cache[song["name"]]
             )
+            print(
+                f"id {cls._id_cache[song['name']]} for {song['name']} found in cache"
+            )
         else:
             try:
                 client = cls.get_client()
@@ -116,13 +120,11 @@ class YoutubeHandler:
                 # For now, we'll just ignore the error and return nothing
                 pass
             if response and response["items"]:
-                song["external_urls"]["youtube"] = (
-                    youtube_url % response["items"][0]["id"]["videoId"]
-                )
+                id = response["items"][0]["id"]["videoId"]
+                song["external_urls"]["youtube"] = youtube_url % id
                 # Cache the id
-                cls._id_cache[song["name"]] = response["items"][0]["id"][
-                    "videoId"
-                ]
+                with cls._id_cache_lock:
+                    cls._id_cache[song["name"]] = id
             else:
                 song["external_urls"]["youtube"] = ""
         return song
@@ -137,7 +139,10 @@ class YoutubeHandler:
         songs : list[song_type]
             A list of songs to match
         """
-
+        for song in songs:
+            cls.search_for_match(song)
+        # for now keep the threading code commented out as it is not working
+        """
         for song in songs:
             cls.request_queue.put(song)
         for _ in range(cls.MAX_THREAD_COUNT):
@@ -151,6 +156,7 @@ class YoutubeHandler:
             cls.request_queue.put(
                 None
             )  # Add a None to the queue for each thread to stop processing
+        """
 
     @classmethod
     def _process_queue(cls):
@@ -174,5 +180,6 @@ class YoutubeHandler:
         """
         Saves the id cache to a file
         """
-        with open(".cache/youtube_id_cache.json", "w") as file:
-            json.dump(cls._id_cache, file)
+        with cls._id_cache_lock:
+            with open(".cache/youtube_id_cache.json", "w") as file:
+                json.dump(cls._id_cache, file)
