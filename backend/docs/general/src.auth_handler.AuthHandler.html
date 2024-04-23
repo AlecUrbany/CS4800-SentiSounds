@@ -124,7 +124,37 @@
 
 
 
+            <div class="itemName"><code><a href="#clean_authentication" class="internal-link" title="src.auth_handler.AuthHandler.clean_authentication">clean<wbr></wbr>_authentication</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
             <div class="itemName"><code><a href="#generate_random_code" class="internal-link" title="src.auth_handler.AuthHandler.generate_random_code">generate<wbr></wbr>_random<wbr></wbr>_code</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#get_html" class="internal-link" title="src.auth_handler.AuthHandler.get_html">get<wbr></wbr>_html</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#get_logo" class="internal-link" title="src.auth_handler.AuthHandler.get_logo">get<wbr></wbr>_logo</a></code>
             </div>
 
 
@@ -234,6 +264,36 @@
 
 
             <div class="itemName"><code><a href="#EMAIL_REGEX" class="internal-link" title="src.auth_handler.AuthHandler.EMAIL_REGEX">EMAIL<wbr></wbr>_REGEX</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#EXPIRY_TIME" class="internal-link" title="src.auth_handler.AuthHandler.EXPIRY_TIME">EXPIRY<wbr></wbr>_TIME</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML<wbr></wbr>_PATH</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO<wbr></wbr>_PATH</a></code>
             </div>
 
 
@@ -442,9 +502,24 @@ The login function takes an email and password</p>
     <td>Checks the validity of a user's email address, password, and display name.</td>
   </tr><tr class="staticmethod">
 
+    <td>Async Static Method</td>
+    <td><code><a href="#clean_authentication" class="internal-link" title="src.auth_handler.AuthHandler.clean_authentication">clean<wbr></wbr>_authentication</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="staticmethod">
+
     <td>Static Method</td>
     <td><code><a href="#generate_random_code" class="internal-link" title="src.auth_handler.AuthHandler.generate_random_code">generate<wbr></wbr>_random<wbr></wbr>_code</a></code></td>
     <td>Generates a random code and stores it in the authentication cache</td>
+  </tr><tr class="staticmethod">
+
+    <td>Static Method</td>
+    <td><code><a href="#get_html" class="internal-link" title="src.auth_handler.AuthHandler.get_html">get<wbr></wbr>_html</a></code></td>
+    <td>Retrieves the literal HTML code from <code><a href="src.auth_handler.AuthHandler.html#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML_PATH</a></code></td>
+  </tr><tr class="staticmethod">
+
+    <td>Static Method</td>
+    <td><code><a href="#get_logo" class="internal-link" title="src.auth_handler.AuthHandler.get_logo">get<wbr></wbr>_logo</a></code></td>
+    <td>Retrieves a MIMEImage of the SentiSounds logo to send with the email from <code><a href="src.auth_handler.AuthHandler.html#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO_PATH</a></code></td>
   </tr><tr class="staticmethod">
 
     <td>Async Static Method</td>
@@ -467,7 +542,7 @@ The login function takes an email and password</p>
     <td>Send a confirmation email to a user with a code</td>
   </tr><tr class="staticmethod">
 
-    <td>Static Method</td>
+    <td>Async Static Method</td>
     <td><code><a href="#sign_up" class="internal-link" title="src.auth_handler.AuthHandler.sign_up">sign<wbr></wbr>_up</a></code></td>
     <td>Creates a sign-in session and waits for an authentication code</td>
   </tr><tr class="staticmethod">
@@ -484,7 +559,7 @@ The login function takes an email and password</p>
 
     <td>Constant</td>
     <td><code><a href="#ACTIVE_AUTHS" class="internal-link" title="src.auth_handler.AuthHandler.ACTIVE_AUTHS">ACTIVE<wbr></wbr>_AUTHS</a></code></td>
-    <td>A dictionary of currently authenticating users</td>
+    <td>A dictionary of currently authenticating users as email_address: (code, expiry time)</td>
   </tr><tr class="constant">
 
     <td>Constant</td>
@@ -498,13 +573,28 @@ The login function takes an email and password</p>
   </tr><tr class="constant">
 
     <td>Constant</td>
+    <td><code><a href="#EXPIRY_TIME" class="internal-link" title="src.auth_handler.AuthHandler.EXPIRY_TIME">EXPIRY<wbr></wbr>_TIME</a></code></td>
+    <td>The time in minutes it takes for the authentication code to expire</td>
+  </tr><tr class="constant">
+
+    <td>Constant</td>
+    <td><code><a href="#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML<wbr></wbr>_PATH</a></code></td>
+    <td>The path to the HTML for the email to send a to-be authed user</td>
+  </tr><tr class="constant">
+
+    <td>Constant</td>
+    <td><code><a href="#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO<wbr></wbr>_PATH</a></code></td>
+    <td>The path to the logo to be added to the HTML</td>
+  </tr><tr class="constant">
+
+    <td>Constant</td>
     <td><code><a href="#PASSWORD_CHECK" class="internal-link" title="src.auth_handler.AuthHandler.PASSWORD_CHECK">PASSWORD<wbr></wbr>_CHECK</a></code></td>
     <td>Defines the checks to make for a password as a list of lambdas returning bools and the associated error messages</td>
   </tr><tr class="constant">
 
     <td>Constant</td>
     <td><code><a href="#PLAIN_TEXT" class="internal-link" title="src.auth_handler.AuthHandler.PLAIN_TEXT">PLAIN<wbr></wbr>_TEXT</a></code></td>
-    <td>A frame for the email to send a to-be authenticated user</td>
+    <td>A frame for the email to send a to-be authed user</td>
   </tr>
 </table>
 
@@ -525,7 +615,7 @@ The login function takes an email and password</p>
   <div class="functionHeader">
 
     @staticmethod<br />
-    <span class="py-keyword">async def</span> <span class="py-defname">authenticate_user</span><span class="function-signature">(email_address: <code>str</code>, password: <code>str</code>, entered_auth_code: <code>str</code>, first_name: <code>str</code>, last_initial: <code>str</code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <span class="py-keyword">async def</span> <span class="py-defname">authenticate_user</span><span class="function-signature">(email_address: <code>str</code>, entered_auth_code: <code>str</code>)</span>:
 
     <a class="headerLink" href="#authenticate_user" title="src.auth_handler.AuthHandler.authenticate_user">
 
@@ -538,7 +628,7 @@ The login function takes an email and password</p>
     <div><p>Attempt to authenticate a user's login via the code they were sent</p>
 <p>Ensure you are first calling sign_up(...) to generate an authentication
 code</p>
-<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code></td><td class="fieldArgDesc">The password of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth<wbr></wbr>_code:</span><code>str</code></td><td class="fieldArgDesc">The authentication code the user entered</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code></td><td class="fieldArgDesc">The user's first name</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The user's last initial</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If an invalid email address, password, or name is provided
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth<wbr></wbr>_code:</span><code>str</code></td><td class="fieldArgDesc">The authentication code the user entered</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If the emali address entered is not awaiting authentication
 If the incorrect code was entered or something went wrong adding
 the user to the database</td></tr></table></div>
   </div>
@@ -602,6 +692,30 @@ If the password does not pass the password checker <code><a href="#valid_passwor
 </div><div class="basestaticmethod">
 
 
+  <a name="src.auth_handler.AuthHandler.clean_authentication">
+
+  </a>
+  <a name="clean_authentication">
+
+  </a>
+  <div class="functionHeader">
+
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">clean_authentication</span><span class="function-signature">() -&gt; <code>tuple[<wbr></wbr>int, <wbr></wbr>int]</code></span>:
+
+    <a class="headerLink" href="#clean_authentication" title="src.auth_handler.AuthHandler.clean_authentication">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basestaticmethod">
+
+
   <a name="src.auth_handler.AuthHandler.generate_random_code">
 
   </a>
@@ -622,6 +736,55 @@ If the password does not pass the password checker <code><a href="#valid_passwor
   <div class="docstring functionBody">
 
     <div><p>Generates a random code and stores it in the authentication cache</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address that this code belongs to</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">The generated code</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+
+
+  <a name="src.auth_handler.AuthHandler.get_html">
+
+  </a>
+  <a name="get_html">
+
+  </a>
+  <div class="functionHeader">
+
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">get_html</span><span class="function-signature">(auth_code: <code>str</code>, expiry_identifier: <code>str</code>) -&gt; <code>str</code></span>:
+
+    <a class="headerLink" href="#get_html" title="src.auth_handler.AuthHandler.get_html">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p>Retrieves the literal HTML code from <code><a href="#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML_PATH</a></code></p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">auth<wbr></wbr>_code:</span><code>str</code></td><td class="fieldArgDesc">The auth code to send the user in the HTML</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">expiry<wbr></wbr>_identifier:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">The HTML code</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+
+
+  <a name="src.auth_handler.AuthHandler.get_logo">
+
+  </a>
+  <a name="get_logo">
+
+  </a>
+  <div class="functionHeader">
+
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">get_logo</span><span class="function-signature">() -&gt; <code>MIMEImage</code></span>:
+
+    <a class="headerLink" href="#get_logo" title="src.auth_handler.AuthHandler.get_logo">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p>Retrieves a MIMEImage of the SentiSounds logo to send with the email
+from <code><a href="#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO_PATH</a></code></p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>MIMEImage</code></td><td class="fieldArgDesc">The logo image to send</td></tr></table></div>
   </div>
 </div><div class="basestaticmethod">
 
@@ -736,7 +899,7 @@ but the SMTPUTF8 extension is not supported by the server.</td></tr></table></di
   <div class="functionHeader">
 
     @staticmethod<br />
-    <span class="py-keyword">def</span> <span class="py-defname">sign_up</span><span class="function-signature">(email_address: <code>str</code>, password: <code>str</code>, first_name: <code>str</code>, last_initial: <code>str</code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <span class="py-keyword">async def</span> <span class="py-defname">sign_up</span><span class="function-signature">(email_address: <code>str</code>, password: <code>str</code>, first_name: <code>str</code>, last_initial: <code>str</code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
 
     <a class="headerLink" href="#sign_up" title="src.auth_handler.AuthHandler.sign_up">
 
@@ -823,7 +986,8 @@ password is invalid, an error will be raised</td></tr><tr class="fieldStart"><td
   </div>
   <div class="functionBody">
 
-    <div><p>A dictionary of currently authenticating users</p></div>
+    <div><p>A dictionary of currently authenticating users
+as email_address: (code, expiry time)</p></div>
     <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>{}</code></pre></td></tr></table>
   </div>
 </div><div class="baseconstant">
@@ -881,6 +1045,78 @@ bools and the associated error messages</p></div>
 </div><div class="baseconstant">
 
 
+  <a name="src.auth_handler.AuthHandler.EXPIRY_TIME">
+
+  </a>
+  <a name="EXPIRY_TIME">
+
+  </a>
+  <div class="functionHeader">
+
+    <span class="py-defname">EXPIRY_TIME</span>: <code>int</code> =
+
+    <a class="headerLink" href="#EXPIRY_TIME" title="src.auth_handler.AuthHandler.EXPIRY_TIME">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+
+    <div><p>The time in minutes it takes for the authentication code to expire</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>5</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+
+
+  <a name="src.auth_handler.AuthHandler.HTML_PATH">
+
+  </a>
+  <a name="HTML_PATH">
+
+  </a>
+  <div class="functionHeader">
+
+    <span class="py-defname">HTML_PATH</span>: <code>str</code> =
+
+    <a class="headerLink" href="#HTML_PATH" title="src.auth_handler.AuthHandler.HTML_PATH">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+
+    <div><p>The path to the HTML for the email to send a to-be authed user</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'</span><span class="rst-variable-string">frontend\\src\\email.html</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+
+
+  <a name="src.auth_handler.AuthHandler.LOGO_PATH">
+
+  </a>
+  <a name="LOGO_PATH">
+
+  </a>
+  <div class="functionHeader">
+
+    <span class="py-defname">LOGO_PATH</span>: <code>str</code> =
+
+    <a class="headerLink" href="#LOGO_PATH" title="src.auth_handler.AuthHandler.LOGO_PATH">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+
+    <div><p>The path to the logo to be added to the HTML</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'</span><span class="rst-variable-string">frontend\\src\\assets\\sentisounds_icon.png</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+
+
   <a name="src.auth_handler.AuthHandler.PASSWORD_CHECK">
 
   </a>
@@ -921,7 +1157,7 @@ bools and the associated error messages</p></div>
   </a>
   <div class="functionHeader">
 
-    <span class="py-defname">PLAIN_TEXT</span>: <code>str</code> =
+    <span class="py-defname">PLAIN_TEXT</span> =
 
     <a class="headerLink" href="#PLAIN_TEXT" title="src.auth_handler.AuthHandler.PLAIN_TEXT">
 
@@ -931,11 +1167,9 @@ bools and the associated error messages</p></div>
   </div>
   <div class="functionBody">
 
-    <div><p>A frame for the email to send a to-be authenticated user</p></div>
-    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'''</span><span class="rst-variable-string">Subject: {}</span>
-<span class="rst-variable-string">To: {}</span>
-<span class="rst-variable-string"></span>
-<span class="rst-variable-string">{}</span><span class="rst-variable-quote">'''</span></code></pre></td></tr></table>
+    <div><p>A frame for the email to send a to-be authed user</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'''</span><span class="rst-variable-string">Thank you for registering with SentiSounds!</span>
+<span class="rst-variable-string"></span><span class="rst-variable-quote">'''</span>+<span class="rst-variable-quote">'</span><span class="rst-variable-string">You have {} to enter this authentication code: {}</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
   </div>
 </div>
         </div>
@@ -950,7 +1184,7 @@ bools and the associated error messages</p></div>
     <div class="container">
       <a href="index.html">Documentation</a> for SentiSounds,
     generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-      23.9.1 at 2024-04-22 00:16:51.
+      23.9.1 at 2024-04-23 14:32:24.
     </div>
 
     <script src="ajax.js" type="text/javascript"></script>

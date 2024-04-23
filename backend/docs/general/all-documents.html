@@ -162,6 +162,30 @@
             <div class="kind">Variable</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">The Quart app to run</div>
+          </li><li id="src.api.CLEAN_FREQUENCY">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.CLEAN<wbr></wbr>_FREQUENCY</div>
+            <div class="url">src.api.html#CLEAN_FREQUENCY</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">How often to clean out the authentication storage in minutes</div>
+          </li><li id="src.api.routine_clean">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.routine<wbr></wbr>_clean</div>
+            <div class="url">src.api.html#routine_clean</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Routinely cleans out the authentication cache and database.</div>
+          </li><li id="src.api.startup">
+
+            <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.startup</div>
+            <div class="url">src.api.html#startup</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Defines start-up functions for the API. Involves setting up the repeating background task of cleaning the DB and cache, and initializing the DB pool.</div>
           </li><li id="src.api.sign_up">
 
             <div class="fullName">src<wbr></wbr>.api<wbr></wbr>.sign<wbr></wbr>_up</div>
@@ -258,6 +282,14 @@
             <div class="kind">Class</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">A static class to handle non-Spotify user authentication.</div>
+          </li><li id="src.auth_handler.AuthHandler.EXPIRY_TIME">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.EXPIRY<wbr></wbr>_TIME</div>
+            <div class="url">src.auth_handler.AuthHandler.html#EXPIRY_TIME</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">The time in minutes it takes for the authentication code to expire</div>
           </li><li id="src.auth_handler.AuthHandler.EMAIL_REGEX">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.EMAIL<wbr></wbr>_REGEX</div>
@@ -289,7 +321,23 @@
             <div class="type">Attribute</div>
             <div class="kind">Constant</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">A frame for the email to send a to-be authenticated user</div>
+            <div class="summary">A frame for the email to send a to-be authed user</div>
+          </li><li id="src.auth_handler.AuthHandler.HTML_PATH">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.HTML<wbr></wbr>_PATH</div>
+            <div class="url">src.auth_handler.AuthHandler.html#HTML_PATH</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">The path to the HTML for the email to send a to-be authed user</div>
+          </li><li id="src.auth_handler.AuthHandler.LOGO_PATH">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.LOGO<wbr></wbr>_PATH</div>
+            <div class="url">src.auth_handler.AuthHandler.html#LOGO_PATH</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">The path to the logo to be added to the HTML</div>
           </li><li id="src.auth_handler.AuthHandler.ACTIVE_AUTHS">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.ACTIVE<wbr></wbr>_AUTHS</div>
@@ -297,7 +345,31 @@
             <div class="type">Attribute</div>
             <div class="kind">Constant</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">A dictionary of currently authenticating users</div>
+            <div class="summary">A dictionary of currently authenticating users as email_address: (code, expiry time)</div>
+          </li><li id="src.auth_handler.AuthHandler.clean_authentication">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.clean<wbr></wbr>_authentication</div>
+            <div class="url">src.auth_handler.AuthHandler.html#clean_authentication</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.auth_handler.AuthHandler.get_html">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_html</div>
+            <div class="url">src.auth_handler.AuthHandler.html#get_html</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves the literal HTML code from <code><a href="src.auth_handler.AuthHandler.html#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML_PATH</a></code></div>
+          </li><li id="src.auth_handler.AuthHandler.get_logo">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_logo</div>
+            <div class="url">src.auth_handler.AuthHandler.html#get_logo</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieves a MIMEImage of the SentiSounds logo to send with the email from <code><a href="src.auth_handler.AuthHandler.html#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO_PATH</a></code></div>
           </li><li id="src.auth_handler.AuthHandler.valid_password">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.valid<wbr></wbr>_password</div>
@@ -330,14 +402,6 @@
             <div class="kind">Static Method</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Creates a sign-in session and waits for an authentication code</div>
-          </li><li id="src.auth_handler.AuthHandler.log_in">
-
-            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.log<wbr></wbr>_in</div>
-            <div class="url">src.auth_handler.AuthHandler.html#log_in</div>
-            <div class="type">Function</div>
-            <div class="kind">Static Method</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Attempts to log-in given a user's credentials</div>
           </li><li id="src.auth_handler.AuthHandler.authenticate_user">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.authenticate<wbr></wbr>_user</div>
@@ -346,6 +410,14 @@
             <div class="kind">Static Method</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Attempt to authenticate a user's login via the code they were sent</div>
+          </li><li id="src.auth_handler.AuthHandler.log_in">
+
+            <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.log<wbr></wbr>_in</div>
+            <div class="url">src.auth_handler.AuthHandler.html#log_in</div>
+            <div class="type">Function</div>
+            <div class="kind">Static Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Attempts to log-in given a user's credentials</div>
           </li><li id="src.auth_handler.AuthHandler.send_authentication_email">
 
             <div class="fullName">src<wbr></wbr>.auth<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Auth<wbr></wbr>Handler<wbr></wbr>.send<wbr></wbr>_authentication<wbr></wbr>_email</div>
@@ -1025,7 +1097,7 @@
             <div class="type">Function</div>
             <div class="kind">Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">A passthrough for the Spotify.me field</div>
+            <div class="summary">A passthrough for the Spotify.me field.</div>
           </li><li id="src.spotify_handler.SpotifyHandler.get_token">
 
             <div class="fullName">src<wbr></wbr>.spotify<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Spotify<wbr></wbr>Handler<wbr></wbr>.get<wbr></wbr>_token</div>
@@ -1134,6 +1206,14 @@
 
             <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>._id<wbr></wbr>_cache</div>
             <div class="url">src.youtube_handler.YoutubeHandler.html#_id_cache</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="src.youtube_handler.YoutubeHandler._id_cache_lock">
+
+            <div class="fullName">src<wbr></wbr>.youtube<wbr></wbr>_handler<wbr></wbr>.<wbr></wbr>Youtube<wbr></wbr>Handler<wbr></wbr>._id<wbr></wbr>_cache<wbr></wbr>_lock</div>
+            <div class="url">src.youtube_handler.YoutubeHandler.html#_id_cache_lock</div>
             <div class="type">Attribute</div>
             <div class="kind">Class Variable</div>
             <div class="privacy">PRIVATE</div>

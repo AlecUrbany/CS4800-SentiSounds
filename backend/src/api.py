@@ -38,7 +38,7 @@ async def routine_clean():
 
 @app.before_serving
 async def startup():
-    """"
+    """
     Defines start-up functions for the API. Involves setting up the repeating
     background task of cleaning the DB and cache, and initializing the DB pool.
     """
@@ -106,9 +106,6 @@ async def authenticate():
     Parameters must be given in the **body of the API call as form-data**. The
     keys of the data given must be spelled exactly as displayed in the
     parameters list
-
-    Although the same parameters passed to `/sign-up` must be passed here,
-    `authenticate` will still ensure the validity of the passed parameters
 
     Parameters
     ----------

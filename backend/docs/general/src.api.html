@@ -134,6 +134,16 @@
 
 
 
+            <div class="itemName"><code><a href="#routine_clean" class="internal-link" title="src.api.routine_clean">routine<wbr></wbr>_clean</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
             <div class="itemName"><code><a href="#sign_up" class="internal-link" title="src.api.sign_up">sign<wbr></wbr>_up</a></code>
             </div>
 
@@ -194,6 +204,16 @@
 
 
 
+            <div class="itemName"><code><a href="#startup" class="internal-link" title="src.api.startup">startup</a></code>
+            </div>
+
+
+    </li><li class="">
+
+
+
+
+
             <div class="itemName"><code><a href="#uses_token" class="internal-link" title="src.api.uses_token">uses<wbr></wbr>_token</a></code>
             </div>
 
@@ -208,6 +228,16 @@
         <ul>
 
     <li class="">
+
+
+
+
+
+            <div class="itemName"><code><a href="#CLEAN_FREQUENCY" class="internal-link" title="src.api.CLEAN_FREQUENCY">CLEAN<wbr></wbr>_FREQUENCY</a></code>
+            </div>
+
+
+    </li><li class="">
 
 
 
@@ -485,6 +515,11 @@
   </tr><tr class="function">
 
     <td>Async Function</td>
+    <td><code><a href="#routine_clean" class="internal-link" title="src.api.routine_clean">routine<wbr></wbr>_clean</a></code></td>
+    <td>Routinely cleans out the authentication cache and database.</td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
     <td><code><a href="#sign_up" class="internal-link" title="src.api.sign_up">sign<wbr></wbr>_up</a></code></td>
     <td><code>POST /sign-up</code></td>
   </tr><tr class="function">
@@ -515,8 +550,18 @@
   </tr><tr class="function">
 
     <td>Async Function</td>
+    <td><code><a href="#startup" class="internal-link" title="src.api.startup">startup</a></code></td>
+    <td>Defines start-up functions for the API. Involves setting up the repeating background task of cleaning the DB and cache, and initializing the DB pool.</td>
+  </tr><tr class="function">
+
+    <td>Async Function</td>
     <td><code><a href="#uses_token" class="internal-link" title="src.api.uses_token">uses<wbr></wbr>_token</a></code></td>
     <td>Wraps a call to the Spotify API with token-ensuring functionality</td>
+  </tr><tr class="constant">
+
+    <td>Constant</td>
+    <td><code><a href="#CLEAN_FREQUENCY" class="internal-link" title="src.api.CLEAN_FREQUENCY">CLEAN<wbr></wbr>_FREQUENCY</a></code></td>
+    <td>How often to clean out the authentication storage in minutes</td>
   </tr><tr class="variable">
 
     <td>Variable</td>
@@ -559,10 +604,7 @@ the authentication code receieved via the user's email</p>
 <p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
 keys of the data given must be spelled exactly as displayed in the
 parameters list</p>
-<p>Although the same parameters passed to <code>/sign-up</code> must be passed here,
-<code><a href="#authenticate" class="internal-link" title="src.api.authenticate">authenticate</a></code> will still ensure the validity of the passed parameters</p>
-<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The password to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The authentication code entered by the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The first name of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The last initial of the user (this will be used with the first name
-to create a display name)</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The email address to store for the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The authentication code entered by the user</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
 (either success or failure), and an <code>error</code> if an error occurred.
 int is 400 if an error occurred and 200 if the operation was
 successful</td></tr></table></div>
@@ -680,6 +722,30 @@ successful</td></tr></table></div>
 </div><div class="basefunction">
 
 
+  <a name="src.api.routine_clean">
+
+  </a>
+  <a name="routine_clean">
+
+  </a>
+  <div class="functionHeader">
+
+
+    <span class="py-keyword">async def</span> <span class="py-defname">routine_clean</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#routine_clean" title="src.api.routine_clean">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p>Routinely cleans out the authentication cache and database.</p></div>
+  </div>
+</div><div class="basefunction">
+
+
   <a name="src.api.sign_up">
 
   </a>
@@ -735,7 +801,9 @@ successful</td></tr></table></div>
 
     <div><p><code>POST /spotify-authenticate</code></p>
 <p>Attempts to authenticate a user with their Spotify account given
-an email address and the 'code' token</p>
+an email address and the 'code' token. To retrieve this code,
+the user must first be redirected to the URL retrieved from
+<code>GET /spotify-auth-link</code>.</p>
 <p>Parameters must be given in the <strong>body of the API call as form-data</strong>. The
 keys of the data given must be spelled exactly as displayed in the
 parameters list</p>
@@ -799,7 +867,10 @@ successful</td></tr></table></div>
   <div class="docstring functionBody">
 
     <div><p><code>GET spotify-auth-link</code></p>
-<p>Retrieves a link to be used to authenticate with Spotify</p>
+<p>Retrieves a link to be used to authenticate with Spotify. After the user
+authenticates, they will be redirected to a URL with a code=... parameter.
+This code will need to be passed to <code>POST spotify-authenticate</code> to complete
+authentication</p>
 <table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[dict[str</code>, <code>str]</code>, <code>int]</code></td><td class="fieldArgDesc">dict[str, str] is a dictionary denoting the <code>status</code> of the operation
 (either success or failure), and an <code>error</code> if an error occurred.
 int is 400 if an error occurred and 200 if the operation was
@@ -874,6 +945,31 @@ successful</td></tr></table></div>
 </div><div class="basefunction">
 
 
+  <a name="src.api.startup">
+
+  </a>
+  <a name="startup">
+
+  </a>
+  <div class="functionHeader">
+
+    @app.before_serving<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">startup</span><span class="function-signature">()</span>:
+
+    <a class="headerLink" href="#startup" title="src.api.startup">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+
+    <div><p>Defines start-up functions for the API. Involves setting up the repeating
+background task of cleaning the DB and cache, and initializing the DB pool.</p></div>
+  </div>
+</div><div class="basefunction">
+
+
   <a name="src.api.uses_token">
 
   </a>
@@ -898,6 +994,30 @@ None</blockquote>
 ]</td><td class="fieldArgDesc">Any of the SpotifyHandler's functions</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">*args:</span><code>Any</code></td><td class="fieldArgDesc">The arguments to pass to the SpotifyHandler function</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">**kwargs:</span><code>Any</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer">Any|<blockquote>
 None</blockquote>
 </td><td class="fieldArgDesc">The return value of the function that was called</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If the there is no associated Spotify account for this email address</td></tr></table></div>
+  </div>
+</div><div class="baseconstant">
+
+
+  <a name="src.api.CLEAN_FREQUENCY">
+
+  </a>
+  <a name="CLEAN_FREQUENCY">
+
+  </a>
+  <div class="functionHeader">
+
+    <span class="py-defname">CLEAN_FREQUENCY</span>: <code>int</code> =
+
+    <a class="headerLink" href="#CLEAN_FREQUENCY" title="src.api.CLEAN_FREQUENCY">
+
+
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+
+    <div><p>How often to clean out the authentication storage in minutes</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>1</code></pre></td></tr></table>
   </div>
 </div><div class="basevariable">
 
@@ -936,7 +1056,7 @@ None</blockquote>
     <div class="container">
       <a href="index.html">Documentation</a> for SentiSounds,
     generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-      23.9.1 at 2024-04-22 00:16:51.
+      23.9.1 at 2024-04-23 14:32:24.
     </div>
 
     <script src="ajax.js" type="text/javascript"></script>

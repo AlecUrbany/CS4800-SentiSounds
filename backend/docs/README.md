@@ -11,6 +11,6 @@ For documentation:
 To generate documentation:
 > pydoctor --make-html --html-output=docs/general src --project-name SentiSounds --docformat numpy --theme readthedocs
 > Replace "API Documentation" with "Documentation"
-> Add visibility: hidden; to #showPrivate button {...} in apidocs.css
-> Change .navlinks background color to rgb(28, 13, 44) in readthedocstheme.css
-> Set navbar-brand color to rgb(215, 143, 76)
+> Add "visibility: hidden;" to #showPrivate button {...} in apidocs.css
+> Change .navlinks background color to "rgb(28, 13, 44)" in readthedocstheme.css
+> Set navbar-brand color to "rgb(215, 143, 76)"
