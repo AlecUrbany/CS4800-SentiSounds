@@ -101,32 +101,44 @@ class AuthHandler:
     """
 
     @staticmethod
-    async def clean_authentication() -> None:
+    async def clean_authentication() -> tuple[int, int]:
         # Clean cache
+        to_remove = set()
         for email, (_, expiry) in AuthHandler.ACTIVE_AUTHS.items():
             if datetime.now().timestamp() > expiry:
-                AuthHandler.ACTIVE_AUTHS.pop(email)
+                to_remove.add(email)
+
+        cache_count = len(to_remove)
+        for email in to_remove:
+            # Can't remove from the set while iterating through it, so
+            # store what we want to remove and do it all at once after marking
+            AuthHandler.ACTIVE_AUTHS.pop(email)
 
         # Clean DB
+        db_count = 0
         async with DatabaseHandler.acquire() as conn:
             try:
-                await conn.execute(
+                deleted = await conn.execute(
                     """
                     DELETE FROM
                         user_auth
                     WHERE
-                        authenticated = FALSE
+                        authenticated = False
                     AND
                         time_created < $1
                     """,
                     datetime.now(timezone.utc) -
                     timedelta(minutes=AuthHandler.EXPIRY_TIME)
                 )
+
+                db_count += int(deleted.split(" ")[1])
             except Exception as e:
                 raise ValueError(
                     "Something went wrong clearing the database: "
                     + str(e)
                 )
+
+        return cache_count, db_count
 
     @staticmethod
     def get_html(auth_code: str, expiry_identifier: str) -> str:

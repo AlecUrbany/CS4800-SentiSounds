@@ -1,5 +1,7 @@
 """The callable API functions to be used to communicate with the backend"""
 
+import asyncio
+import logging
 from functools import partial
 from typing import Any, Callable
 
@@ -15,6 +17,34 @@ from youtube_handler import YoutubeHandler
 app = Quart(__name__)
 """The Quart app to run"""
 app = cors(app, allow_origin="http://127.0.0.1:5500")
+app.logger.setLevel(logging.INFO)
+
+
+CLEAN_FREQUENCY = 1
+"""How often to clean out the authentication storage in minutes"""
+
+
+async def routine_clean():
+    """
+    Routinely cleans out the authentication cache and database.
+    """
+
+    while True:
+        app.logger.info("Performing routine authentication cleaning.")
+        cache_d, db_d = await AuthHandler.clean_authentication()
+        app.logger.info(f"Cleared {cache_d} cache items and {db_d} DB items.")
+        await asyncio.sleep(CLEAN_FREQUENCY * 60)
+
+
+@app.before_serving
+async def startup():
+    """"
+    Defines start-up functions for the API. Involves setting up the repeating
+    background task of cleaning the DB and cache, and initializing the DB pool.
+    """
+
+    await DatabaseHandler.get_pool()
+    app.add_background_task(routine_clean)
 
 
 @app.route("/sign-up", methods=["POST"])
