@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS user_auth(
 
     spotify_token TEXT DEFAULT NULL,
 
-    time_created TIMESTAMP
+    authenticated BOOLEAN DEFAULT False,
+    time_created TIMESTAMP WITH TIME ZONE DEFAULT timezone('UTC', now())
 );

@@ -52,7 +52,7 @@ async def sign_up():
 
     passed = await request.form
     try:
-        AuthHandler.sign_up(
+        await AuthHandler.sign_up(
             email_address=passed.get("email_address", default=""),
             password=passed.get("password", default=""),
             first_name=passed.get("first_name", default=""),
@@ -84,15 +84,8 @@ async def authenticate():
     ----------
     email_address : str, default=""
         The email address to store for the user
-    password : str, default=""
-        The password to store for the user
     entered_auth : str, default=""
         The authentication code entered by the user
-    first_name : str, default=""
-        The first name of the user
-    last_initial: str, default=""
-        The last initial of the user (this will be used with the first name
-        to create a display name)
 
     Returns
     -------
@@ -109,10 +102,7 @@ async def authenticate():
     try:
         await AuthHandler.authenticate_user(
             email_address=passed.get("email_address", default=""),
-            password=passed.get("password", default=""),
             entered_auth_code=passed.get("entered_auth_code", default=""),
-            first_name=passed.get("first_name", default=""),
-            last_initial=passed.get("last_initial", default=""),
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
