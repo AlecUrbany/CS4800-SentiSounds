@@ -349,6 +349,12 @@ async def export_playlist():
 
     Exports a playlist of song IDs to a user's connected Spotify account
 
+    Though `playlist_name` and playlist_description` are provided as possible
+    values, the name should be left to default to "SentiSounds Export", and
+    the `entered_prompt` from `api.recommend_songs` should be passed to
+    `playlist_description`. These are not hard-constraints, however, and any
+    value can be entered.
+
     The song IDs must be passed as a URL parameter to the API call, but the
     email address must be passed as a body argument (similar to the
     authentication endpoints). Again, ensure the spelling of the arguments
@@ -360,6 +366,12 @@ async def export_playlist():
     song_ids : str, default=""
         The songs to save in this playlist. This will be a space-separated
         string of songs ex: "123 123 123"
+    playlist_name : str, default="SentiSounds Export"
+        The name to assign the playlist. By default, we provide a SentiSounds
+        branded name
+    playlist_description : str, default=""
+        The description to assign the playlist. This *should* be the prompt
+        that the user originally entered, but any value is fine.
 
     Returns
     -------
@@ -378,10 +390,10 @@ async def export_playlist():
     email_address = passed.get("email_address", default="")
 
     song_ids = request.args.get("song_ids", default="")
-    playlist_name = request.args.get("playlist_name", default="")
+    playlist_name = request.args.get(
+        "playlist_name", default="SentiSounds Export"
+    )
     playlist_description = request.args.get("playlist_description", default="")
-    # TODO: How to get playlist name and description from this endpoint if
-    # they are to come from ChatGPT
     try:
         created_url: str = await uses_token(
             email_address,
