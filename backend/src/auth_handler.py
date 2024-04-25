@@ -36,7 +36,7 @@ class AuthHandler:
     The login function takes an email and password
     """
 
-    EXPIRY_TIME = 1
+    EXPIRY_TIME = 5
     """The time in minutes it takes for the authentication code to expire"""
 
     EMAIL_REGEX = re.compile(

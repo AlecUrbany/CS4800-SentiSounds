@@ -20,7 +20,7 @@ app = cors(app, allow_origin="http://127.0.0.1:5500")
 app.logger.setLevel(logging.INFO)
 
 
-CLEAN_FREQUENCY = 1.1
+CLEAN_FREQUENCY = 30
 """How often to clean out the authentication storage in minutes"""
 
 
