@@ -20,7 +20,7 @@ app = cors(app, allow_origin="http://127.0.0.1:5500")
 app.logger.setLevel(logging.INFO)
 
 
-CLEAN_FREQUENCY = 1
+CLEAN_FREQUENCY = 1.1
 """How often to clean out the authentication storage in minutes"""
 
 
@@ -178,7 +178,10 @@ async def login():
         ({"status": "success"}, 200)
         if result
         else (
-            {"status": "failure", "error": "Incorrect email or password"},
+            {
+                "status": "failure",
+                "error": "Incorrect credentials, or that user does not exist."
+            },
             401,
         )
     )
@@ -258,7 +261,11 @@ async def spotify_authenticate():
         token: token_type = sp.get_access_token(
             code, as_dict=True
         )  # type: ignore
-        await AuthHandler.save_spotify_token(email_address, token)
+        aff: int = await AuthHandler.save_spotify_token(email_address, token)
+
+        if not aff:
+            raise ValueError("No authenticated users found by that email.")
+
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 

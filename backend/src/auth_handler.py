@@ -36,7 +36,7 @@ class AuthHandler:
     The login function takes an email and password
     """
 
-    EXPIRY_TIME = 5
+    EXPIRY_TIME = 1
     """The time in minutes it takes for the authentication code to expire"""
 
     EMAIL_REGEX = re.compile(
@@ -323,18 +323,48 @@ class AuthHandler:
                         user_auth
                         (
                             email_address,
-                            hashed_password,
+                            hashed_password
+                        )
+                    VALUES
+                        (
+                            $1,
+                            crypt($2, gen_salt('bf'))
+                        )
+                    """,
+                    email_address,
+                    password,
+                )
+
+                await conn.execute(
+                    """
+                    INSERT INTO
+                        spotify_auth
+                        (
+                            email_address
+                        )
+                    VALUES
+                        (
+                            $1
+                        )
+                    """,
+                    email_address,
+                )
+
+                await conn.execute(
+                    """
+                    INSERT INTO
+                        user_info
+                        (
+                            email_address,
                             display_name
                         )
                     VALUES
                         (
                             $1,
-                            crypt($2, gen_salt('bf')),
-                            $3
+                            $2
                         )
                     """,
                     email_address,
-                    password,
                     display_name,
                 )
             except UniqueViolationError:
@@ -377,7 +407,7 @@ class AuthHandler:
         Raises
         ------
         ValueError
-            If the emali address entered is not awaiting authentication
+            If the email address entered is not awaiting authentication
             If the incorrect code was entered or something went wrong adding
             the user to the database
         """
@@ -543,7 +573,7 @@ class AuthHandler:
     async def save_spotify_token(
                 email_address: str,
                 token: token_type
-            ) -> None:
+            ) -> int:
         """
         Given an email address, save the user's Spotify token
 
@@ -553,6 +583,11 @@ class AuthHandler:
             The email address of the user
         token : str
             The user's Spotify token
+
+        Returns
+        -------
+        int
+            The number of affected rows
 
         Raises
         ------
@@ -564,20 +599,26 @@ class AuthHandler:
             raise ValueError("No email address was entered.")
 
         async with DatabaseHandler.acquire() as conn:
-            await conn.execute(
+            output = await conn.execute(
                 """
                 UPDATE
-                    user_auth
+                    spotify_auth
                 SET
                     spotify_token = $1
+                FROM
+                    user_auth
                 WHERE
-                    email_address = $2
+                    spotify_auth.email_address = $2
                 AND
-                    authenticated = True
+                    user_auth.email_address = $2
+                AND
+                    user_auth.authenticated = True
                 """,
                 json.dumps(token),
                 email_address,
             )
+
+            return int(output.split(" ")[1])
 
     @staticmethod
     async def get_spotify_token(email_address: str) -> token_type | None:
@@ -605,11 +646,16 @@ class AuthHandler:
                 SELECT
                     spotify_token
                 FROM
-                    user_auth
+                    spotify_auth
                 WHERE
                     email_address = $1
                 AND
-                    authenticated = True
+                    EXISTS (
+                        SELECT 1
+                        FROM user_auth
+                        WHERE email_address = $1
+                        AND authenticated = True
+                    )
                 """,
                 email_address,
             )
