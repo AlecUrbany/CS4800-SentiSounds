@@ -22,12 +22,8 @@ class YoutubeHandler:
 
     api_service_name = "youtube"
     api_version = "v3"
-    MAX_THREAD_COUNT: int = 5
     _youtube_instance: discovery.Resource | None = None
-    request_queue: queue.Queue = queue.Queue()
-    thread_pool: list[threading.Thread] = []
     _id_cache: dict[str, str] = {}
-    _id_cache_lock: threading.Lock = threading.Lock()
 
     def __init__(self):
         """
@@ -123,8 +119,7 @@ class YoutubeHandler:
                 id = response["items"][0]["id"]["videoId"]
                 song["external_urls"]["youtube"] = youtube_url % id
                 # Cache the id
-                with cls._id_cache_lock:
-                    cls._id_cache[song["name"]] = id
+                cls._id_cache[song["name"]] = id
             else:
                 song["external_urls"]["youtube"] = ""
         return song
@@ -141,45 +136,13 @@ class YoutubeHandler:
         """
         for song in songs:
             cls.search_for_match(song)
-        # for now keep the threading code commented out as it is not working
-        """
-        for song in songs:
-            cls.request_queue.put(song)
-        for _ in range(cls.MAX_THREAD_COUNT):
-            thread = threading.Thread(target=cls._process_queue)
-            thread.start()
-            cls.thread_pool.append(thread)
-
-        cls.request_queue.join()
-
-        for _ in range(cls.MAX_THREAD_COUNT):
-            cls.request_queue.put(
-                None
-            )  # Add a None to the queue for each thread to stop processing
-        """
-
-    @classmethod
-    def _process_queue(cls):
-        """
-        Processes the request queue
-        """
-        while True:
-            # Get a request from the queue
-            song = cls.request_queue.get()
-
-            # If the queue is empty, break the loop
-            if song is None:
-                break
-
-            cls.search_for_match(song)
-            # Mark the task as done
-            cls.request_queue.task_done()
+        cls.save_cache()
 
     @classmethod
     def save_cache(cls):
         """
         Saves the id cache to a file
         """
-        with cls._id_cache_lock:
-            with open(".cache/youtube_id_cache.json", "w") as file:
-                json.dump(cls._id_cache, file)
+
+        with open(".cache/youtube_id_cache.json", "w") as file:
+            json.dump(cls._id_cache, file)
