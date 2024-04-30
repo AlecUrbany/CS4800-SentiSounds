@@ -78,32 +78,34 @@
     </style>
 </head>
 
+
 <body class="custom-purple-bg text-white font-sans">
 
-    <!-- Sidebar Toggle Button -->
-    <button id="sidebarToggle" class="p-4">Page Sidebar</button>
-
-    <!-- Hidden Sidebar -->
-    <div id="sidebar"
-        class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-200 ease-in-out bg-gray-800 text-white w-64 p-4">
-        <!-- Sidebar content here -->
-        <h2 class="font-semibold text-xl mb-4">Pages</h2>
-        <ul>
-            <li><a href="index.html" class="block mt-2">Homepage</a></li>
-            <li><a href="signup.html" class="block mt-2">Signup</a></li>
-            <li><a href="login.html" class="block mt-2">Login</a></li>
-            <li><a href="results.html" class="block mt-2">Results</a></li>
-        </ul>
-    </div>
-
-    <header class="flex justify-between items-center p-4">
-        <div class="flex items-center space-x-3">
+    <header class="flex justify-between items-center px-4 py-2 w-full">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Connect to Spotify
+        </button>
+        <div class="flex items-center space-x-4">
             <img src="assets/sentisounds_icon.png" alt="SentiSounds Logo" class="rounded-full"
                 style="width: 100px; height: 100px;">
-            <div>
+            <div class="flex flex-col">
                 <h1 class="text-3xl font-bold">SentiSounds</h1>
                 <p class="text-xs">Sounds for the Soul.</p>
             </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span class="text-white">Hi, JonahBoss321</span>
+            <img src="https://placehold.co/32x32" alt="User Avatar" class="rounded-full border-2 border-green-500">
+        </div>
+    </header>
+
+    <main class="p-4">
+        <h2 class="text-4xl text-align center font-bold mb-4">Songs</h2>
+        <!-- Loader -->
+        <div id="loader" class="loader"></div>
+        <!-- Songs container -->
+        <div id="songsContainer" class="grid grid-rows-4 gap-8 mb-8" style="position: relative;">
+            <!-- Songs will be dynamically added here -->
         </div>
         <div>
             <form class="max-w-md mx-auto flex items-center" id="searchForm">
@@ -131,20 +133,6 @@
                     Search
                 </button>
             </form>
-        </div>
-        <div class="flex items-center space-x-1">
-            <span>Hi, JonahBoss321</span>
-            <img src="https://placehold.co/32x32" alt="User Avatar" class="rounded-full border-2 border-green-500">
-        </div>
-    </header>
-
-    <main class="p-4">
-        <h2 class="text-4xl font-bold mb-4">Songs</h2>
-        <!-- Loader -->
-        <div id="loader" class="loader"></div>
-        <!-- Songs container -->
-        <div id="songsContainer" class="grid grid-rows-4 gap-8 mb-8" style="position: relative;">
-            <!-- Songs will be dynamically added here -->
         </div>
     </main>
 
