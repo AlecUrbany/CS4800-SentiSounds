@@ -190,7 +190,7 @@ async def login():
 @app.route("/spotify-auth-link", methods=["GET"])
 def spotify_get_auth_link():
     """
-    `GET spotify-auth-link`
+    `GET /spotify-auth-link`
 
     Retrieves a link to be used to authenticate with Spotify. After the user
     authenticates, they will be redirected to a URL with a code=... parameter.
@@ -272,10 +272,10 @@ async def spotify_authenticate():
     return {"status": "success"}, 200
 
 
-@app.route("/recommend-songs", methods=["GET"])
+@app.route("/recommend-songs", methods=["POST"])
 async def recommend_songs():
     """
-    `GET /recommend-songs`
+    `POST /recommend-songs`
 
     Given a user's sentiment-littered prompt, return a list of matching
     songs recommended by Spotify
@@ -409,10 +409,10 @@ async def export_playlist():
     return {"status": "success", "playlist_url": created_url}, 200
 
 
-@app.route("/spotify-check-authentication", methods=["GET"])
+@app.route("/spotify-check-authentication", methods=["POST"])
 async def spotify_check_authentication():
     """
-    `GET /spotify-check-authentication`
+    `POST /spotify-check-authentication`
 
     Checks if a user has authenticated their Spotify account
 
