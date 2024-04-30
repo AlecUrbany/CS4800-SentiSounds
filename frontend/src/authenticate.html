@@ -84,16 +84,9 @@
 
                 // Retrieving data from localStorage
                 const email = localStorage.getItem('email');
-                const password = localStorage.getItem('password');
-                const firstName = localStorage.getItem('firstName');
-                const lastInitial = localStorage.getItem('lastInitial');
-
 
                 const formData = new FormData();
                 formData.append('email_address', email);
-                formData.append('password', password);
-                formData.append('first_name', firstName);
-                formData.append('last_initial', lastInitial);
                 formData.append('entered_auth_code', document.querySelector('#auth_code').value);
 
 
