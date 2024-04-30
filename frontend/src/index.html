@@ -19,6 +19,26 @@
         .custom-purple-bg {
             background-color: #1C0D2C;
         }
+
+        /* Loader styles */
+        .loader {
+            width: 50px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 8px solid lightblue;
+            border-right-color: orange;
+            animation: l2 1s infinite linear;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            display: none; /* Hide initially */
+        }
+
+        @keyframes l2 {
+            to {
+                transform: rotate(1turn);
+            }
+        }
     </style>
 </head>
 
@@ -50,7 +70,7 @@
             </div>
         </div>
         <div>
-            <form class="max-w-md mx-auto">
+            <form class="max-w-md mx-auto" id="searchForm">
                 <label for="default-search"
                     class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
@@ -64,7 +84,7 @@
                     <input type="search" id="default-search"
                         class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Describe the Music ..." required />
-                    <button type="submit"
+                    <button type="submit" id="searchButton"
                         class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
             </form>
@@ -77,104 +97,65 @@
 
     <main class="p-4">
         <h2 class="text-4xl font-bold mb-4">Songs</h2>
-        <div class="grid grid-rows-4 gap-8 mb-8">
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Christian genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Popular - Weeknd</h3>
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Jazz genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Never Give You Up - Rick</h3>
-
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Latin genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Gasolina - Daddy Yankee</h3>
-
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Chill genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">We will rock you - Queen</h3>
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Christian genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Never Give You Up - Rick</h3>
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Jazz genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Never Give You Up - Rick</h3>
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Latin genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Never Give You Up - Rick</h3>
-            </div>
-            <div class="genre-card custom-orange-bg p-4 rounded">
-                <img src="https://placehold.co/200x200" alt="Chill genre album cover placeholder image"
-                    class="rounded mb-2">
-                <h3 class="text-xl font-bold">Never Give You Up - Rick</h3>
-
-            </div>
-            <a href="#" class="custom-orange-text">See all</a>
+        <!-- Loader -->
+        <div id="loader" class="loader"></div>
+        <!-- Songs container -->
+        <div id="songsContainer" class="grid grid-rows-4 gap-8 mb-8" style="position: relative;">
+            <!-- Songs will be dynamically added here -->
         </div>
-        <!--<aside class="flex justify-between">
-            <div class="playlists w-1/2">
-                <h3 class="text-2xl font-bold mb-4 flex justify-between items-center">
-                    Your Playlists
-                </h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="playlist-card bg-gray-800 p-4 rounded">
-                        <img src="https://placehold.co/100x100" alt="Playlist cover placeholder image"
-                            class="rounded mb-2">
-                        <h4 class="text-lg font-bold">All I want</h4>
-                        <p>by slsk</p>
-                    </div>
-                    <div class="playlist-card bg-gray-800 p-4 rounded">
-                        <img src="https://placehold.co/100x100" alt="Playlist cover placeholder image"
-                            class="rounded mb-2">
-                        <h4 class="text-lg font-bold">For Christmas</h4>
-                        <p>by slsk</p>
-                    </div>
-                    <div class="playlist-card bg-gray-800 p-4 rounded">
-                        <img src="https://placehold.co/100x100" alt="Playlist cover placeholder image"
-                            class="rounded mb-2">
-                        <h4 class="text-lg font-bold">Is Youuuuuuuuu</h4>
-                        <p>by slsk</p>
-                    </div>
-                    <div class="playlist-card bg-gray-800 p-4 rounded">
-                        <img src="https://placehold.co/100x100" alt="Playlist cover placeholder image"
-                            class="rounded mb-2">
-                        <h4 class="text-lg font-bold">Happy Holidays!</h4>
-                        <p>by slsk</p>
-                    </div>
-                    <a href="#" class="custom-orange-text">See all</a>
-                </div>
-            </div>
-        </aside>
-    </main>-->
+    </main>
 
-        <script>
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const enteredPrompt = document.getElementById('default-search').value;
+            const loader = document.getElementById('loader');
+            const songsContainer = document.getElementById('songsContainer');
 
-            sidebarToggle.addEventListener('click', function () {
-                sidebar.classList.toggle('-translate-x-full');
-            });
+            // Show loader
+            loader.style.display = 'block';
+            // Hide songs container
+            songsContainer.style.display = 'none';
 
-            document.addEventListener('click', function (e) {
-                // Check if click is outside of sidebar and sidebarToggle
-                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
-                    // If sidebar is open and click is outside, close the sidebar
-                    sidebar.classList.add('-translate-x-full');
+            fetch(`/recommend-songs?entered_prompt=${enteredPrompt}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            });
-        </script>
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setTimeout(() => {
+                        if (data.status === 'success') {
+                            songsContainer.innerHTML = ''; // Clear previous songs
+                            data.songs.forEach(song => {
+                                const songElement = document.createElement('div');
+                                songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
+                                songElement.innerHTML = `
+                                    <img src="${song.album_cover}" alt="${song.name} album cover" class="rounded mb-2">
+                                    <h3 class="text-xl font-bold">${song.name} - ${song.artist}</h3>
+                                `;
+                                songsContainer.appendChild(songElement);
+                            });
+                            // Hide loader
+                            loader.style.display = 'none';
+                            // Show songs container
+                            songsContainer.style.display = 'block';
+                        } else {
+                            console.error('Failed to get recommended songs:', data.error);
+                        }
+                    }, 3000); // Show loader for 3 seconds
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
 </body>
 
 </html>
