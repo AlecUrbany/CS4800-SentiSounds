@@ -31,7 +31,27 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            display: none; /* Hide initially */
+            display: none;
+            /* Hide initially */
+        }
+
+        .like-button {
+            font-size: 5em;
+        }
+
+        .liked {
+            color: red;
+            /* Stays red when liked */
+        }
+
+        .unliked {
+            color: black;
+        }
+
+        form.flex {
+            display: flex;
+            align-items: center;
+            /* Aligns items vertically center */
         }
 
         @keyframes l2 {
@@ -70,23 +90,32 @@
             </div>
         </div>
         <div>
-            <form class="max-w-md mx-auto" id="searchForm">
-                <label for="default-search"
-                    class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            <form class="max-w-md mx-auto flex items-center" id="searchForm">
+                <!-- Dropdown for numbers -->
+                <select id="number-select"
+                    class="block w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                </select>
+                <div class="relative ml-4">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21L15 15M17 10c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z"></path>
                         </svg>
                     </div>
                     <input type="search" id="default-search"
-                        class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="block w-full pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Describe the Music ..." required />
-                    <button type="submit" id="searchButton"
-                        class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
+                <button type="submit" id="searchButton"
+                    class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Search
+                </button>
             </form>
         </div>
         <div class="flex items-center space-x-1">
@@ -106,61 +135,91 @@
     </main>
 
     <script>
-        
-    document.getElementById('searchForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const enteredPrompt = document.getElementById('default-search').value;
-        const emailAddress = "singhjasroop21@gmail.com"
-        const loader = document.getElementById('loader');
-        const songsContainer = document.getElementById('songsContainer');
 
-        // Show loader and hide songs container
-        loader.style.display = 'block';
-        songsContainer.style.display = 'none';
-        
-        // Base URI
-        const testURI = '/recommend-songs';
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const enteredPrompt = document.getElementById('default-search').value;
+            const emailAddress = "chung.samuel.302@gmail.com"
+            const loader = document.getElementById('loader');
+            const songsContainer = document.getElementById('songsContainer');
+            const popularityScore = document.getElementById('number-select').value;
 
-        // URL Parameters
-        const params = new URLSearchParams({
-            enteredPrompt: enteredPrompt,
-            emailAddress: emailAddress        
+            // Show loader and hide songs container
+            loader.style.display = 'block';
+            songsContainer.style.display = 'none';
+
+            // Base URI
+            const testURI = 'http://127.0.0.1:5000/recommend-songs';
+
+            // URL Parameters
+            const params = new URLSearchParams({
+                entered_prompt: enteredPrompt,
+                email_address: emailAddress,
+                popularity_score: popularityScore
+            });
+
+            // Full URL with parameters
+            const url = `${testURI}?${params.toString()}`
+
+            // Fetch request with POST method
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: ""
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setTimeout(() => {
+                        if (data.status === 'success') {
+                            // Update UI with songs
+                            songsContainer.innerHTML = ''; // Clear previous songs
+                            data.songs.forEach(song => {
+                                const songElement = document.createElement('div');
+                                songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
+                                // Use the first image from the album images array or a placeholder if not available
+                                const albumCoverUrl = song.album.images.length > 0 ? song.album.images[0].url : "https://placehold.co/200x200";
+                                // Combine all artist names
+                                const artistNames = song.artists.map(artist => artist.name).join(', ');
+
+                                // Adding the like button with a heart icon
+                                songElement.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <img src="${albumCoverUrl}" alt="${song.name} album cover" class="rounded mb-2" style="width:200px; height:200px;">
+                            <h3 class="text-xl font-bold">${song.name} - ${artistNames}</h3>
+                        </div>
+                        <button class="like-button text-black-500 focus:outline-none focus:text-black-700">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>`;
+                                songsContainer.appendChild(songElement);
+                            });
+                            loader.style.display = 'none';
+                            songsContainer.style.display = 'grid'; // Use grid if that is the intended design
+
+                            // Add click event listeners to like buttons
+                            document.querySelectorAll('.like-button').forEach(button => {
+                                button.addEventListener('click', function () {
+                                    this.classList.toggle('liked');
+                                    if (this.classList.contains('liked')) {
+                                        this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to a solid heart if liked
+                                    } else {
+                                        this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to an empty heart if not liked
+                                    }
+                                });
+                            });
+                        } else {
+                            console.error('Failed to get recommended songs:', data.error);
+                        }
+                    }, 3000); // Show loader for 3 seconds
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         });
-
-        // Full URL with parameters
-        const url = `${testURI}?${params.toString()}`
-
-        // Fetch request with POST method
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            setTimeout(() => {
-                if (data.status === 'success') {
-                    // Update UI with songs
-                    songsContainer.innerHTML = ''; // Clear previous songs
-                    data.songs.forEach(song => {
-                        const songElement = document.createElement('div');
-                        songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
-                        songElement.innerHTML = `<img src="${song.album_cover}" alt="${song.name} album cover" class="rounded mb-2"><h3 class="text-xl font-bold">${song.name} - ${song.artist}</h3>`;
-                        songsContainer.appendChild(songElement);
-                    });
-                    loader.style.display = 'none';
-                    songsContainer.style.display = 'block';
-                } else {
-                    console.error('Failed to get recommended songs:', data.error);
-                }
-            }, 3000); // Show loader for 3 seconds
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    });
 
     </script>
 </body>
