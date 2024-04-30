@@ -106,55 +106,62 @@
     </main>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const enteredPrompt = document.getElementById('default-search').value;
-            const loader = document.getElementById('loader');
-            const songsContainer = document.getElementById('songsContainer');
+        
+    document.getElementById('searchForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const enteredPrompt = document.getElementById('default-search').value;
+        const emailAddress = "singhjasroop21@gmail.com"
+        const loader = document.getElementById('loader');
+        const songsContainer = document.getElementById('songsContainer');
 
-            // Show loader
-            loader.style.display = 'block';
-            // Hide songs container
-            songsContainer.style.display = 'none';
+        // Show loader and hide songs container
+        loader.style.display = 'block';
+        songsContainer.style.display = 'none';
+        
+        // Base URI
+        const testURI = '/recommend-songs';
 
-            fetch(`/recommend-songs?entered_prompt=${enteredPrompt}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    setTimeout(() => {
-                        if (data.status === 'success') {
-                            songsContainer.innerHTML = ''; // Clear previous songs
-                            data.songs.forEach(song => {
-                                const songElement = document.createElement('div');
-                                songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
-                                songElement.innerHTML = `
-                                    <img src="${song.album_cover}" alt="${song.name} album cover" class="rounded mb-2">
-                                    <h3 class="text-xl font-bold">${song.name} - ${song.artist}</h3>
-                                `;
-                                songsContainer.appendChild(songElement);
-                            });
-                            // Hide loader
-                            loader.style.display = 'none';
-                            // Show songs container
-                            songsContainer.style.display = 'block';
-                        } else {
-                            console.error('Failed to get recommended songs:', data.error);
-                        }
-                    }, 3000); // Show loader for 3 seconds
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
+        // URL Parameters
+        const params = new URLSearchParams({
+            enteredPrompt: enteredPrompt,
+            emailAddress: emailAddress        
         });
+
+        // Full URL with parameters
+        const url = `${testURI}?${params.toString()}`
+
+        // Fetch request with POST method
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            setTimeout(() => {
+                if (data.status === 'success') {
+                    // Update UI with songs
+                    songsContainer.innerHTML = ''; // Clear previous songs
+                    data.songs.forEach(song => {
+                        const songElement = document.createElement('div');
+                        songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
+                        songElement.innerHTML = `<img src="${song.album_cover}" alt="${song.name} album cover" class="rounded mb-2"><h3 class="text-xl font-bold">${song.name} - ${song.artist}</h3>`;
+                        songsContainer.appendChild(songElement);
+                    });
+                    loader.style.display = 'none';
+                    songsContainer.style.display = 'block';
+                } else {
+                    console.error('Failed to get recommended songs:', data.error);
+                }
+            }, 3000); // Show loader for 3 seconds
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    });
+
     </script>
 </body>
 
