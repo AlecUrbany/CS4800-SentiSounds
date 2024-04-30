@@ -1,5 +1,7 @@
 """The callable API functions to be used to communicate with the backend"""
 
+import asyncio
+import logging
 from functools import partial
 from typing import Any, Callable
 
@@ -15,6 +17,34 @@ from youtube_handler import YoutubeHandler
 app = Quart(__name__)
 """The Quart app to run"""
 app = cors(app, allow_origin="http://127.0.0.1:5500")
+app.logger.setLevel(logging.INFO)
+
+
+CLEAN_FREQUENCY = 30
+"""How often to clean out the authentication storage in minutes"""
+
+
+async def routine_clean():
+    """
+    Routinely cleans out the authentication cache and database.
+    """
+
+    while True:
+        app.logger.info("Performing routine authentication cleaning.")
+        cache_d, db_d = await AuthHandler.clean_authentication()
+        app.logger.info(f"Cleared {cache_d} cache items and {db_d} DB items.")
+        await asyncio.sleep(CLEAN_FREQUENCY * 60)
+
+
+@app.before_serving
+async def startup():
+    """
+    Defines start-up functions for the API. Involves setting up the repeating
+    background task of cleaning the DB and cache, and initializing the DB pool.
+    """
+
+    await DatabaseHandler.get_pool()
+    app.add_background_task(routine_clean)
 
 
 @app.route("/sign-up", methods=["POST"])
@@ -52,7 +82,7 @@ async def sign_up():
 
     passed = await request.form
     try:
-        AuthHandler.sign_up(
+        await AuthHandler.sign_up(
             email_address=passed.get("email_address", default=""),
             password=passed.get("password", default=""),
             first_name=passed.get("first_name", default=""),
@@ -77,22 +107,12 @@ async def authenticate():
     keys of the data given must be spelled exactly as displayed in the
     parameters list
 
-    Although the same parameters passed to `/sign-up` must be passed here,
-    `authenticate` will still ensure the validity of the passed parameters
-
     Parameters
     ----------
     email_address : str, default=""
         The email address to store for the user
-    password : str, default=""
-        The password to store for the user
     entered_auth : str, default=""
         The authentication code entered by the user
-    first_name : str, default=""
-        The first name of the user
-    last_initial: str, default=""
-        The last initial of the user (this will be used with the first name
-        to create a display name)
 
     Returns
     -------
@@ -109,10 +129,7 @@ async def authenticate():
     try:
         await AuthHandler.authenticate_user(
             email_address=passed.get("email_address", default=""),
-            password=passed.get("password", default=""),
             entered_auth_code=passed.get("entered_auth_code", default=""),
-            first_name=passed.get("first_name", default=""),
-            last_initial=passed.get("last_initial", default=""),
         )
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
@@ -161,7 +178,10 @@ async def login():
         ({"status": "success"}, 200)
         if result
         else (
-            {"status": "failure", "error": "Incorrect email or password"},
+            {
+                "status": "failure",
+                "error": "Incorrect credentials, or that user does not exist."
+            },
             401,
         )
     )
@@ -241,7 +261,11 @@ async def spotify_authenticate():
         token: token_type = sp.get_access_token(
             code, as_dict=True
         )  # type: ignore
-        await AuthHandler.save_spotify_token(email_address, token)
+        aff: int = await AuthHandler.save_spotify_token(email_address, token)
+
+        if not aff:
+            raise ValueError("No authenticated users found by that email.")
+
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
@@ -325,6 +349,12 @@ async def export_playlist():
 
     Exports a playlist of song IDs to a user's connected Spotify account
 
+    Though `playlist_name` and playlist_description` are provided as possible
+    values, the name should be left to default to "SentiSounds Export", and
+    the `entered_prompt` from `api.recommend_songs` should be passed to
+    `playlist_description`. These are not hard-constraints, however, and any
+    value can be entered.
+
     The song IDs must be passed as a URL parameter to the API call, but the
     email address must be passed as a body argument (similar to the
     authentication endpoints). Again, ensure the spelling of the arguments
@@ -336,6 +366,12 @@ async def export_playlist():
     song_ids : str, default=""
         The songs to save in this playlist. This will be a space-separated
         string of songs ex: "123 123 123"
+    playlist_name : str, default="SentiSounds Export"
+        The name to assign the playlist. By default, we provide a SentiSounds
+        branded name
+    playlist_description : str, default=""
+        The description to assign the playlist. This *should* be the prompt
+        that the user originally entered, but any value is fine.
 
     Returns
     -------
@@ -354,10 +390,10 @@ async def export_playlist():
     email_address = passed.get("email_address", default="")
 
     song_ids = request.args.get("song_ids", default="")
-    playlist_name = request.args.get("playlist_name", default="")
+    playlist_name = request.args.get(
+        "playlist_name", default="SentiSounds Export"
+    )
     playlist_description = request.args.get("playlist_description", default="")
-    # TODO: How to get playlist name and description from this endpoint if
-    # they are to come from ChatGPT
     try:
         created_url: str = await uses_token(
             email_address,
