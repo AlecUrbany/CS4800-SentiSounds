@@ -1,4 +1,5 @@
 # App Functionality
+asyncio
 openai
 spotipy
 google-api-python-client
