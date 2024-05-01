@@ -95,9 +95,16 @@
 
 <body class="custom-purple-bg text-white font-sans">
     <header class="flex justify-between items-center px-4 py-2 w-full">
-        <button id="connectSpotifyBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Connect to Spotify
-        </button>
+        <div class="flex items-center space-x-4">
+            <img src="assets/spotify_icon.png" alt="Spotify Logo" class="rounded-xl"
+                style="width: 50px; height: 50px" />
+            <div class="flex flex-col">
+                <button id="connectSpotifyBtn"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Connect to Spotify
+                </button>
+            </div>
+        </div>
         <div class="flex items-center space-x-4">
             <img src="assets/sentisounds_icon.png" alt="SentiSounds Logo" class="rounded-full"
                 style="width: 100px; height: 100px" />
@@ -118,7 +125,7 @@
                 <!-- Dropdown for numbers -->
                 <select id="number-select"
                     class="block w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="7">Indie</option>
+                    <option value="7">Underground</option>
                     <option value="21">Blend</option>
                     <option value="30">Popular</option>
                 </select>
@@ -132,7 +139,7 @@
                     </div>
                     <input type="search" id="default-search"
                         class="block w-full pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Describe the Music ..." required />
+                        placeholder="How are you feeling?" required />
                 </div>
                 <button type="submit" id="searchButton"
                     class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
