@@ -16,7 +16,7 @@ from youtube_handler import YoutubeHandler
 
 app = Quart(__name__)
 """The Quart app to run"""
-app = cors(app, allow_origin="https://alecurbany.github.io/CS4800-SentiSounds/")
+app = cors(app, allow_origin="http://127.0.0.1:5000")
 app.logger.setLevel(logging.INFO)
 
 
