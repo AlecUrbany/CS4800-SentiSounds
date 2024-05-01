@@ -1,244 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SentiSounds</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <style>
-        .custom-orange-bg {
-            background-color: #D19900;
-        }
+      .custom-orange-bg {
+        background-color: #d19900;
+      }
 
-        .custom-orange-text {
-            color: #D19900;
-        }
+      .custom-orange-text {
+        color: #d19900;
+      }
 
-        .custom-purple-bg {
-            background-color: #1C0D2C;
-        }
+      .custom-purple-bg {
+        background-color: #1c0d2c;
+      }
 
-        /* Loader styles */
-        .loader {
-            width: 50px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            border: 8px solid lightblue;
-            border-right-color: orange;
-            animation: l2 1s infinite linear;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            display: none;
-            /* Hide initially */
-        }
+      /* Loader styles */
+      .loader {
+        width: 50px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 8px solid lightblue;
+        border-right-color: orange;
+        animation: l2 1s infinite linear;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: none;
+        /* Hide initially */
+      }
 
-        .like-button {
-            font-size: 5em;
-        }
+      .like-button {
+        font-size: 5em;
+      }
 
-        .liked {
-            color: red;
-            /* Stays red when liked */
-        }
+      .liked {
+        color: red;
+        /* Stays red when liked */
+      }
 
-        form.flex {
-            display: flex;
-            align-items: center;
-            /* Aligns items vertically center */
-        }
+      form.flex {
+        display: flex;
+        align-items: center;
+        /* Aligns items vertically center */
+      }
 
+      .genre-card {
+        background-color: #d19900;
+        padding: 4rem;
+        border-radius: 0.5rem;
+        margin-left: 2rem;
+        /* Adding larger left margin */
+        margin-right: 2rem;
+        /* Adding larger right margin */
+      }
+
+      @media (min-width: 768px) {
+        /* Example for tablets and larger devices */
         .genre-card {
-            background-color: #D19900;
-            padding: 4rem;
-            border-radius: 0.5rem;
-            margin-left: 2rem;
-            /* Adding larger left margin */
-            margin-right: 2rem;
-            /* Adding larger right margin */
+          margin-left: 20rem;
+          /* even larger margins for wider screens */
+          margin-right: 20rem;
         }
+      }
 
-        @media (min-width: 768px) {
-
-            /* Example for tablets and larger devices */
-            .genre-card {
-                margin-left: 25rem;
-                /* even larger margins for wider screens */
-                margin-right: 25rem;
-            }
+      @keyframes l2 {
+        to {
+          transform: rotate(1turn);
         }
-
-        @keyframes l2 {
-            to {
-                transform: rotate(1turn);
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-
-<body class="custom-purple-bg text-white font-sans">
-
+  <body class="custom-purple-bg text-white font-sans">
     <header class="flex justify-between items-center px-4 py-2 w-full">
-        <button id="connectSpotifyBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Connect to Spotify
-        </button>
-        <div class="flex items-center space-x-4">
-            <img src="assets/sentisounds_icon.png" alt="SentiSounds Logo" class="rounded-full"
-                style="width: 100px; height: 100px;">
-            <div class="flex flex-col">
-                <h1 class="text-3xl font-bold">SentiSounds</h1>
-                <p class="text-xs">Sounds for the Soul.</p>
-            </div>
+      <button
+        id="connectSpotifyBtn"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Connect to Spotify
+      </button>
+      <div class="flex items-center space-x-4">
+        <img
+          src="assets/sentisounds_icon.png"
+          alt="SentiSounds Logo"
+          class="rounded-full"
+          style="width: 100px; height: 100px"
+        />
+        <div class="flex flex-col">
+          <h1 class="text-3xl font-bold">SentiSounds</h1>
+          <p class="text-xs">Sounds for the Soul.</p>
         </div>
-        <div class="flex items-center space-x-3">
-            <span class="text-white">Hi, JonahBoss321</span>
-            <img src="https://placehold.co/32x32" alt="User Avatar" class="rounded-full border-2 border-green-500">
-        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span class="text-white">Hi, JonahBoss321</span>
+        <img
+          src="https://placehold.co/32x32"
+          alt="User Avatar"
+          class="rounded-full border-2 border-green-500"
+        />
+      </div>
     </header>
 
     <main class="p-4">
-        <div>
-            <form class="max-w-md mx-auto flex items-center" id="searchForm">
-                <!-- Dropdown for numbers -->
-                <select id="number-select"
-                    class="block w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="7">Indie</option>
-                    <option value="21">Blend</option>
-                    <option value="30">Popular</option>
-                </select>
-                <div class="relative ml-4">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21L15 15M17 10c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z"></path>
-                        </svg>
-                    </div>
-                    <input type="search" id="default-search"
-                        class="block w-full pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Describe the Music ..." required />
-                </div>
-                <button type="submit" id="searchButton"
-                    class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Search
-                </button>
-            </form>
-        </div>
-        <h2 class="text-4xl text-align center font-bold mb-4">Songs:</h2>
-        <!-- Loader -->
-        <div id="loader" class="loader"></div>
-        <!-- Songs container -->
-        <div id="songsContainer" class="grid grid-rows-4 gap-8 mb-8" style="position: relative;">
-            <!-- Songs will be dynamically added here -->
-        </div>
+      <div>
+        <form class="max-w-md mx-auto flex items-center" id="searchForm">
+          <!-- Dropdown for numbers -->
+          <select
+            id="number-select"
+            class="block w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option value="7">Indie</option>
+            <option value="21">Blend</option>
+            <option value="30">Popular</option>
+          </select>
+          <div class="relative ml-4">
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21L15 15M17 10c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              class="block w-full pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              placeholder="Describe the Music ..."
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            id="searchButton"
+            class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+      <h2 class="text-4xl text-align center font-bold mb-4">Songs:</h2>
+      <!-- Loader -->
+      <div id="loader" class="loader"></div>
+      <!-- Songs container -->
+      <div
+        id="songsContainer"
+        class="grid grid-rows-4 gap-8 mb-8"
+        style="position: relative"
+      >
+        <!-- Songs will be dynamically added here -->
+      </div>
     </main>
 
     <script>
+      document
+        .getElementById("searchForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const enteredPrompt = document.getElementById("default-search").value;
+          const emailAddress = "jaspubg21@gmail.com";
+          const loader = document.getElementById("loader");
+          const songsContainer = document.getElementById("songsContainer");
+          const popularityScore =
+            document.getElementById("number-select").value;
 
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const enteredPrompt = document.getElementById('default-search').value;
-            const emailAddress = "chung.samuel.302@gmail.com"
-            const loader = document.getElementById('loader');
-            const songsContainer = document.getElementById('songsContainer');
-            const popularityScore = document.getElementById('number-select').value;
+          // Show loader and hide songs container
+          loader.style.display = "block";
+          songsContainer.style.display = "none";
 
-            // Show loader and hide songs container
-            loader.style.display = 'block';
-            songsContainer.style.display = 'none';
+          // Base URI
+          const testURI = "http://127.0.0.1:5000/recommend-songs";
 
-            // Base URI
-            const testURI = 'http://127.0.0.1:5000/recommend-songs';
+          // URL Parameters
+          const params = new URLSearchParams({
+            entered_prompt: enteredPrompt,
+            email_address: emailAddress,
+            popularity_score: popularityScore,
+          });
 
-            // URL Parameters
-            const params = new URLSearchParams({
-                entered_prompt: enteredPrompt,
-                email_address: emailAddress,
-                popularity_score: popularityScore
-            });
+          // Full URL with parameters
+          const url = `${testURI}?${params.toString()}`;
 
-            // Full URL with parameters
-            const url = `${testURI}?${params.toString()}`
+          // Fetch request with POST method
 
-            // Fetch request with POST method
+          fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: ""
+    })
+    .then(response => response.json())
+    .then(data => {
+        setTimeout(() => {
+            if (data.status === 'success') {
+                songsContainer.innerHTML = ''; // Clear previous songs
+                data.songs.forEach(song => {
+                    const songElement = document.createElement('div');
+                    songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
+                    const albumCoverUrl = song.album.images.length > 0 ? song.album.images[0].url : "https://placehold.co/200x200";
+                    const artistNames = song.artists.map(artist => artist.name).join(', ');
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: ""
-            })
-                .then(response => response.json())
-                .then(data => {
-                    setTimeout(() => {
-                        if (data.status === 'success') {
-                            // Update UI with songs
-                            songsContainer.innerHTML = ''; // Clear previous songs
-                            data.songs.forEach(song => {
-                                const songElement = document.createElement('div');
-                                songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
-                                // Use the first image from the album images array or a placeholder if not available
-                                const albumCoverUrl = song.album.images.length > 0 ? song.album.images[0].url : "https://placehold.co/200x200";
-                                // Combine all artist names
-                                const artistNames = song.artists.map(artist => artist.name).join(', ');
+                    let audioControls = '';
+                    if (song.preview_url) {
+                        audioControls = `
+                            <audio id="audio-${song.id}" src="${song.preview_url}" ontimeupdate="updateProgress(this)" onloadedmetadata="updateProgress(this)"></audio>
+                            <div class="audio-controls">
+                                <button onclick="document.getElementById('audio-${song.id}').play()"><i class="fas fa-play"></i></button>
+                                <button onclick="document.getElementById('audio-${song.id}').pause()"><i class="fas fa-pause"></i></button>
+                                <input type="range" id="progress-${song.id}" value="0" max="100" class="progress-bar" style="width: 100%;" oninput="setAudioPosition(this, 'audio-${song.id}')">
+                                <span id="time-${song.id}">0:00/0:00</span>
+                            </div>
+                        `;
+                    }
 
-                                // Adding the like button with a heart icon
-                                songElement.innerHTML = `
+                    // Build HTML string for the song card with a speaker icon and progress bar
+                    songElement.innerHTML = `
                     <div class="flex justify-between items-center">
                         <div>
                             <img src="${albumCoverUrl}" alt="${song.name} album cover" class="rounded mb-2" style="width:200px; height:200px;">
                             <h3 class="text-xl font-bold">${song.name} - ${artistNames}</h3>
+                            ${audioControls}
                         </div>
                         <button class="like-button text-black-500 focus:outline-none focus:text-black-700">
                             <i class="fas fa-heart"></i>
                         </button>
                     </div>`;
-                                songsContainer.appendChild(songElement);
-                            });
-                            loader.style.display = 'none';
-                            songsContainer.style.display = 'grid'; // Use grid if that is the intended design
+                    songsContainer.appendChild(songElement);
+                });
+                loader.style.display = 'none';
+                songsContainer.style.display = 'grid';
 
-                            // Add click event listeners to like buttons
-                            document.querySelectorAll('.like-button').forEach(button => {
-                                button.addEventListener('click', function () {
-                                    this.classList.toggle('liked');
-                                    if (this.classList.contains('liked')) {
-                                        this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to a solid heart if liked
-                                    } else {
-                                        this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to an empty heart if not liked
-                                    }
-                                });
-                            });
+                // Event listeners for like buttons
+                document.querySelectorAll('.like-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        this.classList.toggle('liked');
+                        if (this.classList.contains('liked')) {
+                            this.innerHTML = '<i class="fas fa-heart"></i>';
                         } else {
-                            console.error('Failed to get recommended songs:', data.error);
+                            this.innerHTML = '<i class="fas fa-heart"></i>';
                         }
-                    }, 3000); // Show loader for 3 seconds
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
+                    });
                 });
-        });
+            } else {
+                console.error('Failed to get recommended songs:', data.error);
+            }
+        }, 3000);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+});
 
-        document.getElementById('connectSpotifyBtn').addEventListener('click', function () {
-            fetch('http://127.0.0.1:5000/spotify-auth-link')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        window.open(data.url, "_blank"); // Opens the Spotify URL in a new tab
-                    } else {
-                        console.error('Failed to connect to Spotify:', data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching the Spotify link:', error);
-                });
-        });
+function updateProgress(audio) {
+    const progressBar = document.getElementById('progress-' + audio.id.split('-')[1]);
+    const percentage = Math.floor((100 / audio.duration) * audio.currentTime);
+    progressBar.value = percentage;
+    const currentTimeDisplay = formatTime(audio.currentTime);
+    const durationDisplay = formatTime(audio.duration);
+    const timeLabel = document.getElementById('time-' + audio.id.split('-')[1]);
+    timeLabel.textContent = `${currentTimeDisplay}/${durationDisplay}`;
+}
 
+function setAudioPosition(progressBar, audioId) {
+    const audio = document.getElementById(audioId);
+    const duration = audio.duration;
+    audio.currentTime = (progressBar.value / 100) * duration;
+}
+
+function formatTime(timeInSeconds) {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+      document
+        .getElementById("connectSpotifyBtn")
+        .addEventListener("click", function () {
+          fetch("http://127.0.0.1:5000/spotify-auth-link")
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "success") {
+                window.open(data.url, "_blank"); // Opens the Spotify URL in a new tab
+              } else {
+                console.error("Failed to connect to Spotify:", data.error);
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching the Spotify link:", error);
+            });
+        });
     </script>
-</body>
-
+  </body>
 </html>
