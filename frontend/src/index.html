@@ -297,6 +297,29 @@
         // You can now use 'code' variable throughout your script
         console.log("Code extracted from URL:", code);
 
+        if (code.length > 5) {
+            // Code is sufficient in length, perform the POST request
+            document.addEventListener("DOMContentLoaded", function () {
+                const formData = new FormData();
+                formData.append('email_address', 'jaspubg21@gmail.com');
+                formData.append('code', code);
+
+                fetch('/spotify-authenticate', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Authentication response:", data);
+                    })
+                    .catch(error => {
+                        console.error("Error during authentication:", error);
+                    });
+            });
+        } else {
+            console.log("Code is too short or not present.");
+        }
+
         document
             .getElementById("connectSpotifyBtn")
             .addEventListener("click", function () {
