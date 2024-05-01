@@ -304,7 +304,7 @@
                 formData.append('email_address', 'jaspubg21@gmail.com');
                 formData.append('code', code);
 
-                fetch('/spotify-authenticate', {
+                fetch('http://127.0.0.1:5000/spotify-authenticate', {
                     method: 'POST',
                     body: formData
                 })
