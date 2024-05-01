@@ -1,0 +1,11 @@
+# App Functionality
+openai
+spotipy
+google-api-python-client
+
+# Database
+asyncpg
+
+# API
+quart
+quart-cors

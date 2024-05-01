@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>src.spotify_handler.SpotifyHandler</title>
+    <meta name="generator" content="pydoctor 23.9.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="readthedocstheme.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          SentiSounds <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+    
+        <!-- Side navigation -->
+      <div class="sidebarcontainer">
+        <nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Class</span>
+        <code class="thisobject"><a href="src.spotify_handler.SpotifyHandler.html" class="internal-link" title="This class"><wbr></wbr>Spotify<wbr></wbr>Handler</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">from<wbr></wbr>_token</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#create_oauth" class="internal-link" title="src.spotify_handler.SpotifyHandler.create_oauth">create<wbr></wbr>_oauth</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#generate_oauth_url" class="internal-link" title="src.spotify_handler.SpotifyHandler.generate_oauth_url">generate<wbr></wbr>_oauth<wbr></wbr>_url</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__init__" class="internal-link" title="src.spotify_handler.SpotifyHandler.__init__">__init__</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#create_playlist" class="internal-link" title="src.spotify_handler.SpotifyHandler.create_playlist">create<wbr></wbr>_playlist</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#ensure_authentication" class="internal-link" title="src.spotify_handler.SpotifyHandler.ensure_authentication">ensure<wbr></wbr>_authentication</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_available_genre_seeds" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_available_genre_seeds">get<wbr></wbr>_available<wbr></wbr>_genre<wbr></wbr>_seeds</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_client" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_client">get<wbr></wbr>_client</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_genre_songs" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_genre_songs">get<wbr></wbr>_genre<wbr></wbr>_songs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_token">get<wbr></wbr>_token</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#like_song" class="internal-link" title="src.spotify_handler.SpotifyHandler.like_song">like<wbr></wbr>_song</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#unlike_song" class="internal-link" title="src.spotify_handler.SpotifyHandler.unlike_song">unlike<wbr></wbr>_song</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#BASE_CLIENT" class="internal-link" title="src.spotify_handler.SpotifyHandler.BASE_CLIENT">BASE<wbr></wbr>_CLIENT</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#cache_handler" class="internal-link" title="src.spotify_handler.SpotifyHandler.cache_handler">cache<wbr></wbr>_handler</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#user_scope" class="internal-link" title="src.spotify_handler.SpotifyHandler.user_scope">user<wbr></wbr>_scope</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_client_instance" class="internal-link" title="src.spotify_handler.SpotifyHandler._client_instance">_client<wbr></wbr>_instance</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Module</span>
+        <code><a href="src.spotify_handler.html" class="internal-link" title="The parent of this class">spotify<wbr></wbr>_handler</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        <div class="childrenKindTitle">Classes</div>
+        <ul>
+    
+    <li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="src.spotify_handler.SpotifyHandler.html" class="internal-link" title="src.spotify_handler.SpotifyHandler"><wbr></wbr>Spotify<wbr></wbr>Handler</a></code>
+            </div>
+        
+
+    </li>
+</ul>
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        <!-- No sidebar toggle for read the docs theme, the sidebar is always
+          visible when the screen is width enough.
+        -->
+      </div>
+
+    </nav>
+    
+    <div class="container-fluid">
+
+      <div id="main" class="">
+        
+
+        
+
+        <div id="search-results-container" style="display: none;">
+        
+          <div id="search-buttons">
+            <span class="label label-default" id="search-docstrings-button">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+                search in docstrings
+              </input>
+            </label>
+            </span>
+            
+          </div>
+          
+          <noscript>
+              <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+          </noscript>
+  
+          <div class="hint" id="search-help-box">
+            <p class="rst-last">
+        
+              Search bar offers the following options:
+              <ul>   
+                  <li>
+                    <strong>Term presence.</strong> The below example searches for documents that 
+                      must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                  </li> 
+  
+                  <li>
+                    <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                  </li> 
+  
+                  <li>
+                    <strong>Search in specific fields.</strong> The following search matches all objects 
+                    in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+  
+                    <p>
+                      Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                      Last two fields are only applicable if "search in docstrings" is enabled.
+                    </p>
+                  </li>
+  
+                  <li>
+                    <strong>Fuzzy matches.</strong> The following search matches all documents 
+                    that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                  </li>
+              </ul>
+  
+            </p>
+          </div>
+  
+          <div id="search-status"> </div>
+  
+          <div class="warning" id="search-warn-box" style="display: none;">
+            <p class="rst-last"><span id="search-warn"></span></p>
+          </div>
+  
+          <table id="search-results">
+            <!-- Filled dynamically by JS -->
+          </table>
+          
+          <div style="margin-top: 8px;">
+            <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+          </div>
+        </div>
+
+        <div class="page-header">
+          <h1 class="class"><code><code><a href="index.html" class="internal-link">src</a></code><wbr></wbr>.<code><a href="src.spotify_handler.html" class="internal-link" title="src.spotify_handler">spotify_handler</a></code><wbr></wbr>.<code><a href="src.spotify_handler.SpotifyHandler.html" class="internal-link" title="src.spotify_handler.SpotifyHandler">SpotifyHandler</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          class documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">SpotifyHandler</span>:</code></p><p>Constructors: <code><a href="#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">SpotifyHandler.from_token(token_info)</a></code>, <code><a href="#__init__" class="internal-link" title="src.spotify_handler.SpotifyHandler.__init__">SpotifyHandler()</a></code></p>
+          <p><a href="classIndex.html#src.spotify_handler.SpotifyHandler">View In Hierarchy</a></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>A class to handle all Spotify API interactions.</p>
+<p>There are two types of Spotify clients; a base client and a user client.
+A base client uses the default SentiSounds Spotify account to perform
+Spotify operations. The user client will be able to return results and
+recommendations directly via the Spotify API.</p>
+</div>
+        </div>
+
+        <div id="splitTables">
+          <table class="children sortable" id="id19">
+  
+  
+  <tr class="classmethod">
+    
+    <td>Class Method</td>
+    <td><code><a href="#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">from<wbr></wbr>_token</a></code></td>
+    <td>Initializes the Spotify client with user credentials.</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#create_oauth" class="internal-link" title="src.spotify_handler.SpotifyHandler.create_oauth">create<wbr></wbr>_oauth</a></code></td>
+    <td>Creates an OAuth handler for Spotify as well as a reference to the cache handler</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#generate_oauth_url" class="internal-link" title="src.spotify_handler.SpotifyHandler.generate_oauth_url">generate<wbr></wbr>_oauth<wbr></wbr>_url</a></code></td>
+    <td>Generates the URL to authenticate a user with Spotify</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#__init__" class="internal-link" title="src.spotify_handler.SpotifyHandler.__init__">__init__</a></code></td>
+    <td>Initializes a base SpotifyHandler instance</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#create_playlist" class="internal-link" title="src.spotify_handler.SpotifyHandler.create_playlist">create<wbr></wbr>_playlist</a></code></td>
+    <td>Creates a playlist for a user on Spotify given a list of song IDs.</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#ensure_authentication" class="internal-link" title="src.spotify_handler.SpotifyHandler.ensure_authentication">ensure<wbr></wbr>_authentication</a></code></td>
+    <td>A passthrough for the Spotify.me field.</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_available_genre_seeds" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_available_genre_seeds">get<wbr></wbr>_available<wbr></wbr>_genre<wbr></wbr>_seeds</a></code></td>
+    <td>Retrieves a list of available genre "seeds" from the Spotify API.</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_client" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_client">get<wbr></wbr>_client</a></code></td>
+    <td>Retrieves a Spotify object. This instance can either be authenticated with a user or a base client. If you would like a user client, use the <code><a href="src.spotify_handler.SpotifyHandler.html#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">SpotifyHandler.from_token</a></code> classmethod for initialization</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_genre_songs" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_genre_songs">get<wbr></wbr>_genre<wbr></wbr>_songs</a></code></td>
+    <td>Retrieves a list of songs in each genre sourced from the Spotify API.</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.get_token">get<wbr></wbr>_token</a></code></td>
+    <td>Gets the token from the cache handler if there has been a token loaded</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#like_song" class="internal-link" title="src.spotify_handler.SpotifyHandler.like_song">like<wbr></wbr>_song</a></code></td>
+    <td>Likes a song on Spotify.</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#unlike_song" class="internal-link" title="src.spotify_handler.SpotifyHandler.unlike_song">unlike<wbr></wbr>_song</a></code></td>
+    <td>Un-likes a song on Spotify.</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#BASE_CLIENT" class="internal-link" title="src.spotify_handler.SpotifyHandler.BASE_CLIENT">BASE<wbr></wbr>_CLIENT</a></code></td>
+    <td>The base Spotify client instance. This instance is not authenticated with a particular user</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#cache_handler" class="internal-link" title="src.spotify_handler.SpotifyHandler.cache_handler">cache<wbr></wbr>_handler</a></code></td>
+    <td>The object getting and storing the Spotify authentication token. It is exposed here for direct control of the tokens outside of this object</td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#user_scope" class="internal-link" title="src.spotify_handler.SpotifyHandler.user_scope">user<wbr></wbr>_scope</a></code></td>
+    <td>The list of scopes required to access user data</td>
+  </tr><tr class="instancevariable private">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#_client_instance" class="internal-link" title="src.spotify_handler.SpotifyHandler._client_instance">_client<wbr></wbr>_instance</a></code></td>
+    <td>The Spotify client instance, which should not be accessed directly</td>
+  </tr>
+</table>
+          
+
+            
+        </div>
+
+        <div id="childList">
+          <div class="baseclassmethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.from_token">
+    
+  </a>
+  <a name="from_token">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @classmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">from_token</span><span class="function-signature">(cls: <code>type[<wbr></wbr><a href="src.spotify_handler.SpotifyHandler.html" class="internal-link" title="src.spotify_handler.SpotifyHandler">SpotifyHandler</a>]</code>, token_info: <code>token_type</code>) -&gt; <code><a href="src.spotify_handler.SpotifyHandler.html" class="internal-link" title="src.spotify_handler.SpotifyHandler">SpotifyHandler</a></code></span>:
+    
+    <a class="headerLink" href="#from_token" title="src.spotify_handler.SpotifyHandler.from_token">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Initializes the Spotify client with user credentials.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">token<wbr></wbr>_info:</span><code><a href="src.senti_types.token_type.html" class="internal-link" title="src.senti_types.token_type">token_type</a></code></td><td class="fieldArgDesc">The token information to load into the cache handler</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="src.spotify_handler.SpotifyHandler.html" class="internal-link" title="src.spotify_handler.SpotifyHandler">SpotifyHandler</a></code></td><td class="fieldArgDesc">The created SpotifyHandler object</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.create_oauth">
+    
+  </a>
+  <a name="create_oauth">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">create_oauth</span><span class="function-signature">(token_info: <code>token_type|None</code> = None) -&gt; <code>tuple[<wbr></wbr>SpotifyOAuth, <wbr></wbr>MemoryCacheHandler]</code></span>:
+    
+    <a class="headerLink" href="#create_oauth" title="src.spotify_handler.SpotifyHandler.create_oauth">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Creates an OAuth handler for Spotify as well as a reference
+to the cache handler</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">token<wbr></wbr>_info:</span>token_type|<blockquote>
+None</blockquote>
+, <em>default</em> <code>None</code></td><td class="fieldArgDesc">The token information to load into the cache handler</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>tuple[spotipy.oauth2.SpotifyOAuth</code>, <code><a href="src.spotify_cache_handlers.MemoryCacheHandler.html" class="internal-link" title="src.spotify_cache_handlers.MemoryCacheHandler">MemoryCacheHandler</a>]</code></td><td class="fieldArgDesc">The SpotifyOAuth object and the MemoryCacheHandler object</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.generate_oauth_url">
+    
+  </a>
+  <a name="generate_oauth_url">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">generate_oauth_url</span><span class="function-signature">()</span>:
+    
+    <a class="headerLink" href="#generate_oauth_url" title="src.spotify_handler.SpotifyHandler.generate_oauth_url">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generates the URL to authenticate a user with Spotify</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">The URL to authenticate a user with Spotify and allow
+SentiSounds to access their Spotify account</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self)</span>:
+    
+    <a class="headerLink" href="#__init__" title="src.spotify_handler.SpotifyHandler.__init__">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Initializes a base SpotifyHandler instance</p>
+<p>Consider using the <code><a href="#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">from_token()</a></code> classmethod to retrieve the
+user client</p>
+</div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.create_playlist">
+    
+  </a>
+  <a name="create_playlist">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">create_playlist</span><span class="function-signature">(self, playlist_name: <code>str</code>, description: <code>str</code>, song_ids: <code>list[<wbr></wbr>str]</code>) -&gt; <code>str</code></span>:
+    
+    <a class="headerLink" href="#create_playlist" title="src.spotify_handler.SpotifyHandler.create_playlist">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Creates a playlist for a user on Spotify given a list of song IDs.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">playlist<wbr></wbr>_name:</span><code>str</code></td><td class="fieldArgDesc">The name of the playlist</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">description:</span><code>str</code></td><td class="fieldArgDesc">The description of the playlist, preferably the sentiment prompt
+provided by the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">song<wbr></wbr>_ids:</span><code>list[str]</code></td><td class="fieldArgDesc">A list of song IDs to include in the playlist</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">A URL to the created playlist</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.ensure_authentication">
+    
+  </a>
+  <a name="ensure_authentication">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">ensure_authentication</span><span class="function-signature">(self) -&gt; <code>bool</code></span>:
+    
+    <a class="headerLink" href="#ensure_authentication" title="src.spotify_handler.SpotifyHandler.ensure_authentication">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>A passthrough for the Spotify.me field.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>bool</code></td><td class="fieldArgDesc">True if a user client was successfully found, False otherwise</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.get_available_genre_seeds">
+    
+  </a>
+  <a name="get_available_genre_seeds">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_available_genre_seeds</span><span class="function-signature">(self) -&gt; <code>list[<wbr></wbr>str]</code></span>:
+    
+    <a class="headerLink" href="#get_available_genre_seeds" title="src.spotify_handler.SpotifyHandler.get_available_genre_seeds">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieves a list of available genre "seeds" from the Spotify API.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>list[str]</code></td><td class="fieldArgDesc">The list of available genre seeds</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.get_client">
+    
+  </a>
+  <a name="get_client">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_client</span><span class="function-signature">(self) -&gt; <code>Spotify</code></span>:
+    
+    <a class="headerLink" href="#get_client" title="src.spotify_handler.SpotifyHandler.get_client">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieves a Spotify object. This instance can either be
+authenticated with a user or a base client.
+If you would like a user client, use the <code><a href="#from_token" class="internal-link" title="src.spotify_handler.SpotifyHandler.from_token">SpotifyHandler.from_token</a></code>
+classmethod for initialization</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>spotipy.Spotify</code></td><td class="fieldArgDesc">The Spotify client instance, either the base client or a user
+client</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.get_genre_songs">
+    
+  </a>
+  <a name="get_genre_songs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_genre_songs</span><span class="function-signature">(self, genres: <code>list[<wbr></wbr>str]</code>, limit_per_genre: <code>int</code> = 10, popularity_threshold: <code>int</code> = 20) -&gt; <code>list[<wbr></wbr>song_type]</code></span>:
+    
+    <a class="headerLink" href="#get_genre_songs" title="src.spotify_handler.SpotifyHandler.get_genre_songs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieves a list of songs in each genre sourced from the Spotify API.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">genres:</span><code>list[str]</code></td><td class="fieldArgDesc">The list genres to search songs for. Even if provided with one
+genre, a list must be given</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">limit<wbr></wbr>_per<wbr></wbr>_genre:</span><code>int</code>, <em>default</em> <span class="literal">10</span></td><td class="fieldArgDesc">The number of songs to return from each genre</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">popularity<wbr></wbr>_threshold:</span><code>int</code>, <em>default</em> <span class="literal">30</span></td><td class="fieldArgDesc">The minimum popularity score that will be required
+for each returned song</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>list[<a href="src.senti_types.song_type.html" class="internal-link" title="src.senti_types.song_type">song_type</a>]</code></td><td class="fieldArgDesc"><p>The list of songs from the Spotify API with the following fields:</p>
+<div class="rst-line-block">
+<div class="rst-line">- name: The name of the song</div>
+<div class="rst-line">- album: The album the song is from</div>
+<div class="rst-line-block">
+<div class="rst-line">- - external_urls: A URL to the album</div>
+<div class="rst-line">- - images: A list of images for the album</div>
+<div class="rst-line">- - name: The name of the album</div>
+</div>
+<div class="rst-line">- artists: A list of artists for the song</div>
+<div class="rst-line-block">
+<div class="rst-line">- - external_urls: A URL to the artist</div>
+<div class="rst-line">- - name: The name of the artist</div>
+</div>
+<div class="rst-line">- preview_url: A URL to a 30-second preview of the song</div>
+<div class="rst-line">- external_urls: A URL to the song in different contexts</div>
+<div class="rst-line">- explicit: Whether the song is explicit</div>
+<div class="rst-line">- is_playable: Whether the song is playable</div>
+<div class="rst-line">- popularity: The popularity of the song</div>
+<div class="rst-line">- id: The ID of the song (useful for creating a playlist)</div>
+<div class="rst-line">- liked_by_user: Whether the user has liked the song.
+default=False if a user has not been authenticated.</div>
+</div>
+</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.get_token">
+    
+  </a>
+  <a name="get_token">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_token</span><span class="function-signature">(self) -&gt; <code>token_type|None</code></span>:
+    
+    <a class="headerLink" href="#get_token" title="src.spotify_handler.SpotifyHandler.get_token">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Gets the token from the cache handler if there has been a token loaded</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer">token_type|<blockquote>
+None</blockquote>
+</td><td class="fieldArgDesc">The token information if it exists</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.like_song">
+    
+  </a>
+  <a name="like_song">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">like_song</span><span class="function-signature">(self, song_id: <code>str</code>)</span>:
+    
+    <a class="headerLink" href="#like_song" title="src.spotify_handler.SpotifyHandler.like_song">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Likes a song on Spotify.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">song<wbr></wbr>_id:</span><code>str</code></td><td class="fieldArgDesc">The ID of the song to like</td></tr></table></div>
+  </div>
+</div><div class="basemethod">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.unlike_song">
+    
+  </a>
+  <a name="unlike_song">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">unlike_song</span><span class="function-signature">(self, song_id: <code>str</code>)</span>:
+    
+    <a class="headerLink" href="#unlike_song" title="src.spotify_handler.SpotifyHandler.unlike_song">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Un-likes a song on Spotify.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">song<wbr></wbr>_id:</span><code>str</code></td><td class="fieldArgDesc">The ID of the song to unlike</td></tr></table></div>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.BASE_CLIENT">
+    
+  </a>
+  <a name="BASE_CLIENT">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">BASE_CLIENT</span>: <code>spotipy.Spotify</code> =
+    
+    <a class="headerLink" href="#BASE_CLIENT" title="src.spotify_handler.SpotifyHandler.BASE_CLIENT">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The base Spotify client instance.
+This instance is not authenticated with a particular user</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>Spotify(<wbr></wbr>auth_manager=SpotifyOAuth(<wbr></wbr>scope=<span class="rst-variable-quote">'</span><span class="rst-variable-string">user-read-private</span><span class="rst-variable-quote">'</span>,
+                                  <wbr></wbr>redirect_uri=SecretsHandler.get_spotify_redirect_uri<span class="rst-variable-linewrap">↵</span>
+(),
+                                  <wbr></wbr>open_browser=False,
+                                  <wbr></wbr>client_id=SecretsHandler.get_spotify_client_id<span class="rst-variable-linewrap">↵</span>
+(),
+                                  <wbr></wbr>client_secret=SecretsHandler.get_spotify_client_secret<span class="rst-variable-linewrap">↵</span>
+<span class="rst-variable-ellipsis">...</span></code></pre></td></tr></table>
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.cache_handler">
+    
+  </a>
+  <a name="cache_handler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">cache_handler</span>: <code><a href="src.spotify_cache_handlers.MemoryCacheHandler.html" class="internal-link" title="src.spotify_cache_handlers.MemoryCacheHandler">MemoryCacheHandler</a></code> =
+    
+    <a class="headerLink" href="#cache_handler" title="src.spotify_handler.SpotifyHandler.cache_handler">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The object getting and storing the Spotify authentication token. It is
+exposed here for direct control of the tokens outside of this object</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler.user_scope">
+    
+  </a>
+  <a name="user_scope">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">user_scope</span>: <code>list[str]</code> =
+    
+    <a class="headerLink" href="#user_scope" title="src.spotify_handler.SpotifyHandler.user_scope">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The list of scopes required to access user data</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable private">
+  
+  
+  <a name="src.spotify_handler.SpotifyHandler._client_instance">
+    
+  </a>
+  <a name="_client_instance">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">_client_instance</span>: <code>spotipy.Spotify</code> =
+    
+    <a class="headerLink" href="#_client_instance" title="src.spotify_handler.SpotifyHandler._client_instance">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The Spotify client instance, which should not be accessed directly</p></div>
+    
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+    <hr />
+    
+    
+    <div class="container">
+      <a href="index.html">API Documentation</a> for SentiSounds,
+    generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+      23.9.1 at 2024-04-25 12:04:43.
+    </div>
+    
+    <script src="ajax.js" type="text/javascript"></script>
+    <script src="searchlib.js" type="text/javascript"></script>
+    <script src="search.js" type="text/javascript"></script>
+  
+  </footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
