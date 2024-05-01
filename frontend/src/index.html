@@ -284,6 +284,19 @@
             return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
         }
 
+        // Function to get URL parameters
+        function getURLParameter(name) {
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(window.location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Extract the 'code' parameter from the URL
+        const code = getURLParameter('code');
+
+        // You can now use 'code' variable throughout your script
+        console.log("Code extracted from URL:", code);
+
         document
             .getElementById("connectSpotifyBtn")
             .addEventListener("click", function () {
