@@ -95,30 +95,31 @@
             font-weight: bold;
             z-index: 1000;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-        }        
-        
+        }
+
         /* Styles from File Two */
-        body, html {
+        body,
+        html {
             height: 100%;
             line-height: 1.8;
         }
+
         /* Full height image header */
         .bgimg-1 {
             background-position: center;
             background-size: cover;
-            background-image: url("/w3images/mac.jpg"); /* Adjust the URL as needed */
+            background-image: url("/w3images/mac.jpg");
+            /* Adjust the URL as needed */
             min-height: 100%;
         }
+
         .w3-bar .w3-button {
             padding: 16px;
         }
-
     </style>
 </head>
 
 <body class="custom-purple-bg text-white font-sans">
-
-    </div>
 
     <header class="flex justify-between items-center px-4 py-2 w-full pt-6 py-2">
         <div class="flex items-center space-x-4">
@@ -371,7 +372,9 @@
                     } else {
                         console.error("Failed to export playlist:", data.error);
                     }
-              
+
+                })
+        }
         // Extract the 'code' parameter from the URL
         const code = getURLParameter('code');
 
@@ -389,9 +392,10 @@
                     method: 'POST',
                     body: formData
                 })
-                .catch((error) => {
-                    console.error("Error exporting playlist:", error);
-                });
+                    .catch((error) => {
+                        console.error("Error exporting playlist:", error);
+                    });
+            })
         }
 
         document
@@ -423,90 +427,104 @@
             <div class="w3-quarter">
                 <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
                 <p class="w3-large">Responsive</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
                     dolore.</p>
             </div>
             <div class="w3-quarter">
                 <i class="fa fa-heart w3-margin-bottom w3-jumbo"></i>
                 <p class="w3-large">Passion</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
                     dolore.</p>
             </div>
             <div class="w3-quarter">
                 <i class="fa fa-diamond w3-margin-bottom w3-jumbo"></i>
                 <p class="w3-large">Design</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
                     dolore.</p>
             </div>
             <div class="w3-quarter">
                 <i class="fa fa-cog w3-margin-bottom w3-jumbo"></i>
                 <p class="w3-large">Support</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
                     dolore.</p>
             </div>
         </div>
     </div>
-    
+
     <!-- Team Section -->
     <div class="w3-container" style="padding:128px 16px" id="team">
         <h3 class="w3-center">THE TEAM</h3>
         <p class="w3-center w3-large">The ones who runs this company</p>
         <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-card">
-                <img src="assets/Kyle-Just-Sentisounds.jpg" alt="John" style="width:100%">
-                <div class="w3-container">
-                    <h3>Kyle Just</h3>
-                    <p class="w3-opacity">CEO & Founder</p>
-                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Kyle-Just-Sentisounds.jpg" alt="John" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Kyle Just</h3>
+                        <p class="w3-opacity">CEO & Founder</p>
+                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
+                            elementum.</p>
+                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
+                                Contact</button></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-card">
-                <img src="assets/Alec-Urbany-SentiSounds.jpg" alt="Jane" style="width:100%">
-                <div class="w3-container">
-                    <h3>Alec Urbany</h3>
-                    <p class="w3-opacity">Art Director</p>
-                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Alec-Urbany-SentiSounds.jpg" alt="Jane" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Alec Urbany</h3>
+                        <p class="w3-opacity">Art Director</p>
+                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
+                            elementum.</p>
+                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
+                                Contact</button></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-card">
-                <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Mike" style="width:100%">
-                <div class="w3-container">
-                    <h3>Samuel Chung</h3>
-                    <p class="w3-opacity">Web Designer</p>
-                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Mike" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Samuel Chung</h3>
+                        <p class="w3-opacity">Web Designer</p>
+                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
+                            elementum.</p>
+                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
+                                Contact</button></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-card">
-                <img src="assets/Listening to music 4.jpg" alt="Dan" style="width:100%">
-                <div class="w3-container">
-                    <h3>Jasroop Singh</h3>
-                    <p class="w3-opacity">Designer</p>
-                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
-                    <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Listening to music 4.jpg" alt="Dan" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Jasroop Singh</h3>
+                        <p class="w3-opacity">Designer</p>
+                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
+                            elementum.</p>
+                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
+                                Contact</button></p>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
-    
+
     <!-- Skills Section -->
     <div class="w3-container w3-light-grey w3-padding-64">
         <div class="w3-row-padding">
             <div class="w3-col m6">
                 <h3>Our Skills.</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
                     dolore.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
                     dolore.</p>
             </div>
             <div class="w3-col m6">
@@ -525,7 +543,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Pricing Section -->
     <div class="w3-container w3-center w3-dark-grey" style="padding:128px 16px" id="pricing">
         <h3>PRICING</h3>
