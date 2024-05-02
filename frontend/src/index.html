@@ -411,6 +411,7 @@
             const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
             const formData = new FormData();
             formData.append("email_address", userEmail);
+            formData.append("code", code);
 
             try {
               const response = await fetch(baseURL, {
