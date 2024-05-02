@@ -400,40 +400,74 @@
       // You can now use 'code' variable throughout your script
       console.log("Code extracted from URL:", code);
 
+      //   if (code.length > 5) {
+      //     document.addEventListener("DOMContentLoaded", function () {
+      //       const testButton = document.querySelector("#testBtn");
+      //       testButton.addEventListener("click", async function () {
+      //         const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
+
+      //         // Retrieving data from localStorage
+      //         // const email = localStorage.getItem('email');
+      //         const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
+      //         const formData = new FormData();
+      //         formData.append("email_address", userEmail);
+      //         formData.append("code", code);
+
+      //         try {
+      //           const response = await fetch(baseURL, {
+      //             method: "POST",
+      //             body: formData,
+      //           });
+
+      //           const data = await response.json();
+
+      //           if (response.ok) {
+      //             alert("Spotify Authentication successful.");
+      //             // window.location.href = "index.html";
+      //           } else {
+      //             alert(data.error);
+      //           }
+      //         } catch (error) {
+      //           console.error("Error during Spotify authentication:", error);
+      //           alert(
+      //             "An error occurred during Spotify Authentication. Please try again."
+      //           );
+      //         }
+      //       });
+      //     });
+      //   }
+
       if (code.length > 5) {
-        document.addEventListener("DOMContentLoaded", function () {
-          const testButton = document.querySelector("#testBtn");
-          testButton.addEventListener("click", async function () {
-            const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
+        document.addEventListener("DOMContentLoaded", async function () {
+          const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
 
-            // Retrieving data from localStorage
-            // const email = localStorage.getItem('email');
-            const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
-            const formData = new FormData();
-            formData.append("email_address", userEmail);
-            formData.append("code", code);
+          // Retrieving data from localStorage
+          // const email = localStorage.getItem('email');
+          const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
+          const formData = new FormData();
+          formData.append("email_address", userEmail);
+          formData.append("code", code);
 
-            try {
-              const response = await fetch(baseURL, {
-                method: "POST",
-                body: formData,
-              });
+          try {
+            const response = await fetch(baseURL, {
+              method: "POST",
+              body: formData,
+            });
 
-              const data = await response.json();
+            const data = await response.json();
 
-              if (response.ok) {
-                alert("Spotify Authentication successful.");
-                // window.location.href = "index.html";
-              } else {
-                alert(data.error);
-              }
-            } catch (error) {
-              console.error("Error during Spotify authentication:", error);
-              alert(
-                "An error occurred during Spotify Authentication. Please try again."
-              );
+            if (response.ok) {
+              alert("Spotify Authentication successful.");
+              // window.location.href = "index.html";
+            } else {
+              alert(data.error);
             }
-          });
+          } catch (error) {
+            console.error("Error during Spotify authentication:", error);
+            alert(
+              "An error occurred during Spotify Authentication. Please try again."
+            );
+          }
         });
       }
 
@@ -496,7 +530,7 @@
 
     <!-- Added button element for export playlist -->
     <button id="exportPlaylistBtn">Export Playlist</button>
-    <button id="testBtn">Test Auth</button>
+    <!-- <button id="testBtn">Test Auth</button> -->
 
     <!-- About Section -->
     <div class="w3-container" style="padding: 128px 16px" id="about">
