@@ -10,6 +10,10 @@
 
     <!-- Added styles from File Two for specific sections -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
     <style>
         .custom-orange-bg {
             background-color: #d19900;
@@ -104,18 +108,10 @@
             line-height: 1.8;
         }
 
-        /* Full height image header */
-        .bgimg-1 {
-            background-position: center;
-            background-size: cover;
-            background-image: url("/w3images/mac.jpg");
-            /* Adjust the URL as needed */
-            min-height: 100%;
-        }
-
         .w3-bar .w3-button {
             padding: 16px;
         }
+        
     </style>
 </head>
 
@@ -414,142 +410,308 @@
                         console.error("Error fetching the Spotify link:", error);
                     });
             });
+
     </script>
 
     <!-- Added button element for export playlist -->
     <button id="exportPlaylistBtn">Export Playlist</button>
 
-    <!-- About Section -->
-    <div class="w3-container" style="padding:128px 16px" id="about">
-        <h3 class="w3-center">ABOUT THE COMPANY</h3>
-        <p class="w3-center w3-large">Key features of our company</p>
-        <div class="w3-row-padding w3-center" style="margin-top:64px">
-            <div class="w3-quarter">
-                <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
-                <p class="w3-large">Responsive</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore.</p>
-            </div>
-            <div class="w3-quarter">
-                <i class="fa fa-heart w3-margin-bottom w3-jumbo"></i>
-                <p class="w3-large">Passion</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore.</p>
-            </div>
-            <div class="w3-quarter">
-                <i class="fa fa-diamond w3-margin-bottom w3-jumbo"></i>
-                <p class="w3-large">Design</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore.</p>
-            </div>
-            <div class="w3-quarter">
-                <i class="fa fa-cog w3-margin-bottom w3-jumbo"></i>
-                <p class="w3-large">Support</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore.</p>
-            </div>
+<!-- About Section -->
+<div class="w3-container" style="padding:128px 16px" id="about">
+    <h3 class="w3-center"><b>CUSTOMER FEEDBACK</b></h3>
+    <p class="w3-center w3-large">Top reviews from satisfied customers!</p>
+    <div class="w3-row-padding w3-center" style="margin-top:64px">
+        <div class="w3-quarter">
+            <i style="font-size: 48px;"><span class="material-symbols-outlined">
+                    favorite
+                </span></i>
+            <p class="w3-large"><b>Brandon Leho</b></p>
+            <p>This website was so cool that I'm worried my girlfriend may leave me for it!</p>
+        </div>
+        <div class="w3-quarter">
+            <i style="font-size: 48px;"><span class="material-symbols-outlined">
+                    music_note
+                </span></i>
+            <p class="w3-large"><b>Juan Salas</b></p>
+            <p>My prompt was, "I hate my life", and I was recommended three hours of Nickelback!</p>
+        </div>
+        <div class="w3-quarter">
+            <i style="font-size: 48px;"><span class="material-symbols-outlined">
+                    cake
+                </span></i>
+            <p class="w3-large"><b>Frederick Fazbear</b></p>
+            <p>Found great music to get ready for a birthday party!</p>
+        </div>
+        <div class="w3-quarter">
+            <i style="font-size: 48px;"><span class="material-symbols-outlined">
+                    humerus
+                </span></i>
+            <p class="w3-large"><b>Nicholas Ramirez Ornalez</b></p>
+            <p>All my new playlists have been great since I started using SentiSounds. Shaboing!</p>
         </div>
     </div>
+</div>
 
-    <!-- Team Section -->
-    <div class="w3-container" style="padding:128px 16px" id="team">
-        <h3 class="w3-center">THE TEAM</h3>
-        <p class="w3-center w3-large">The ones who runs this company</p>
-        <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+
+<!-- Team Section -->
+<div class="w3-container" style="padding:128px 16" id="team">
+    <h3 class="w3-center"><b>THE TEAM</b></h3>
+    <p class="w3-center w3-large">The ones who run this company</p>
+    <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+        <!-- First row of team members with 4 cards -->
+        <div class="w3-row">
+            <!-- Member 1 -->
             <div class="w3-col l3 m6 w3-margin-bottom">
                 <div class="w3-card">
-                    <img src="assets/Kyle-Just-Sentisounds.jpg" alt="John" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Kyle Just</h3>
-                        <p class="w3-opacity">CEO & Founder</p>
-                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-                            elementum.</p>
-                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
-                                Contact</button></p>
-                    </div>
-                </div>
-            </div>
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Alec-Urbany-SentiSounds.jpg" alt="Jane" style="width:100%">
+                    <img src="assets/Alec-Urbany-SentiSounds.jpg" alt="Alec Urbany" style="width:100%">
                     <div class="w3-container">
                         <h3>Alec Urbany</h3>
-                        <p class="w3-opacity">Art Director</p>
-                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-                            elementum.</p>
-                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
-                                Contact</button></p>
+                        <p class="w3-opacity">Backend</p>
+                        <p>Project Manager</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/alec-urbany-698149238/</p>
+                            <p style="background-color: gold; color: black;">https://github.com/AlecUrbany</p>
+                        </details>
                     </div>
                 </div>
             </div>
+            <!-- Member 2 -->
             <div class="w3-col l3 m6 w3-margin-bottom">
                 <div class="w3-card">
-                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Mike" style="width:100%">
+                    <img src="assets/Kyle-Just-Sentisounds.jpg" alt="Kyle Just" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Kyle Just</h3>
+                        <p class="w3-opacity">Backend</p>
+                        <p>Developer</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/kyle-just/</p>
+                            <p style="background-color: gold; color: black;">https://github.com/meap02</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <!-- Member 3 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/George-Matta-SentiSounds.jpg" alt="George Matta" style="width:100%">
+                    <div class="w3-container">
+                        <h3>George Matta</h3>
+                        <p class="w3-opacity">Backend</p>
+                        <p>Developer</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">jojomedhat2004@gmail.com</p>
+                            <p style="background-color: gold; color: black;">https://linkedin.com/in/george-m-matta</p>
+                            <p style="background-color: gold; color: black;">https://github.com/iHeroGH</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <!-- Member 4 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Taft-Ring-Sentisounds.jpg" alt="Taft Ring" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Taft Ring</h3>
+                        <p class="w3-opacity">Backend</p>
+                        <p>Quality Assurer</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">taftR@hotmail.com</p>
+                            <p style="background-color: gold; color: black;">https://github.com/20ringtaft</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second row of team members with 4 cards -->
+        <div class="w3-row">
+            <!-- Member 5 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Wesley-Dam-SentiSounds.jpg" alt="Wesley Dam" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Wesley Dam</h3>
+                        <p class="w3-opacity">Backend</p>
+                        <p>Business Analyst</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/wesley-dam-428b77223</p>
+                            <p style="background-color: gold; color: black;">https://github.com/wdam2002</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <!-- Member 6 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Jack Morris" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Jack Morris</h3>
+                        <p class="w3-opacity">Frontend</p>
+                        <p>Project Manager</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">getbacktojack@gmail.com</p>
+                            <p style="background-color: gold; color: black;">https://github.com/jrmorris29</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <!-- Member 7 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Samuel Chung" style="width:100%">
                     <div class="w3-container">
                         <h3>Samuel Chung</h3>
-                        <p class="w3-opacity">Web Designer</p>
-                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-                            elementum.</p>
-                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
-                                Contact</button></p>
+                        <p class="w3-opacity">Frontend</p>
+                        <p>Developer</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">samuelqchung@gmail.com</p>
+                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/samuel-chung-742439214/</p>
+                            <p style="background-color: gold; color: black;">https://github.com/chungsamuel</p>
+                        </details>
                     </div>
                 </div>
             </div>
+            <!-- Member 8 -->
             <div class="w3-col l3 m6 w3-margin-bottom">
                 <div class="w3-card">
-                    <img src="assets/Listening to music 4.jpg" alt="Dan" style="width:100%">
+                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Jasroop Singh" style="width:100%">
                     <div class="w3-container">
                         <h3>Jasroop Singh</h3>
-                        <p class="w3-opacity">Designer</p>
-                        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-                            elementum.</p>
-                        <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i>
-                                Contact</button></p>
+                        <p class="w3-opacity">Frontend</p>
+                        <p>Developer</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">https://github.com/jasroop-singh</p>
+                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/jasroop-singh21/</p>
+                            <p style="background-color: gold; color: black;">singhjasroop21@gmail.com</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third row of team members with 2 cards -->
+        <div class="w3-row">
+            <!-- Member 9 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Evin-Menendez-Vargas.jpg" alt="Evin Menendez Vargas" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Evin Menendez Vargas</h3>
+                        <p class="w3-opacity">Frontend</p>
+                        <p>Quality Assurer</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">EvinMenendez@gmail.com</p>
+                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/evin-menendez-vargas/</p>
+                            <p style="background-color: gold; color: black;">https://github.com/UselesssAqua</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <!-- Member 10 -->
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Darren-Manalo-SentiSounds.jpg" alt="Darren Manalo" style="width:100%">
+                    <div class="w3-container">
+                        <h3>Darren Manalo</h3>
+                        <p class="w3-opacity">Frontend</p>
+                        <p>Business Analyst</p>
+                        <details>
+                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
+                            <p style="background-color: gold; color: black;">darrenapm1016@gmail.com</p>
+                            <p style="background-color: gold; color: black;">https://github.com/dmanalo16</p>
+                        </details>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Skills Section -->
-    <div class="w3-container w3-light-grey w3-padding-64">
-        <div class="w3-row-padding">
-            <div class="w3-col m6">
-                <h3>Our Skills.</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore.</p>
+
+
+
+
+<!-- Skills Section -->
+<div class="w3-container w3-light-grey w3-padding-64">
+    <div class="w3-row-padding">
+        <div class="w3-col m6">
+            <h3><b>Skills</b></h3>
+            <p>Our Frontend team used a combination of JavaScript, HTML, and CSS to create most of their related
+                functions.</p>
+            <p>Our Backend team used python and Azure in order to fulfill their responsibilities.</p>
+        </div>
+        <div class="w3-col m6">
+            <p class="w3-wide"><i></i>Python</p>
+            <div class="w3-grey">
+                <div class="w3-container w3-dark-grey w3-center" style="width:90%">90%</div>
             </div>
-            <div class="w3-col m6">
-                <p class="w3-wide"><i class="fa fa-camera w3-margin-right"></i>Photography</p>
-                <div class="w3-grey">
-                    <div class="w3-container w3-dark-grey w3-center" style="width:90%">90%</div>
-                </div>
-                <p class="w3-wide"><i class="fa fa-desktop w3-margin-right"></i>Web Design</p>
-                <div class="w3-grey">
-                    <div class="w3-container w3-dark-grey w3-center" style="width:85%">85%</div>
-                </div>
-                <p class="w3-wide"><i class="fa fa-photo w3-margin-right"></i>Photoshop</p>
-                <div class="w3-grey">
-                    <div class="w3-container w3-dark-grey w3-center" style="width:75%">75%</div>
-                </div>
+            <p class="w3-wide"><i></i>JavaScript</p>
+            <div class="w3-grey">
+                <div class="w3-container w3-dark-grey w3-center" style="width:85%">85%</div>
+            </div>
+            <p class="w3-wide"><i></i>HTML/CSS</p>
+            <div class="w3-grey">
+                <div class="w3-container w3-dark-grey w3-center" style="width:75%">75%</div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Pricing Section -->
-    <div class="w3-container w3-center w3-dark-grey" style="padding:128px 16px" id="pricing">
-        <h3>PRICING</h3>
-        <p class="w3-large">Choose a pricing plan that fits your needs.</p>
-        <div class="w3-row-padding" style="margin-top:64px">
-            <!-- Pricing tables go here -->
+<div class="w3-container w3-center w3-dark-grey" style="padding:128px 16px" id="pricing">
+    <h3><b>PRICING</b></h3>
+    <p class="w3-large">Choose a pricing plan that fits your needs.</p>
+    <div class="w3-row-padding" style="margin-top:64px">
+        <div class="w3-third w3-section">
+            <ul class="w3-ul w3-white w3-hover-shadow">
+                <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
+                <li class="w3-padding-16"><b>5</b> Playlist Exports per Month</li>
+                <li class="w3-padding-16"><b>1</b> Linked Spotify Account</li>
+                <li class="w3-padding-16"><b>Basic</b> Feature Access</li>
+                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
+                <li class="w3-padding-16">
+                    <h2 class="w3-wide">$ 5</h2>
+                    <span class="w3-opacity">per month</span>
+                </li>
+            </ul>
+        </div>
+        <div class="w3-third">
+            <ul class="w3-ul w3-white w3-hover-shadow">
+                <li class="w3-green w3-xlarge w3-padding-48">Pro</li>
+                <li class="w3-padding-16"><b>15</b> Playlist Exports per Month</li>
+                <li class="w3-padding-16"><b>2</b> Linked Spotify Accounts</li>
+                <li class="w3-padding-16"><b>Advanced</b> Feature Access</li>
+                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
+                <li class="w3-padding-16">
+                    <h2 class="w3-wide">$ 10</h2>
+                    <span class="w3-opacity">per month</span>
+                </li>
+            </ul>
+        </div>
+        <div class="w3-third w3-section">
+            <ul class="w3-ul w3-white w3-hover-shadow">
+                <li class="w3-black w3-xlarge w3-padding-32">Premium</li>
+                <li class="w3-padding-16"><b>Unlimited</b> Playlist Exports per Month</li>
+                <li class="w3-padding-16"><b>3</b> Linked Spotify Accounts</li>
+                <li class="w3-padding-16"><b>Premium</b> Feature Access</li>
+                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
+                <li class="w3-padding-16">
+                    <h2 class="w3-wide">$ 15</h2>
+                    <span class="w3-opacity">per month</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 </body>
 
