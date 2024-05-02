@@ -20,7 +20,6 @@
             background-color: #1c0d2c;
         }
 
-        /* Loader styles */
         .loader {
             width: 50px;
             aspect-ratio: 1;
@@ -32,7 +31,6 @@
             top: 50%;
             left: 50%;
             display: none;
-            /* Hide initially */
         }
 
         .like-button {
@@ -41,45 +39,36 @@
 
         .liked {
             color: red;
-            /* Stays red when liked */
         }
 
         form.flex {
             display: flex;
             align-items: center;
-            /* Aligns items vertically center */
         }
 
         .genre-card {
             background-color: rgba(209, 153, 0, 0.8);
-            /* Semi-transparent background */
             padding: 4rem;
             border-radius: 0.5rem;
             margin-left: 2rem;
             margin-right: 2rem;
-            /* backdrop-filter: blur(10px); */
-            /* Blur effect for the background */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            /* Adding shadow for depth */
             transition: transform 0.3s ease;
-            /* Smooth transformation */
         }
 
         .genre-card:hover {
             transform: scale(1.03);
-            /* Slightly enlarge cards on hover for a 3D pop effect */
         }
 
         @media (min-width: 768px) {
             .genre-card {
-                margin-left: 25rem;
-                margin-right: 25rem;
+                margin-left: 18rem;
+                margin-right: 18rem;
             }
         }
 
         .progress-bar {
             width: 300px;
-            /* Set a fixed width for all progress bars */
             height: 5px;
             background-color: #ccc;
             cursor: pointer;
@@ -94,7 +83,7 @@
 </head>
 
 <body class="custom-purple-bg text-white font-sans">
-    <header class="flex justify-between items-center px-4 py-2 w-full">
+    <header class="flex justify-between items-center px-4 py-2 w-full pt-6 py-2">
         <div class="flex items-center space-x-4">
             <img src="assets/spotify_icon.png" alt="Spotify Logo" class="rounded-xl"
                 style="width: 50px; height: 50px" />
@@ -122,9 +111,8 @@
     <main class="p-4">
         <div>
             <form class="max-w-md mx-auto flex items-center" id="searchForm">
-                <!-- Dropdown for numbers -->
                 <select id="number-select"
-                    class="block w-20 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    class="block w-50 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="7">Underground</option>
                     <option value="21">Blend</option>
                     <option value="30">Popular</option>
@@ -147,13 +135,9 @@
                 </button>
             </form>
         </div>
-        <h2 class="text-4xl text-align center font-bold mb-4">Songs:</h2>
-        <!-- Loader -->
+        <h2 class="text-4xl font-bold mb-4 text-center pt-6 py-2">Songs</h2>
         <div id="loader" class="loader"></div>
-        <!-- Songs container -->
-        <div id="songsContainer" class="grid grid-rows-4 gap-8 mb-8" style="position: relative">
-            <!-- Songs will be dynamically added here -->
-        </div>
+        <div id="songsContainer" class="grid grid-rows-4 gap-8 mb-8" style="position: relative"></div>
     </main>
 
     <script>
@@ -162,113 +146,128 @@
             .addEventListener("submit", function (event) {
                 event.preventDefault();
                 const enteredPrompt = document.getElementById("default-search").value;
-                const emailAddress = "jaspubg21@gmail.com";
+                const emailAddress = "chung.samuel.302@gmail.com"; // Adjust as needed
                 const loader = document.getElementById("loader");
                 const songsContainer = document.getElementById("songsContainer");
                 const popularityScore =
                     document.getElementById("number-select").value;
 
-                // Show loader and hide songs container
                 loader.style.display = "block";
                 songsContainer.style.display = "none";
 
-                // Base URI
                 const testURI = "http://127.0.0.1:5000/recommend-songs";
 
-                // URL Parameters
                 const params = new URLSearchParams({
                     entered_prompt: enteredPrompt,
                     email_address: emailAddress,
                     popularity_score: popularityScore,
                 });
 
-                // Full URL with parameters
                 const url = `${testURI}?${params.toString()}`;
 
-                // Fetch request with POST method
-
                 fetch(url, {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json",
                     },
-                    body: ""
+                    body: "",
                 })
-                    .then(response => response.json())
-                    .then(data => {
+                    .then((response) => response.json())
+                    .then((data) => {
                         setTimeout(() => {
-                            if (data.status === 'success') {
-                                songsContainer.innerHTML = ''; // Clear previous songs
-                                data.songs.forEach(song => {
-                                    const songElement = document.createElement('div');
-                                    songElement.classList.add('genre-card', 'custom-orange-bg', 'p-4', 'rounded');
-                                    const albumCoverUrl = song.album.images.length > 0 ? song.album.images[0].url : "https://placehold.co/200x200";
-                                    const artistNames = song.artists.map(artist => artist.name).join(', ');
+                            if (data.status === "success") {
+                                songsContainer.innerHTML = "";
+                                data.songs.forEach((song) => {
+                                    const songElement = document.createElement("div");
+                                    songElement.classList.add(
+                                        "genre-card",
+                                        "custom-orange-bg",
+                                        "p-4",
+                                        "rounded"
+                                    );
+                                    const albumCoverUrl =
+                                        song.album.images.length > 0
+                                            ? song.album.images[0].url
+                                            : "https://placehold.co/200x200";
+                                    const artistNames = song.artists
+                                        .map((artist) => artist.name)
+                                        .join(", ");
 
-                                    let audioControls = '';
+                                    let audioControls = "";
                                     if (song.preview_url) {
                                         audioControls = `
-        <audio id="audio-${song.id}" src="${song.preview_url}" ontimeupdate="updateProgress(this)" onloadedmetadata="updateProgress(this)"></audio>
-        <div class="audio-controls">
-            <button onclick="document.getElementById('audio-${song.id}').play()"><i class="fas fa-play"></i></button>
-            <button onclick="document.getElementById('audio-${song.id}').pause()"><i class="fas fa-pause"></i></button>
-            <input type="range" id="progress-${song.id}" value="0" max="100" class="progress-bar" oninput="setAudioPosition(this, 'audio-${song.id}')">
-            <span id="time-${song.id}">0:00/0:00</span>
-        </div>
-    `;
+                                    <audio id="audio-${song.id}" src="${song.preview_url}" ontimeupdate="updateProgress(this)" onloadedmetadata="updateProgress(this)"></audio>
+                                    <div class="audio-controls">
+                                        <button onclick="document.getElementById('audio-${song.id}').play()"><i class="fas fa-play"></i></button>
+                                        <button onclick="document.getElementById('audio-${song.id}').pause()"><i class="fas fa-pause"></i></button>
+                                        <input type="range" id="progress-${song.id}" value="0" max="100" class="progress-bar" oninput="setAudioPosition(this, 'audio-${song.id}')">
+                                        <span id="time-${song.id}">0:00/0:00</span>
+                                    </div>
+                                `;
                                     }
 
-                                    let youtubeButtonHTML = '';
+                                    let youtubeButtonHTML = "";
                                     if (song.external_urls.youtube) {
                                         youtubeButtonHTML = `<a href="${song.external_urls.youtube}" target="_blank" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">YouTube</a>`;
                                     }
 
-                                    // Build HTML string for the song card with a speaker icon and progress bar
                                     songElement.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <div>
-                            ${youtubeButtonHTML}
-                            <img src="${albumCoverUrl}" alt="${song.name} album cover" class="rounded mb-2" style="width:200px; height:200px;">
-                            <h3 class="text-xl font-bold">${song.name} - ${artistNames}</h3>
-                            ${audioControls}
-                        </div>
-                        <button class="like-button text-black-500 focus:outline-none focus:text-black-700">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                    </div>`;
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        ${youtubeButtonHTML}
+                                        <img src="${albumCoverUrl}" alt="${song.name} album cover" class="rounded mb-2" style="width:200px; height:200px;">
+                                        <h3 class="text-xl font-bold">${song.name} - ${artistNames}</h3>
+                                        ${audioControls}
+                                    </div>
+                                    <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>`;
                                     songsContainer.appendChild(songElement);
                                 });
-                                loader.style.display = 'none';
-                                songsContainer.style.display = 'grid';
+                                loader.style.display = "none";
+                                songsContainer.style.display = "grid";
 
-                                // Event listeners for like buttons
-                                document.querySelectorAll('.like-button').forEach(button => {
-                                    button.addEventListener('click', function () {
-                                        this.classList.toggle('liked');
-                                        if (this.classList.contains('liked')) {
-                                            this.innerHTML = '<i class="fas fa-heart"></i>';
-                                        } else {
-                                            this.innerHTML = '<i class="fas fa-heart"></i>';
-                                        }
+                                document
+                                    .querySelectorAll(".like-button")
+                                    .forEach((button) => {
+                                        button.addEventListener("click", function () {
+                                            const songId = this.getAttribute("data-song-id");
+                                            const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
+                                            if (this.classList.contains("liked")) {
+                                                handleSongInteraction(songId, userEmail, "unlike");
+                                                this.classList.remove("liked");
+                                                this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to unfilled heart
+                                            } else {
+                                                handleSongInteraction(songId, userEmail, "like");
+                                                this.classList.add("liked");
+                                                this.innerHTML = '<i class="fas fa-heart liked"></i>'; // Change to filled heart
+                                            }
+                                        });
                                     });
-                                });
                             } else {
-                                console.error('Failed to get recommended songs:', data.error);
+                                console.error("Failed to get recommended songs:", data.error);
                             }
                         }, 3000);
                     })
-                    .catch(error => {
-                        console.error('Error fetching data:', error);
+                    .catch((error) => {
+                        console.error("Error fetching data:", error);
                     });
             });
 
         function updateProgress(audio) {
-            const progressBar = document.getElementById('progress-' + audio.id.split('-')[1]);
-            const percentage = Math.floor((100 / audio.duration) * audio.currentTime);
+            const progressBar = document.getElementById(
+                "progress-" + audio.id.split("-")[1]
+            );
+            const percentage = Math.floor(
+                (100 / audio.duration) * audio.currentTime
+            );
             progressBar.value = percentage;
             const currentTimeDisplay = formatTime(audio.currentTime);
             const durationDisplay = formatTime(audio.duration);
-            const timeLabel = document.getElementById('time-' + audio.id.split('-')[1]);
+            const timeLabel = document.getElementById(
+                "time-" + audio.id.split("-")[1]
+            );
             timeLabel.textContent = `${currentTimeDisplay}/${durationDisplay}`;
         }
 
@@ -281,16 +280,61 @@
         function formatTime(timeInSeconds) {
             const minutes = Math.floor(timeInSeconds / 60);
             const seconds = Math.floor(timeInSeconds % 60);
-            return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
         }
 
-        // Function to get URL parameters
-        function getURLParameter(name) {
-            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            const results = regex.exec(window.location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        function handleSongInteraction(songId, userEmail, action) {
+            if (!userEmail) {
+                console.error("User email is required.");
+                return; // Stop the function if email is not provided
+            }
+            const endpoint =
+                action === "like" ? "/spotify-like-song" : "/spotify-unlike-song";
+            const formData = new FormData();
+            formData.append("email_address", userEmail);
+
+            fetch(`http://127.0.0.1:5000${endpoint}?song_id=${songId}`, {
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === "success") {
+                        console.log(`Song ${action}d successfully.`);
+                    } else {
+                        console.error(`Failed to ${action} song:`, data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error ${action}ing song:`, error);
+                });
         }
 
+
+        function exportPlaylist(emailAddress, songIds, playlistDescription) {
+            fetch("http://127.0.0.1:5000/export-playlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email_address: emailAddress,
+                    song_ids: songIds.join(" "), // Assuming songIds is an array of song ID strings
+                    playlist_description: playlistDescription,
+                    playlist_name: "SentiSounds Export", // This is the default value
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === "success") {
+                        console.log(
+                            "Playlist exported successfully. View at:",
+                            data.playlist_url
+                        );
+                    } else {
+                        console.error("Failed to export playlist:", data.error);
+                    }
+              
         // Extract the 'code' parameter from the URL
         const code = getURLParameter('code');
 
@@ -308,16 +352,9 @@
                     method: 'POST',
                     body: formData
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Authentication response:", data);
-                    })
-                    .catch(error => {
-                        console.error("Error during authentication:", error);
-                    });
-            });
-        } else {
-            console.log("Code is too short or not present.");
+                .catch((error) => {
+                    console.error("Error exporting playlist:", error);
+                });
         }
 
         document
