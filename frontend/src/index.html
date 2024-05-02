@@ -401,18 +401,35 @@
       console.log("Code extracted from URL:", code);
 
       if (code.length > 5) {
-        // Code is sufficient in length, perform the POST request
-        document.addEventListener("DOMContentLoaded", function () {
-          const formData = new FormData();
-          formData.append("email_address", "chung.samuel.302@gmail.com");
-          formData.append("code", code);
+        document.addEventListener("DOMContentLoaded", async function () {
+          const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
 
-          fetch("http://127.0.0.1:5000/spotify-authenticate", {
-            method: "POST",
-            body: formData,
-          }).catch((error) => {
-            console.error("Error authenticating with Spotify:", error);
-          });
+          // Retrieving data from localStorage
+          // const email = localStorage.getItem('email');
+          const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
+          const formData = new FormData();
+          formData.append("email_address", userEmail);
+
+          try {
+            const response = await fetch(baseURL, {
+              method: "POST",
+              body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              alert("Spotify Authentication successful.");
+              // window.location.href = "index.html";
+            } else {
+              alert(data.error);
+            }
+          } catch (error) {
+            // console.error('Error during authentication:', error);
+            alert(
+              "An error occurred during Spotify Authentication. Please try again."
+            );
+          }
         });
       }
 
