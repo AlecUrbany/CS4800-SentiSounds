@@ -1,6 +1,7 @@
 """A handler for signing up, authenticating emails, and logging in"""
 
 import json
+import os
 import random
 import re
 import smtplib
@@ -88,10 +89,12 @@ class AuthHandler:
     )
     """A frame for the email to send a to-be authed user"""
 
-    HTML_PATH = r"frontend\src\email.html"
+    HTML_PATH = os.path.join('frontend', 'src', 'email.html')
     """The path to the HTML for the email to send a to-be authed user"""
 
-    LOGO_PATH = r"frontend\src\assets\sentisounds_icon.png"
+    LOGO_PATH = os.path.join(
+        'frontend', 'src', 'assets', 'sentisounds_icon.png'
+    )
     """The path to the logo to be added to the HTML"""
 
     ACTIVE_AUTHS: dict[str, tuple[str, float]] = {}
