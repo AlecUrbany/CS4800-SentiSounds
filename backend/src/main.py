@@ -10,4 +10,5 @@ if __name__ == "__main__":
     config = Config()
     config.bind = ["10.0.0.4:5000"]
     config.accesslog = "-"
+    config.application_path = ".."
     asyncio.run(serve(app, config))
