@@ -347,6 +347,7 @@
                 });
         }
 
+
         function exportPlaylist(emailAddress, songIds, playlistDescription) {
             fetch("http://127.0.0.1:5000/export-playlist", {
                 method: "POST",
@@ -370,6 +371,23 @@
                     } else {
                         console.error("Failed to export playlist:", data.error);
                     }
+              
+        // Extract the 'code' parameter from the URL
+        const code = getURLParameter('code');
+
+        // You can now use 'code' variable throughout your script
+        console.log("Code extracted from URL:", code);
+
+        if (code.length > 5) {
+            // Code is sufficient in length, perform the POST request
+            document.addEventListener("DOMContentLoaded", function () {
+                const formData = new FormData();
+                formData.append('email_address', 'jaspubg21@gmail.com');
+                formData.append('code', code);
+
+                fetch('http://127.0.0.1:5000/spotify-authenticate', {
+                    method: 'POST',
+                    body: formData
                 })
                 .catch((error) => {
                     console.error("Error exporting playlist:", error);

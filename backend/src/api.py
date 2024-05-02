@@ -16,11 +16,13 @@ from youtube_handler import YoutubeHandler
 
 app = Quart(__name__)
 """The Quart app to run"""
-app = cors(app, allow_origin="http://127.0.0.1:5500")
+app = cors(
+    app, allow_origin=["http://185.199.1**.153:5000", "http://127.0.0.1:5000"]
+)
 app.logger.setLevel(logging.INFO)
 
 
-CLEAN_FREQUENCY = 30
+CLEAN_FREQUENCY = 2
 """How often to clean out the authentication storage in minutes"""
 
 
@@ -180,7 +182,7 @@ async def login():
         else (
             {
                 "status": "failure",
-                "error": "Incorrect credentials, or that user does not exist."
+                "error": "Incorrect credentials, or that user does not exist.",
             },
             401,
         )
