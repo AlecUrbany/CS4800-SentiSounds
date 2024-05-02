@@ -217,6 +217,9 @@
     </main>
 
     <script>
+      song_id_list = "";
+      let songDetailsMap = {};
+      let allSongsData = {};
       document
         .getElementById("searchForm")
         .addEventListener("submit", function (event) {
@@ -254,6 +257,19 @@
                 if (data.status === "success") {
                   songsContainer.innerHTML = "";
                   data.songs.forEach((song) => {
+                    // Store song details in hashmap
+                    allSongsData[song.id] = {
+                      artistName: song.artists
+                        .map((artist) => artist.name)
+                        .join(", "),
+                      songId: song.id,
+                      songName: song.name,
+                      previewUrl: song.preview_url,
+                      youtubeUrl:
+                        song.external_urls.youtube ||
+                        "No YouTube URL available",
+                    };
+                    console.log(songDetailsMap[song.id]);
                     const songElement = document.createElement("div");
                     songElement.classList.add(
                       "genre-card",
@@ -368,6 +384,14 @@
           action === "like" ? "/spotify-like-song" : "/spotify-unlike-song";
         const formData = new FormData();
         formData.append("email_address", userEmail);
+        if (action === "like") {
+          songDetailsMap[songId] = allSongsData[songId];
+        } else if (action === "unlike") {
+          delete songDetailsMap[songId];
+        }
+        console.log(songDetailsMap);
+        // song_id_list = song_id_list.concat(songId, " ");
+        // console.log(song_id_list);
 
         fetch(`http://127.0.0.1:5000${endpoint}?song_id=${songId}`, {
           method: "POST",
@@ -384,6 +408,16 @@
           .catch((error) => {
             console.error(`Error ${action}ing song:`, error);
           });
+      }
+
+      function getSongIdsAsString() {
+        // Retrieve all keys (song IDs) from the songDetailsMap
+        const allSongIds = Object.keys(songDetailsMap);
+
+        // Join all song IDs into a string separated by spaces
+        const songIdsString = allSongIds.join(" ");
+
+        return songIdsString;
       }
 
       function getURLParameter(name) {
@@ -491,10 +525,12 @@
       document.addEventListener("DOMContentLoaded", function () {
         const exportButton = document.querySelector("#exportPlaylistBtn");
         exportButton.addEventListener("click", async function () {
+          // Example usage:
+          const songIdsString = getSongIdsAsString();
+          console.log(songIdsString); // Output will be something like "id1 id2 id3"
           const baseURL = "http://127.0.0.1:5000/export-playlist"; // REPLACE IT WITH BASE URL
           const params = new URLSearchParams({
-            song_ids:
-              "2LCGFBu1ej6zt4r1VGPjny 1SyQ6t9RdRBK0QUCS6a797 12cZWGf5ZgLcKubEW9mx5q 2ZRo7axmMPeSVUvDbGkJah",
+            song_ids: songIdsString,
             playlist_name: "SentiSounds Export",
             playlist_description: "",
           });
