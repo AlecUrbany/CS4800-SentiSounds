@@ -1,6 +1,4 @@
       const email = localStorage.getItem("email")
-      const api_uri = "http://10.0.0.5:5000/";
-      song_id_list = "";
       let songDetailsMap = {};
       let allSongsData = {};
 
@@ -13,7 +11,7 @@
 
         const formData = new FormData();
         formData.append("email_address", email);
-        fetch(`${api_uri}/spotify-check-authentication`, {
+        fetch(`${baseURL}/spotify-check-authentication`, {
           method: "POST",
           body: formData,
         })
@@ -56,8 +54,8 @@
             popularity_score: popularityScore,
           });
 
-          const url = `${api_uri}/recommend-songs?${params.toString()}`;
-          fetch(url, {
+          const url = `${baseURL}/recommend-songs?${params.toString()}`;
+          fetch(baseURL, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -207,7 +205,7 @@
         console.log(songDetailsMap);
         // song_id_list = song_id_list.concat(songId, " ");
         // console.log(song_id_list);
-        fetch(`${api_uri}${endpoint}?song_id=${songId}`, {
+        fetch(`${baseURL}${endpoint}?song_id=${songId}`, {
           method: "POST",
           body: formData,
         })
@@ -258,7 +256,7 @@
           formData.append("code", code);
 
           try {
-            const response = await fetch(`${api_uri}/spotify-authenticate`, {
+            const response = await fetch(`${baseURL}/spotify-authenticate`, {
               method: "POST",
               body: formData,
             });
@@ -283,7 +281,7 @@
       document
         .getElementById("connectSpotifyBtn")
         .addEventListener("click", function () {
-          fetch(`${api_uri}/spotify-auth-link`)
+          fetch(`${baseURL}/spotify-auth-link`)
             .then((response) => response.json())
             .then((data) => {
               if (data.status === "success") {
@@ -322,7 +320,7 @@
           formData.append("email_address", email);
 
           try {
-            const response = await fetch(url, {
+            const response = await fetch(baseURL, {
               method: "POST",
               body: formData,
             });

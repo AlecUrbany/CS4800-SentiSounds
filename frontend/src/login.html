@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentiSounds Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="scripts/login.js" defer></script>
-</head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SentiSounds Login</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="scripts/base_url.js"></script>
+        <script src="scripts/login.js" defer></script>
+    </head>
 
-<style>
+    <style>
 #homeBtn {
         margin-top: 10px;
         margin-left: 10px;
@@ -25,56 +26,65 @@
         }
 </style>
 
-<body class="bg-[#1C0D2C]">
+    <body class="bg-[#1C0D2C]">
 
-    <header>
-        <div class="flex items-center space-x-2">
-            <button id="homeBtn">Home</button>
-          </div>
-    </header>
+        <header>
+            <div class="flex items-center space-x-2">
+                <button id="homeBtn">Home</button>
+            </div>
+        </header>
 
-    <div class="w-full max-w-xs m-auto">
-        <!-- Logo and header -->
-        <div class="mb-10 text-center">
-            <img src="assets/sentisounds_icon.png" alt="SentiSounds logo" class="mb-3 mx-auto"
-                style="width: 100px; height: 100px;">
-            <h1 class="text-3xl text-white font-bold">SentiSounds</h1>
-            <p class="text-[#D19900]">code is awesome - jack | code is cool - SAM</p>
-        </div>
+        <div class="w-full max-w-xs m-auto">
+            <!-- Logo and header -->
+            <div class="mb-10 text-center">
+                <img src="assets/sentisounds_icon.png" alt="SentiSounds logo"
+                    class="mb-3 mx-auto"
+                    style="width: 100px; height: 100px;">
+                <h1 class="text-3xl text-white font-bold">SentiSounds</h1>
+                <p class="text-[#D19900]">Sounds for the soul.</p>
+            </div>
 
-        <!-- Login form -->
-        <div class="bg-white rounded-lg overflow-hidden shadow-xl">
-            <div class="py-4 px-8">
-                <div class="mb-4">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
-                        Email
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email"
-                        type="text" placeholder="Ex. abc@xyz.com">
+            <!-- Login form -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl">
+                <div class="py-4 px-8">
+                    <div class="mb-4">
+                        <label
+                            class="block text-grey-darker text-sm font-bold mb-2"
+                            for="email">
+                            Email
+                        </label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+                            id="email"
+                            type="text" placeholder="Ex. abc@xyz.com">
+                    </div>
+                    <div class="mb-6">
+                        <label
+                            class="block text-grey-darker text-sm font-bold mb-2"
+                            for="password">
+                            Password
+                        </label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3"
+                            id="password" type="password"
+                            placeholder="********">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button
+                            class="w-full bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded"
+                            type="button"
+                            id="loginButton">
+                            LOGIN
+                        </button>
+                    </div>
                 </div>
-                <div class="mb-6">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
-                        Password
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3"
-                        id="password" type="password" placeholder="********">
-                </div>
-                <div class="flex items-center justify-between">
-                    <button class="w-full bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded" type="button"
-                        id="loginButton">
-                        LOGIN
-                    </button>
-                </div>
+            </div>
+
+            <!-- Welcome back message -->
+            <div class="text-center mt-4">
+                <span class="text-white font-light">Welcome back! ~</span>
             </div>
         </div>
 
-        <!-- Welcome back message -->
-        <div class="text-center mt-4">
-            <span class="text-white font-light">Welcome back! ~</span>
-        </div>
-    </div>
-
-
-
-</body>
+    </body>
 </html>

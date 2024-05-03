@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SentiSounds</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="scripts/base_url.js"></script>
     <script src="scripts/index.js" defer></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <!-- Added styles from File Two for specific sections -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
-    
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
     <style>
       .custom-orange-bg {
         background-color: #d19900;
@@ -146,13 +146,11 @@
           src="assets/spotify_icon.png"
           alt="Spotify Logo"
           class="rounded-xl"
-          style="width: 50px; height: 50px"
-        />
+          style="width: 50px; height: 50px" />
         <div class="flex flex-col">
           <button
             id="connectSpotifyBtn"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             Connect to Spotify
           </button>
         </div>
@@ -162,8 +160,7 @@
           src="assets/sentisounds_icon.png"
           alt="SentiSounds Logo"
           class="rounded-full"
-          style="width: 100px; height: 100px"
-        />
+          style="width: 100px; height: 100px" />
         <div class="flex flex-col">
           <h1 class="text-3xl font-bold">SentiSounds</h1>
           <p class="text-xs">Sounds for the Soul.</p>
@@ -179,28 +176,24 @@
         <form class="max-w-md mx-auto flex items-center" id="searchForm">
           <select
             id="number-select"
-            class="block w-50 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
+            class="block w-50 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option value="7">Underground</option>
             <option value="21">Blend</option>
             <option value="30">Popular</option>
           </select>
           <div class="relative ml-4">
             <div
-              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-            >
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 class="w-5 h-5 text-gray-500 dark:text-gray-400"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+                stroke="currentColor">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M21 21L15 15M17 10c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z"
-                ></path>
+                  d="M21 21L15 15M17 10c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z"></path>
               </svg>
             </div>
             <input
@@ -208,14 +201,12 @@
               id="default-search"
               class="block w-full pl-10 pr-3 py-2 rounded-lg text-sm border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               placeholder="How are you feeling?"
-              required
-            />
+              required />
           </div>
           <button
             type="submit"
             id="searchButton"
-            class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
+            class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Search
           </button>
         </form>
@@ -225,13 +216,11 @@
       <div
         id="songsContainer"
         class="grid grid-rows-4 gap-8 mb-8"
-        style="position: relative"
-      ></div>
+        style="position: relative"></div>
     </main>
 
     <button id="exportPlaylistBtn">Export Playlist</button>
 
-    
     <!-- Slideshow container -->
     <!--<div class="slideshow-container">
       <div class="mySlides fade">
@@ -245,44 +234,46 @@
       </div>
     </div>-->
 
-
     <!-- <button id="testBtn">Test Auth</button> -->
 
-<!-- Customer Feedback -->
-<div class="w3-container" style="padding:128px 16px" id="about">
-    <h3 class="w3-center"><b>CUSTOMER FEEDBACK</b></h3>
-    <p class="w3-center w3-large">Top reviews from satisfied customers!</p>
-    <div class="w3-row-padding w3-center" style="margin-top:64px">
+    <!-- Customer Feedback -->
+    <div class="w3-container" style="padding:128px 16px" id="about">
+      <h3 class="w3-center"><b>CUSTOMER FEEDBACK</b></h3>
+      <p class="w3-center w3-large">Top reviews from satisfied customers!</p>
+      <div class="w3-row-padding w3-center" style="margin-top:64px">
         <div class="w3-quarter">
-            <i style="font-size: 48px;"><span class="material-symbols-outlined">
-                    favorite
-                </span></i>
-            <p class="w3-large"><b>Brandon Leho</b></p>
-            <p>This website was so cool that I'm worried my girlfriend may leave me for it!</p>
+          <i style="font-size: 48px;"><span class="material-symbols-outlined">
+              favorite
+            </span></i>
+          <p class="w3-large"><b>Brandon Leho</b></p>
+          <p>This website was so cool that I'm worried my girlfriend may leave
+            me for it!</p>
         </div>
         <div class="w3-quarter">
-            <i style="font-size: 48px;"><span class="material-symbols-outlined">
-                    music_note
-                </span></i>
-            <p class="w3-large"><b>Juan Salas</b></p>
-            <p>My prompt was, "I hate my life", and I was recommended three hours of Nickelback!</p>
+          <i style="font-size: 48px;"><span class="material-symbols-outlined">
+              music_note
+            </span></i>
+          <p class="w3-large"><b>Juan Salas</b></p>
+          <p>My prompt was, "I hate my life", and I was recommended three hours
+            of Nickelback!</p>
         </div>
         <div class="w3-quarter">
-            <i style="font-size: 48px;"><span class="material-symbols-outlined">
-                    cake
-                </span></i>
-            <p class="w3-large"><b>Frederick Fazbear</b></p>
-            <p>Found great music to get ready for a birthday party!</p>
+          <i style="font-size: 48px;"><span class="material-symbols-outlined">
+              cake
+            </span></i>
+          <p class="w3-large"><b>Frederick Fazbear</b></p>
+          <p>Found great music to get ready for a birthday party!</p>
         </div>
         <div class="w3-quarter">
-            <i style="font-size: 48px;"><span class="material-symbols-outlined">
-                    humerus
-                </span></i>
-            <p class="w3-large"><b>Nicholas Ramirez Ornalez</b></p>
-            <p>All my new playlists have been great since I started using SentiSounds. Shaboing!</p>
+          <i style="font-size: 48px;"><span class="material-symbols-outlined">
+              humerus
+            </span></i>
+          <p class="w3-large"><b>Nicholas Ramirez Ornalez</b></p>
+          <p>All my new playlists have been great since I started using
+            SentiSounds. Shaboing!</p>
         </div>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 
 </html>

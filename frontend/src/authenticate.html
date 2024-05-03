@@ -1,63 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SentiSounds Authenticate</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="scripts/base_url.js"></script>
+        <script src="scripts/authenticate.js" defer></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentiSounds Authenticate</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="scripts/authenticate.js" defer></script>
-</head>
+    <body class="bg-[#1C0D2C] text-white font-sans">
+        <header>
+        </header>
 
-<body class="bg-[#1C0D2C] text-white font-sans">
-
-    <header>
-        <!-- Sidebar Toggle Button -->
-        <!-- <button id="sidebarToggle" class="p-4">Page Sidebar</button> -->
-
-        <!-- Hidden Sidebar -->
-        <div id="sidebar"
-            class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-200 ease-in-out bg-gray-800 text-white w-64 p-4">
-            <!-- Sidebar content here -->
-            <h2 class="font-semibold text-xl mb-4">Pages</h2>
-            <ul>
-                <li><a href="index.html" class="block mt-2">Homepage</a></li>
-                <li><a href="signup.html" class="block mt-2">Signup</a></li>
-                <li><a href="login.html" class="block mt-2">Login</a></li>
-                <li><a href="results.html" class="block mt-2">Results</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <div class="flex justify-center items-center h-screen">
-        <div class="flex justify-between items-center px-10 py-20 flex-container">
-            <!-- Signup Form -->
-            <div class="w-15 p-15">
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-2">
-                        <img src="assets/sentisounds_icon.png" alt="SentiSounds logo" class="rounded-full"
-                            style="width: 100px; height: 100px;">
-                        <h1 class="text-4xl font-bold">SentiSounds</h1>
-                        <p class="text-[#D19900]">oh wow code - jack | code is cool - SAM</p>
-                    </div>
-                    <div class="bg-white text-gray-700 p-8 rounded-lg space-y-6">
-                        <h2 class="text-3xl font-bold text-center">Authenticate Code:</h2>
-                        <div>
-                            <input type="text" id="auth_code" placeholder="Ex. 123456"
-                                class="w-full p-2 border rounded-md"> <br><br>
-                            <button id="authenticateButton"
-                                class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">AUTHENTICATE</button>
+        <div class="flex justify-center items-center h-screen">
+            <div
+                class="flex justify-between items-center px-10 py-20 flex-container">
+                <!-- Signup Form -->
+                <div class="w-15 p-15">
+                    <div class="space-y-6">
+                        <div class="flex flex-col items-center space-x-2">
+                            <img src="assets/sentisounds_icon.png"
+                                alt="SentiSounds logo"
+                                style="width: 100px; height: 100px" />
+                            <h1 class="text-4xl font-bold">SentiSounds</h1>
+                            <p class="text-[#D19900]">Sounds for the soul.</p>
+                        </div>
+                        <div
+                            class="bg-white text-gray-700 p-8 rounded-lg space-y-6">
+                            <h2
+                                class="text-3xl font-bold text-center">Authenticate
+                                Code:</h2>
+                            <div>
+                                <input
+                                    type="text"
+                                    id="auth_code"
+                                    placeholder="Ex. 123456"
+                                    class="w-full p-2 border rounded-md" />
+                                <br /><br />
+                                <button
+                                    id="authenticateButton"
+                                    class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">
+                                    AUTHENTICATE
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-
-
-</body>
-
+    </body>
 </html>

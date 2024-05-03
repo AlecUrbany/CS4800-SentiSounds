@@ -1,14 +1,12 @@
  document.addEventListener('DOMContentLoaded', function () {
-            const API_BASE_URL = 'http://127.0.0.1:5000';
             const loginButton = document.querySelector('#loginButton');
 
             loginButton.addEventListener('click', async function () {
                 const formData = new FormData();
                 formData.append('email_address', document.querySelector('#email').value);
                 formData.append('password', document.querySelector('#password').value);
-
                 try {
-                    const response = await fetch(`${API_BASE_URL}/login`, {
+                    const response = await fetch(`${baseURL}/login`, {
                         method: 'POST',
                         body: formData
                     });
