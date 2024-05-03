@@ -19,10 +19,13 @@ app = Quart(__name__)
 app = cors(
     app,
     allow_origin=[
-        "http://sentisounds.com",
-        "http://172.178.86.238",
-        "http://127.0.0.1",
+        "http://sentisounds.com*",
+        "http://172.178.86.238*",
+        "http://127.0.0.1*",
     ],
+    allow_credentials=True,
+    allow_headers=["Content-Type"],
+    allow_methods=["GET", "POST"],
 )
 app.logger.setLevel(logging.INFO)
 
