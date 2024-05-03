@@ -258,7 +258,7 @@
 
         const formData = new FormData();
         formData.append("email_address", email);
-        fetch(`http://172.178.86.238:5000/spotify-check-authentication`, {
+        fetch(`http://127.0.0.1:5000/spotify-check-authentication`, {
           method: "POST",
           body: formData,
         })
@@ -291,7 +291,7 @@
           loader.style.display = "block";
           songsContainer.style.display = "none";
 
-          const testURI = "http://172.178.86.238:5000/recommend-songs";
+          const testURI = "http://127.0.0.1:5000/recommend-songs";
 
           const params = new URLSearchParams({
             entered_prompt: enteredPrompt,
@@ -448,7 +448,7 @@
         console.log(songDetailsMap);
         // song_id_list = song_id_list.concat(songId, " ");
         // console.log(song_id_list);
-        fetch(`http://172.178.86.238:5000${endpoint}?song_id=${songId}`, {
+        fetch(`http://127.0.0.1:5000${endpoint}?song_id=${songId}`, {
           method: "POST",
           body: formData,
         })
@@ -491,7 +491,7 @@
 
       if (code.length > 5) {
         document.addEventListener("DOMContentLoaded", async function () {
-          const baseURL = "http://172.178.86.238:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
+          const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
 
           // Retrieving data from localStorage
           const email = localStorage.getItem('email');
@@ -525,7 +525,7 @@
       document
         .getElementById("connectSpotifyBtn")
         .addEventListener("click", function () {
-          fetch("http://172.178.86.238:5000/spotify-auth-link")
+          fetch("http://127.0.0.1:5000/spotify-auth-link")
             .then((response) => response.json())
             .then((data) => {
               if (data.status === "success") {
@@ -551,7 +551,7 @@
           // Example usage:
           const songIdsString = getSongIdsAsString();
           console.log(songIdsString); // Output will be something like "id1 id2 id3"
-          const baseURL = "http://172.178.86.238:5000/export-playlist"; // REPLACE IT WITH BASE URL
+          const baseURL = "http://127.0.0.1:5000/export-playlist"; // REPLACE IT WITH BASE URL
           const params = new URLSearchParams({
             song_ids: songIdsString,
             playlist_name: "SentiSounds Export",
