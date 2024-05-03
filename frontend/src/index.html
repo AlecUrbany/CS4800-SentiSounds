@@ -299,12 +299,13 @@
           });
 
           const url = `${testURI}?${params.toString()}`;
-
+          console.log(location.origin);
           fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+            contentType: "application/json",
             body: "",
           })
             .then((response) => response.json())
