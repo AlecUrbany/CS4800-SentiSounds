@@ -17,8 +17,12 @@ from youtube_handler import YoutubeHandler
 app = Quart(__name__)
 """The Quart app to run"""
 app = cors(
-    app, allow_origin=["http://185.199.1**.153:5000",
-                       "http://127.0.0.1:5500", "https://alecurbany.github.io"]
+    app,
+    allow_origin=[
+        "sentisounds.com",
+        "172.178.86.238:5000",
+        "127.0.0.1:5500",
+    ]
 )
 app.logger.setLevel(logging.INFO)
 
