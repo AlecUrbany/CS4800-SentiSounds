@@ -21,12 +21,12 @@
                   .then((data) => {
                     if (data.is_authenticated == true) {
                       document.getElementById("exportPlaylistBtn").hidden = false;
-                      document.getElementById(".like-button").hidden = false;
+                      document.getElementById(".like-button").hidden = false; //Should hopefully reveal like button when spotify is authenticated.
                     } else {
                       document.getElementById("exportPlaylistBtn").hidden = true;
                       document.getElementById("connectSpotifyBtn").hidden = false;
                       document.getElementById("spotifyImg").hidden = false;
-                      document.getElementById(".like-button").hidden = true;
+                      document.getElementById(".like-button").hidden = true;  //Should hopefully hide like button when spotify is not authenticated.
                     }
                   })
                   .catch((error) => {
@@ -70,6 +70,7 @@
               setTimeout(() => {
                 if (data.status === "success") {
                   songsContainer.innerHTML = "";
+                  document.getElementById("exportPlaylistBtn").hidden = false; //Should hopefully reveal export playlist button when songs have been listed.
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
                     allSongsData[song.id] = {
@@ -152,6 +153,7 @@
                     });
                 } else {
                   console.error("Failed to get recommended songs:", data.error);
+                  document.getElementById("exportPlaylistBtn").hidden = true;  //Should hopefully hide export playlist button when songs have not been listed.
                 }
               }, 3000);
             })
