@@ -8,24 +8,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-[#1C0D2C] flex justify-center items-center h-screen">
+<style>
+#homeBtn {
+        margin-top: 10px;
+        margin-left: 10px;
+        right: 20px;
+        bottom: 20px;
+        padding: 10px 20px;
+        background-color: lightgreen;
+        color: black;
+        border: 2px solid black;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+</style>
+
+<body class="bg-[#1C0D2C]">
 
     <header>
-        <!-- Sidebar Toggle Button -->
-        <button id="sidebarToggle" class="p-4">Page Sidebar</button>
-
-        <!-- Hidden Sidebar -->
-        <div id="sidebar"
-            class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-200 ease-in-out bg-gray-800 text-white w-64 p-4">
-            <!-- Sidebar content here -->
-            <h2 class="font-semibold text-xl mb-4">Pages</h2>
-            <ul>
-                <li><a href="index.html" class="block mt-2">Homepage</a></li>
-                <li><a href="signup.html" class="block mt-2">Signup</a></li>
-                <li><a href="login.html" class="block mt-2">Login</a></li>
-                <li><a href="results.html" class="block mt-2">Results</a></li>
-            </ul>
-        </div>
+        <div class="flex items-center space-x-2">
+            <button id="homeBtn">Home</button>
+          </div>
     </header>
 
     <div class="w-full max-w-xs m-auto">
@@ -55,14 +60,10 @@
                         id="password" type="password" placeholder="********">
                 </div>
                 <div class="flex items-center justify-between">
-                    <button class="bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded" type="button"
+                    <button class="w-full bg-[#D19900] hover:bg-[#B88A00] text-white font-bold py-2 px-4 rounded" type="button"
                         id="loginButton">
                         LOGIN
                     </button>
-                    <a class="inline-block align-baseline font-bold text-sm text-[#D19900] hover:text-[#B88A00]"
-                        href="#">
-                        Forgot Password?
-                    </a>
                 </div>
             </div>
         </div>
@@ -74,25 +75,12 @@
     </div>
 
     <script>
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
 
-        sidebarToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-
-        document.addEventListener('click', function (e) {
-            // Check if click is outside of sidebar and sidebarToggle
-            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
-                // If sidebar is open and click is outside, close the sidebar
-                sidebar.classList.add('-translate-x-full');
-            }
-        });
     </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const API_BASE_URL = 'http://127.0.0.1:5000';
+            const API_BASE_URL = 'http://172.178.86.238:5000';
             const loginButton = document.querySelector('#loginButton');
 
             loginButton.addEventListener('click', async function () {
@@ -110,6 +98,7 @@
 
                     if (response.ok) {
                         // Login successful, redirect to homepage
+                        localStorage.setItem('email', document.querySelector('#email').value)
                         window.location.href = 'index.html';
                     } else {
                         // Login failed, display error message
@@ -120,6 +109,11 @@
                     alert('An error occurred during login. Please try again.');
                 }
             });
+        });
+    document
+        .getElementById("homeBtn")
+        .addEventListener("click", function () {
+          window.location.href = "index.html"
         });
     </script>
 </body>

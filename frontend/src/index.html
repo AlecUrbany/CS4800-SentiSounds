@@ -103,6 +103,19 @@
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
       }
 
+      #signUpBtn {
+        right: 20px;
+        bottom: 20px;
+        padding: 10px 20px;
+        background-color: lightgreen;
+        color: black;
+        border: 2px solid black;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
         /* Styles from File Two */
         body,
         html {
@@ -127,6 +140,7 @@
     <header class="flex justify-between items-center px-4 py-2 w-full pt-6">
       <div class="flex items-center space-x-4">
         <img
+          id="spotifyImg"
           src="assets/spotify_icon.png"
           alt="Spotify Logo"
           class="rounded-xl"
@@ -153,13 +167,8 @@
           <p class="text-xs">Sounds for the Soul.</p>
         </div>
       </div>
-      <div class="flex items-center space-x-3">
-        <span class="text-white">Hi, JonahBoss321</span>
-        <img
-          src="https://placehold.co/32x32"
-          alt="User Avatar"
-          class="rounded-full border-2 border-green-500"
-        />
+      <div class="flex items-center space-x-2">
+        <button id="signUpBtn">Sign-Up</button>
       </div>
     </header>
 
@@ -219,7 +228,7 @@
     </main>
 
     <!-- Slideshow container -->
-    <div class="slideshow-container">
+    <!--<div class="slideshow-container">
       <div class="mySlides fade">
         <img src="assets/Listening to music 4.jpg" style="width: 100%" />
       </div>
@@ -229,18 +238,50 @@
       <div class="mySlides fade">
         <img src="assets/Listening to music 4.jpg" style="width: 100%" />
       </div>
-    </div>
+    </div>-->
+    <button id="exportPlaylistBtn">Export Playlist</button>
 
     <script>
+      const email = localStorage.getItem("email")
+
       song_id_list = "";
       let songDetailsMap = {};
       let allSongsData = {};
+
+      if (!email){
+        document.getElementById("connectSpotifyBtn").hidden = true;
+        document.getElementById("spotifyImg").hidden = true;
+        document.getElementById("exportPlaylistBtn").hidden = true;
+      } else {
+        document.getElementById("signUpBtn").hidden = true;
+
+        const formData = new FormData();
+        formData.append("email_address", email);
+        fetch(`http://172.178.86.238:5000/spotify-check-authentication`, {
+          method: "POST",
+          body: formData,
+        })
+        .then((response) => response.json())
+                  .then((data) => {
+                    if (data.is_authenticated == true) {
+                      document.getElementById("exportPlaylistBtn").hidden = false;
+                    } else {
+                      document.getElementById("exportPlaylistBtn").hidden = true;
+                      document.getElementById("connectSpotifyBtn").hidden = false;
+                      document.getElementById("spotifyImg").hidden = false;
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(`Error checking Spotify auth:`, error);
+                  });
+
+      }
+
       document
         .getElementById("searchForm")
         .addEventListener("submit", function (event) {
           event.preventDefault();
           const enteredPrompt = document.getElementById("default-search").value;
-          const emailAddress = "chung.samuel.302@gmail.com"; // Adjust as needed
           const loader = document.getElementById("loader");
           const songsContainer = document.getElementById("songsContainer");
           const popularityScore =
@@ -249,7 +290,7 @@
           loader.style.display = "block";
           songsContainer.style.display = "none";
 
-          const testURI = "http://127.0.0.1:5000/recommend-songs";
+          const testURI = "http://172.178.86.238:5000/recommend-songs";
 
           const params = new URLSearchParams({
             entered_prompt: enteredPrompt,
@@ -340,13 +381,12 @@
                     .forEach((button) => {
                       button.addEventListener("click", function () {
                         const songId = this.getAttribute("data-song-id");
-                        const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
                         if (this.classList.contains("liked")) {
-                          handleSongInteraction(songId, userEmail, "unlike");
+                          handleSongInteraction(songId, email, "unlike");
                           this.classList.remove("liked");
                           this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to unfilled heart
                         } else {
-                          handleSongInteraction(songId, userEmail, "like");
+                          handleSongInteraction(songId, email, "like");
                           this.classList.add("liked");
                           this.innerHTML = '<i class="fas fa-heart liked"></i>'; // Change to filled heart
                         }
@@ -390,15 +430,15 @@
         return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
       }
 
-      function handleSongInteraction(songId, userEmail, action) {
-        if (!userEmail) {
+      function handleSongInteraction(songId, email, action) {
+        if (!email) {
           console.error("User email is required.");
           return; // Stop the function if email is not provided
         }
         const endpoint =
           action === "like" ? "/spotify-like-song" : "/spotify-unlike-song";
         const formData = new FormData();
-        formData.append("email_address", userEmail);
+        formData.append("email_address", email);
         if (action === "like") {
           songDetailsMap[songId] = allSongsData[songId];
         } else if (action === "unlike") {
@@ -407,8 +447,7 @@
         console.log(songDetailsMap);
         // song_id_list = song_id_list.concat(songId, " ");
         // console.log(song_id_list);
-
-        fetch(`http://127.0.0.1:5000${endpoint}?song_id=${songId}`, {
+        fetch(`http://172.178.86.238:5000${endpoint}?song_id=${songId}`, {
           method: "POST",
           body: formData,
         })
@@ -449,52 +488,14 @@
       // You can now use 'code' variable throughout your script
       console.log("Code extracted from URL:", code);
 
-      //   if (code.length > 5) {
-      //     document.addEventListener("DOMContentLoaded", function () {
-      //       const testButton = document.querySelector("#testBtn");
-      //       testButton.addEventListener("click", async function () {
-      //         const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
-
-      //         // Retrieving data from localStorage
-      //         // const email = localStorage.getItem('email');
-      //         const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
-      //         const formData = new FormData();
-      //         formData.append("email_address", userEmail);
-      //         formData.append("code", code);
-
-      //         try {
-      //           const response = await fetch(baseURL, {
-      //             method: "POST",
-      //             body: formData,
-      //           });
-
-      //           const data = await response.json();
-
-      //           if (response.ok) {
-      //             alert("Spotify Authentication successful.");
-      //             // window.location.href = "index.html";
-      //           } else {
-      //             alert(data.error);
-      //           }
-      //         } catch (error) {
-      //           console.error("Error during Spotify authentication:", error);
-      //           alert(
-      //             "An error occurred during Spotify Authentication. Please try again."
-      //           );
-      //         }
-      //       });
-      //     });
-      //   }
-
       if (code.length > 5) {
         document.addEventListener("DOMContentLoaded", async function () {
-          const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
+          const baseURL = "http://172.178.86.238:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
 
           // Retrieving data from localStorage
-          // const email = localStorage.getItem('email');
-          const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
+          const email = localStorage.getItem('email');
           const formData = new FormData();
-          formData.append("email_address", userEmail);
+          formData.append("email_address", email);
           formData.append("code", code);
 
           try {
@@ -523,7 +524,7 @@
       document
         .getElementById("connectSpotifyBtn")
         .addEventListener("click", function () {
-          fetch("http://127.0.0.1:5000/spotify-auth-link")
+          fetch("http://172.178.86.238:5000/spotify-auth-link")
             .then((response) => response.json())
             .then((data) => {
               if (data.status === "success") {
@@ -537,13 +538,19 @@
             });
         });
 
+      document
+        .getElementById("signUpBtn")
+        .addEventListener("click", function () {
+          window.location.href = "signup.html"
+        });
+
       document.addEventListener("DOMContentLoaded", function () {
         const exportButton = document.querySelector("#exportPlaylistBtn");
         exportButton.addEventListener("click", async function () {
           // Example usage:
           const songIdsString = getSongIdsAsString();
           console.log(songIdsString); // Output will be something like "id1 id2 id3"
-          const baseURL = "http://127.0.0.1:5000/export-playlist"; // REPLACE IT WITH BASE URL
+          const baseURL = "http://172.178.86.238:5000/export-playlist"; // REPLACE IT WITH BASE URL
           const params = new URLSearchParams({
             song_ids: songIdsString,
             playlist_name: "SentiSounds Export",
@@ -551,11 +558,10 @@
           });
           const url = `${baseURL}?${params.toString()}`;
           // Retrieving data from localStorage
-          // const email = localStorage.getItem('email');
+          const email = localStorage.getItem('email');
 
-          const userEmail = "chung.samuel.302@gmail.com"; // Use the appropriate user email
           const formData = new FormData();
-          formData.append("email_address", userEmail);
+          formData.append("email_address", email);
 
           try {
             const response = await fetch(url, {
@@ -578,29 +584,26 @@
         });
       });
 
-      let slideIndex = 0;
-      showSlides();
+      // let slideIndex = 0;
+      // showSlides();
 
-      function showSlides() {
-        let i;
-        let slides = document.getElementsByClassName("mySlides");
-        for (i = 0; i < slides.length; i++) {
-          slides[i].style.display = "none";
-        }
-        slideIndex++;
-        if (slideIndex > slides.length) {
-          slideIndex = 1;
-        }
-        slides[slideIndex - 1].style.display = "block";
-        setTimeout(showSlides, 2000); // Change image every 2 seconds
-      }
+      // function showSlides() {
+      //   let i;
+      //   let slides = document.getElementsByClassName("mySlides");
+      //   for (i = 0; i < slides.length; i++) {
+      //     slides[i].style.display = "none";
+      //   }
+      //   slideIndex++;
+      //   if (slideIndex > slides.length) {
+      //     slideIndex = 1;
+      //   }
+      //   slides[slideIndex - 1].style.display = "block";
+      //   setTimeout(showSlides, 2000); // Change image every 2 seconds
+      // }
     </script>
-
-    <!-- Added button element for export playlist -->
-    <button id="exportPlaylistBtn">Export Playlist</button>
     <!-- <button id="testBtn">Test Auth</button> -->
 
-<!-- About Section -->
+<!-- Customer Feedback -->
 <div class="w3-container" style="padding:128px 16px" id="about">
     <h3 class="w3-center"><b>CUSTOMER FEEDBACK</b></h3>
     <p class="w3-center w3-large">Top reviews from satisfied customers!</p>
@@ -635,268 +638,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- Team Section -->
-<div class="w3-container" style="padding:128px 16" id="team">
-    <h3 class="w3-center"><b>THE TEAM</b></h3>
-    <p class="w3-center w3-large">The ones who run this company</p>
-    <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
-        <!-- First row of team members with 4 cards -->
-        <div class="w3-row">
-            <!-- Member 1 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Alec-Urbany-SentiSounds.jpg" alt="Alec Urbany" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Alec Urbany</h3>
-                        <p class="w3-opacity">Backend</p>
-                        <p>Project Manager</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/alec-urbany-698149238/</p>
-                            <p style="background-color: gold; color: black;">https://github.com/AlecUrbany</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 2 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Kyle-Just-Sentisounds.jpg" alt="Kyle Just" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Kyle Just</h3>
-                        <p class="w3-opacity">Backend</p>
-                        <p>Developer</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/kyle-just/</p>
-                            <p style="background-color: gold; color: black;">https://github.com/meap02</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 3 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/George-Matta-SentiSounds.jpg" alt="George Matta" style="width:100%">
-                    <div class="w3-container">
-                        <h3>George Matta</h3>
-                        <p class="w3-opacity">Backend</p>
-                        <p>Developer</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">jojomedhat2004@gmail.com</p>
-                            <p style="background-color: gold; color: black;">https://linkedin.com/in/george-m-matta</p>
-                            <p style="background-color: gold; color: black;">https://github.com/iHeroGH</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 4 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Taft-Ring-Sentisounds.jpg" alt="Taft Ring" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Taft Ring</h3>
-                        <p class="w3-opacity">Backend</p>
-                        <p>Quality Assurer</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">taftR@hotmail.com</p>
-                            <p style="background-color: gold; color: black;">https://github.com/20ringtaft</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Second row of team members with 4 cards -->
-        <div class="w3-row">
-            <!-- Member 5 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Wesley-Dam-SentiSounds.jpg" alt="Wesley Dam" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Wesley Dam</h3>
-                        <p class="w3-opacity">Backend</p>
-                        <p>Business Analyst</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/wesley-dam-428b77223</p>
-                            <p style="background-color: gold; color: black;">https://github.com/wdam2002</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 6 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Jack Morris" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Jack Morris</h3>
-                        <p class="w3-opacity">Frontend</p>
-                        <p>Project Manager</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">getbacktojack@gmail.com</p>
-                            <p style="background-color: gold; color: black;">https://github.com/jrmorris29</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 7 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Samuel Chung" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Samuel Chung</h3>
-                        <p class="w3-opacity">Frontend</p>
-                        <p>Developer</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">samuelqchung@gmail.com</p>
-                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/samuel-chung-742439214/</p>
-                            <p style="background-color: gold; color: black;">https://github.com/chungsamuel</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 8 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Samuel-Chung-2-Sentisounds.png" alt="Jasroop Singh" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Jasroop Singh</h3>
-                        <p class="w3-opacity">Frontend</p>
-                        <p>Developer</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">https://github.com/jasroop-singh</p>
-                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/jasroop-singh21/</p>
-                            <p style="background-color: gold; color: black;">singhjasroop21@gmail.com</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Third row of team members with 2 cards -->
-        <div class="w3-row">
-            <!-- Member 9 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Evin-Menendez-Vargas.jpg" alt="Evin Menendez Vargas" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Evin Menendez Vargas</h3>
-                        <p class="w3-opacity">Frontend</p>
-                        <p>Quality Assurer</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">EvinMenendez@gmail.com</p>
-                            <p style="background-color: gold; color: black;">https://www.linkedin.com/in/evin-menendez-vargas/</p>
-                            <p style="background-color: gold; color: black;">https://github.com/UselesssAqua</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-            <!-- Member 10 -->
-            <div class="w3-col l3 m6 w3-margin-bottom">
-                <div class="w3-card">
-                    <img src="assets/Darren-Manalo-SentiSounds.jpg" alt="Darren Manalo" style="width:100%">
-                    <div class="w3-container">
-                        <h3>Darren Manalo</h3>
-                        <p class="w3-opacity">Frontend</p>
-                        <p>Business Analyst</p>
-                        <details>
-                            <summary style="background-color: gold; color: black;"><b>Contact</b></summary>
-                            <p style="background-color: gold; color: black;">darrenapm1016@gmail.com</p>
-                            <p style="background-color: gold; color: black;">https://github.com/dmanalo16</p>
-                        </details>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- Skills Section -->
-<div class="w3-container w3-light-grey w3-padding-64">
-    <div class="w3-row-padding">
-        <div class="w3-col m6">
-            <h3><b>Skills</b></h3>
-            <p>Our Frontend team used a combination of JavaScript, HTML, and CSS to create most of their related
-                functions.</p>
-            <p>Our Backend team used python and Azure in order to fulfill their responsibilities.</p>
-        </div>
-        <div class="w3-col m6">
-            <p class="w3-wide"><i></i>Python</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:90%">90%</div>
-            </div>
-            <p class="w3-wide"><i></i>JavaScript</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:85%">85%</div>
-            </div>
-            <p class="w3-wide"><i></i>HTML/CSS</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:75%">75%</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Pricing Section -->
-<div class="w3-container w3-center w3-dark-grey" style="padding:128px 16px" id="pricing">
-    <h3><b>PRICING</b></h3>
-    <p class="w3-large">Choose a pricing plan that fits your needs.</p>
-    <div class="w3-row-padding" style="margin-top:64px">
-        <div class="w3-third w3-section">
-            <ul class="w3-ul w3-white w3-hover-shadow">
-                <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
-                <li class="w3-padding-16"><b>5</b> Playlist Exports per Month</li>
-                <li class="w3-padding-16"><b>1</b> Linked Spotify Account</li>
-                <li class="w3-padding-16"><b>Basic</b> Feature Access</li>
-                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
-                <li class="w3-padding-16">
-                    <h2 class="w3-wide">$ 5</h2>
-                    <span class="w3-opacity">per month</span>
-                </li>
-            </ul>
-        </div>
-        <div class="w3-third">
-            <ul class="w3-ul w3-white w3-hover-shadow">
-                <li class="w3-green w3-xlarge w3-padding-48">Pro</li>
-                <li class="w3-padding-16"><b>15</b> Playlist Exports per Month</li>
-                <li class="w3-padding-16"><b>2</b> Linked Spotify Accounts</li>
-                <li class="w3-padding-16"><b>Advanced</b> Feature Access</li>
-                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
-                <li class="w3-padding-16">
-                    <h2 class="w3-wide">$ 10</h2>
-                    <span class="w3-opacity">per month</span>
-                </li>
-            </ul>
-        </div>
-        <div class="w3-third w3-section">
-            <ul class="w3-ul w3-white w3-hover-shadow">
-                <li class="w3-black w3-xlarge w3-padding-32">Premium</li>
-                <li class="w3-padding-16"><b>Unlimited</b> Playlist Exports per Month</li>
-                <li class="w3-padding-16"><b>3</b> Linked Spotify Accounts</li>
-                <li class="w3-padding-16"><b>Premium</b> Feature Access</li>
-                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
-                <li class="w3-padding-16">
-                    <h2 class="w3-wide">$ 15</h2>
-                    <span class="w3-opacity">per month</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
 </body>
 
 </html>
