@@ -1,5 +1,5 @@
       const email = localStorage.getItem("email")
-
+      const api_uri = "http://10.0.0.5:5000/";
       song_id_list = "";
       let songDetailsMap = {};
       let allSongsData = {};
@@ -13,7 +13,7 @@
 
         const formData = new FormData();
         formData.append("email_address", email);
-        fetch(`http://127.0.0.1:5000/spotify-check-authentication`, {
+        fetch(`${api_uri}/spotify-check-authentication`, {
           method: "POST",
           body: formData,
         })
@@ -46,23 +46,22 @@
           loader.style.display = "block";
           songsContainer.style.display = "none";
 
-          const testURI = "http://127.0.0.1:5000/recommend-songs";
+          const formData = new FormData();
+          formData.append('email_address', email);
 
           const params = new URLSearchParams({
             entered_prompt: enteredPrompt,
-            email_address: email,
             popularity_score: popularityScore,
           });
 
-          const url = `${testURI}?${params.toString()}`;
-          console.log(location.origin);
+          const url = `${api_uri}/recommend-songs?${params.toString()}`;
           fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             contentType: "application/json",
-            body: "",
+            body: formData,
           })
             .then((response) => response.json())
             .then((data) => {
@@ -204,7 +203,7 @@
         console.log(songDetailsMap);
         // song_id_list = song_id_list.concat(songId, " ");
         // console.log(song_id_list);
-        fetch(`http://127.0.0.1:5000${endpoint}?song_id=${songId}`, {
+        fetch(`${api_uri}${endpoint}?song_id=${songId}`, {
           method: "POST",
           body: formData,
         })
@@ -247,7 +246,6 @@
 
       if (code.length > 5) {
         document.addEventListener("DOMContentLoaded", async function () {
-          const baseURL = "http://127.0.0.1:5000/spotify-authenticate"; // REPLACE IT WITH BASE URL
 
           // Retrieving data from localStorage
           const email = localStorage.getItem('email');
@@ -256,7 +254,7 @@
           formData.append("code", code);
 
           try {
-            const response = await fetch(baseURL, {
+            const response = await fetch(`${api_uri}/spotify-authenticate`, {
               method: "POST",
               body: formData,
             });
@@ -281,7 +279,7 @@
       document
         .getElementById("connectSpotifyBtn")
         .addEventListener("click", function () {
-          fetch("http://127.0.0.1:5000/spotify-auth-link")
+          fetch(`${api_uri}/spotify-auth-link`)
             .then((response) => response.json())
             .then((data) => {
               if (data.status === "success") {
@@ -307,13 +305,12 @@
           // Example usage:
           const songIdsString = getSongIdsAsString();
           console.log(songIdsString); // Output will be something like "id1 id2 id3"
-          const baseURL = "http://127.0.0.1:5000/export-playlist"; // REPLACE IT WITH BASE URL
           const params = new URLSearchParams({
             song_ids: songIdsString,
             playlist_name: "SentiSounds Export",
             playlist_description: "",
           });
-          const url = `${baseURL}?${params.toString()}`;
+          const url = `${api_uri}/export-playlist?${params.toString()}`;
           // Retrieving data from localStorage
           const email = localStorage.getItem('email');
 
