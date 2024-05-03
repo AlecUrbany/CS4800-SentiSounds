@@ -21,10 +21,12 @@
                   .then((data) => {
                     if (data.is_authenticated == true) {
                       document.getElementById("exportPlaylistBtn").hidden = false;
+                      document.getElementById(".like-button").hidden = false;
                     } else {
                       document.getElementById("exportPlaylistBtn").hidden = true;
                       document.getElementById("connectSpotifyBtn").hidden = false;
                       document.getElementById("spotifyImg").hidden = false;
+                      document.getElementById(".like-button").hidden = true;
                     }
                   })
                   .catch((error) => {
