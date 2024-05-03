@@ -1,4 +1,5 @@
 """The callable API functions to be used to communicate with the backend"""
+from __future__ import annotations
 
 import asyncio
 import logging
@@ -19,11 +20,8 @@ app = Quart(__name__)
 app = cors(
     app,
     allow_origin=[
-        "http://sentisounds.com*",
-        "http://172.178.86.238*",
-        "http://127.0.0.1*",
+        "*"
     ],
-    allow_credentials=True,
     allow_headers=["Content-Type"],
     allow_methods=["GET", "POST"],
 )
@@ -282,7 +280,8 @@ async def spotify_authenticate():
     return {"status": "success"}, 200
 
 
-@app.route("/recommend-songs", methods=["POST"])
+@app.route("/recommend-songs", methods=["POST"]) 
+
 async def recommend_songs():
     """
     `POST /recommend-songs`

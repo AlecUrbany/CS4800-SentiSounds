@@ -1,5 +1,5 @@
 """A handler for interacting with the PostgreSQL Database asynchronously"""
-
+from __future__ import annotations
 from typing import Any
 
 import asyncpg

@@ -1,4 +1,5 @@
 """A handler for interacting with YouTube's API through googleapiclient"""
+from __future__ import annotations
 
 import json
 import queue

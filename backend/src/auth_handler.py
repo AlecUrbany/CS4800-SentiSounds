@@ -1,5 +1,5 @@
 """A handler for signing up, authenticating emails, and logging in"""
-
+from __future__ import annotations
 import json
 import os
 import random

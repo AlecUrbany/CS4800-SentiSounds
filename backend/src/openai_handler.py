@@ -1,4 +1,5 @@
 """A handler for interacting with OpenAI's API and the GPT model"""
+from __future__ import annotations
 
 import json
 from typing import Callable
