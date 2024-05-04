@@ -224,17 +224,16 @@
         playlistElement.classList.add("playlist-song");
         playlistElement.setAttribute("data-song", songId);
         playlistElement.innerHTML =
-        `<div class="flex justify-between items-center" style="display:table">
-            <div style="display:table-cell">
+        `<div class="playlist-item flex justify-between items-center">
+            <div class="song-details">
                 <h3 class="text-sm font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
             </div>
-            <div style="display:table-cell">
+            <div class="button-container">
                 <button class="deaugment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${songId}">
                     <i class="fas fa-minus"></i>
                 </button>
             </div>
-            <hr>
-          </div>`
+        </div>`;
         that.classList.add("augmented");
         that.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
         document.getElementById("playlistContainer").appendChild(playlistElement);
