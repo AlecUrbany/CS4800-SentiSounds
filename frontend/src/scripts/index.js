@@ -122,12 +122,18 @@
                                         ${audioControls}
                                     </div>
                                     <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                        ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
+                                      ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
+                                    </button>
+                                    <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
+                                    ${songDetailsMap.contains(song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
                                     </button>
                                 </div>`;
                     songsContainer.appendChild(songElement);
                     if (song.liked_by_user) {
                       songElement.querySelector(".like-button").classList.add("liked");
+                    }
+                    if (songDetailsMap.contains(song.id)) {
+                      songElement.querySelector(".augment-button").classList.add("augmented");
                     }
                   });
                   loader.style.display = "none";
@@ -140,7 +146,6 @@
                     .forEach((button) => {
                       button.addEventListener("click", function () {
                         const songId = this.getAttribute("data-song-id");
-                        console.log(this.innerHTML);
                         if (this.classList.contains("liked")) {
                           handleSongInteraction(songId, email, "unlike");
                           this.classList.remove("liked");
@@ -149,6 +154,23 @@
                           handleSongInteraction(songId, email, "like");
                           this.classList.add("liked");
                           this.innerHTML = '<i class="fas fa-heart liked"></i>'; // Change to filled heart
+                        }
+                      });
+                    });
+
+                    document
+                    .querySelectorAll(".augment-button")
+                    .forEach((button) => {
+                      button.addEventListener("click", function () {
+                        const songId = this.getAttribute("data-song-id");
+                        if (this.classList.contains("augmented")) {
+                          delete songDetailsMap[songId];
+                          this.classList.remove("augmented");
+                          this.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
+                        } else {
+                          songDetailsMap[songId] = allSongsData[songId];
+                          this.classList.add("augmented");
+                          this.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
                         }
                       });
                     });
@@ -200,14 +222,6 @@
           action === "like" ? "/spotify-like-song" : "/spotify-unlike-song";
         const formData = new FormData();
         formData.append("email_address", email);
-        if (action === "like") {
-          songDetailsMap[songId] = allSongsData[songId];
-        } else if (action === "unlike") {
-          delete songDetailsMap[songId];
-        }
-        console.log(songDetailsMap);
-        // song_id_list = song_id_list.concat(songId, " ");
-        // console.log(song_id_list);
         fetch(`${baseURL}${endpoint}?song_id=${songId}`, {
           method: "POST",
           body: formData,
@@ -309,11 +323,9 @@
         exportButton.addEventListener("click", async function () {
           // Example usage:
           const songIdsString = getSongIdsAsString();
-          console.log(songIdsString); // Output will be something like "id1 id2 id3"
           const params = new URLSearchParams({
             song_ids: songIdsString,
-            playlist_name: "SentiSounds Export",
-            playlist_description: "",
+            playlist_description: document.getElementById("default-search").value
           });
           const url = `${baseURL}/export-playlist?${params.toString()}`;
           // Retrieving data from localStorage
@@ -323,7 +335,7 @@
           formData.append("email_address", email);
 
           try {
-            const response = await fetch(baseURL, {
+            const response = await fetch(url, {
               method: "POST",
               body: formData,
             });
