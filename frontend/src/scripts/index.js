@@ -2,10 +2,10 @@
       let songDetailsMap = {};
       let allSongsData = {};
       let isAuthenticated = false;
+      document.getElementById("exportPlaylistBtn").hidden = true;
       if (!email){
         document.getElementById("connectSpotifyBtn").hidden = true;
         document.getElementById("spotifyImg").hidden = true;
-        document.getElementById("exportPlaylistBtn").hidden = true;
       } else {
         document.getElementById("signUpBtn").hidden = true;
 
@@ -315,7 +315,7 @@
             playlist_name: "SentiSounds Export",
             playlist_description: "",
           });
-          const url = `${api_uri}/export-playlist?${params.toString()}`;
+          const url = `${baseURL}/export-playlist?${params.toString()}`;
           // Retrieving data from localStorage
           const email = localStorage.getItem('email');
 
