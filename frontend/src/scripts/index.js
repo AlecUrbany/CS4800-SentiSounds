@@ -223,7 +223,7 @@
         const playlistElement = document.createElement("div");
         playlistElement.classList.add("playlist-song");
         playlistElement.innerHTML =
-        `<div class="flex justify-between items-center" data-song=${songId}>
+        `<div class="flex justify-between items-center" data-song="${songId}">
             <div>
                 <h3 class="text-xl font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
             </div>
