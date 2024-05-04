@@ -222,8 +222,9 @@
         exportMap[songId] = allSongsData[songId];
         const playlistElement = document.createElement("div");
         playlistElement.classList.add("playlist-song");
+        playlistElement.setAttribute("data-song", songId);
         playlistElement.innerHTML =
-        `<div class="flex justify-between items-center" data-song="${songId}">
+        `<div class="flex justify-between items-center">
             <div>
                 <h3 class="text-xl font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
             </div>
