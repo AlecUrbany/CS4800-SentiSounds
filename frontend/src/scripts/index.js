@@ -129,7 +129,9 @@
                   });
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
-                  document.getElementById("like-button").hidden = !isAuthenticated;
+                  document.getElementsByClassName("like-button").forEach((button) => {
+                    button.hidden = !isAuthenticated;
+                  });
                   document
                     .querySelectorAll(".like-button")
                     .forEach((button) => {
