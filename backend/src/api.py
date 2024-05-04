@@ -4,12 +4,13 @@ from __future__ import annotations
 import asyncio
 import logging
 from functools import partial
+import os
 from typing import Any, Callable
 
 from auth_handler import AuthHandler
 from database_handler import DatabaseHandler
 from openai_handler import OpenAIHandler
-from quart import Quart, request
+from quart import Quart, request, send_file
 from quart_cors import cors
 from senti_types import song_type, token_type
 from spotify_handler import SpotifyHandler
@@ -53,6 +54,16 @@ async def startup():
 
     await DatabaseHandler.get_pool()
     app.add_background_task(routine_clean)
+
+
+@app.route("/favicon.ico", methods=["GET"])
+async def get_icon():
+    """
+    Returns the app's icon to be used as a window icon
+    """
+    return await send_file(
+        os.path.join("frontend", "src", "assetss", "sentisounds_icon.ico")
+    )
 
 
 @app.route("/sign-up", methods=["POST"])
@@ -280,8 +291,7 @@ async def spotify_authenticate():
     return {"status": "success"}, 200
 
 
-@app.route("/recommend-songs", methods=["POST"]) 
-
+@app.route("/recommend-songs", methods=["POST"])
 async def recommend_songs():
     """
     `POST /recommend-songs`
