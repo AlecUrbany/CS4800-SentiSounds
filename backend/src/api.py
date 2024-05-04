@@ -23,7 +23,6 @@ app = cors(
     allow_origin=[
         "*"
     ],
-    allow_headers=["Content-Type"],
     allow_methods=["GET", "POST"],
 )
 app.logger.setLevel(logging.INFO)
