@@ -34,7 +34,7 @@
       }
 
       document
-        .getElementById("searchForm") 
+        .getElementById("searchForm")
         .addEventListener("submit", function (event) {
           event.preventDefault();
           const enteredPrompt = document.getElementById("default-search").value;
@@ -308,7 +308,7 @@
             .then((response) => response.json())
             .then((data) => {
               if (data.status === "success") {
-                window.open(data.url, "_blank"); // Opens the Spotify URL in a new tab
+                window.open(data.url, "_self"); // Opens the Spotify URL in a new tab
               } else {
                 console.error("Failed to connect to Spotify:", data.error);
               }
