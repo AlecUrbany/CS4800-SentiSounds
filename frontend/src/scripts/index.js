@@ -122,11 +122,12 @@
                                         ${audioControls}
                                     </div>
                                     <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                        ${song.likedByUser ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
+                                        ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
                                     </button>
                                 </div>`;
-                    if (song.likedByUser) {
+                    if (song.liked_by_user) {
                       songElement.querySelector(".like-button").classList.add("liked");
+                      console.log(song.name + " is liked");
                     }
                     songsContainer.appendChild(songElement);
                   });
