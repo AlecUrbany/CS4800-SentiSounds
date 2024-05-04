@@ -1,5 +1,5 @@
       const email = localStorage.getItem("email")
-      let songDetailsMap = {};
+      let exportMap = {};
       let allSongsData = {};
       let isAuthenticated = false;
       document.getElementById("exportPlaylistBtn").hidden = true;
@@ -79,7 +79,6 @@
                         song.external_urls.youtube ||
                         "No YouTube URL available",
                     };
-                    console.log(songDetailsMap[song.id]);
                     const songElement = document.createElement("div");
                     songElement.classList.add(
                       "genre-card",
@@ -125,14 +124,14 @@
                                       ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
                                     </button>
                                     <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                    ${_.has(songDetailsMap, song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
+                                    ${Object.hasOwn(exportMap, song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
                                     </button>
                                 </div>`;
                     songsContainer.appendChild(songElement);
                     if (song.liked_by_user) {
                       songElement.querySelector(".like-button").classList.add("liked");
                     }
-                    if (_.has(songDetailsMap, song.id)) {
+                    if (Object.hasOwn(exportMap, song.id)) {
                       songElement.querySelector(".augment-button").classList.add("augmented");
                     }
                   });
@@ -164,11 +163,11 @@
                       button.addEventListener("click", function () {
                         const songId = this.getAttribute("data-song-id");
                         if (this.classList.contains("augmented")) {
-                          delete songDetailsMap[songId];
+                          delete exportMap[songId];
                           this.classList.remove("augmented");
                           this.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
                         } else {
-                          songDetailsMap[songId] = allSongsData[songId];
+                          exportMap[songId] = allSongsData[songId];
                           this.classList.add("augmented");
                           this.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
                         }
@@ -240,8 +239,8 @@
       }
 
       function getSongIdsAsString() {
-        // Retrieve all keys (song IDs) from the songDetailsMap
-        const allSongIds = Object.keys(songDetailsMap);
+        // Retrieve all keys (song IDs) from the exportMap
+        const allSongIds = Object.keys(exportMap);
 
         // Join all song IDs into a string separated by spaces
         const songIdsString = allSongIds.join(" ");
