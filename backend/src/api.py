@@ -62,7 +62,7 @@ async def get_icon():
     Returns the app's icon to be used as a window icon
     """
     return await send_file(
-        os.path.join("frontend", "src", "assetss", "sentisounds_icon.ico")
+        os.path.join("frontend", "src", "assets", "sentisounds_icon.ico")
     )
 
 
