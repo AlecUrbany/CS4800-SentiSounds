@@ -57,10 +57,6 @@
           const url = `${baseURL}/recommend-songs?${params.toString()}`;
           fetch(baseURL, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            contentType: "application/json",
             body: formData,
           })
             .then((response) => response.json())
