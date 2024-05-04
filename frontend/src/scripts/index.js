@@ -1,7 +1,7 @@
       const email = localStorage.getItem("email")
       let songDetailsMap = {};
       let allSongsData = {};
-
+      let isAuthenticated = false;
       if (!email){
         document.getElementById("connectSpotifyBtn").hidden = true;
         document.getElementById("spotifyImg").hidden = true;
@@ -10,7 +10,6 @@
         document.getElementById("signUpBtn").hidden = true;
 
         const formData = new FormData();
-        let isAuthenticated = false;
         formData.append("email_address", email);
         fetch(`${baseURL}/spotify-check-authentication`, {
           method: "POST",
@@ -21,6 +20,8 @@
                     isAuthenticated = data.is_authenticated;
                     if (isAuthenticated) {
                       document.getElementById("exportPlaylistBtn").hidden = false;
+                      document.getElementById("connectSpotifyBtn").hidden = true;
+                      document.getElementById("spotifyImg").hidden = true;
                     } else {
                       document.getElementById("exportPlaylistBtn").hidden = true;
                       document.getElementById("connectSpotifyBtn").hidden = false;
@@ -34,7 +35,7 @@
       }
 
       document
-        .getElementById("searchForm")
+        .getElementById("searchForm") 
         .addEventListener("submit", function (event) {
           event.preventDefault();
           const enteredPrompt = document.getElementById("default-search").value;
@@ -241,7 +242,7 @@
       const code = getURLParameter("code");
 
       // You can now use 'code' variable throughout your script
-      console.log("Code extracted from URL:", code);
+      //console.log("Code extracted from URL:", code);
 
       if (code.length > 5) {
         document.addEventListener("DOMContentLoaded", async function () {
@@ -262,7 +263,7 @@
 
             if (response.ok) {
               alert("Spotify Authentication successful.");
-              // window.location.href = "index.html";
+              window.location.href = "index.html";
             } else {
               alert(data.error);
             }
