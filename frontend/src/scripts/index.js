@@ -126,6 +126,9 @@
                                     </button>
                                 </div>`;
                     songsContainer.appendChild(songElement);
+                    if (song.liked_by_user) {
+                      songElement.querySelector(".like-button").classList.add("liked");
+                    }
                   });
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
@@ -141,11 +144,11 @@
                         if (this.classList.contains("liked")) {
                           handleSongInteraction(songId, email, "unlike");
                           this.classList.remove("liked");
-                          //this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to unfilled heart
+                          this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to unfilled heart
                         } else {
                           handleSongInteraction(songId, email, "like");
                           this.classList.add("liked");
-                          //this.innerHTML = '<i class="fas fa-heart liked"></i>'; // Change to filled heart
+                          this.innerHTML = '<i class="fas fa-heart liked"></i>'; // Change to filled heart
                         }
                       });
                     });
