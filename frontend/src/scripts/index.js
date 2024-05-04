@@ -125,10 +125,6 @@
                                         ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
                                     </button>
                                 </div>`;
-                    if (song.liked_by_user) {
-                      songElement.querySelector(".like-button").classList.add("liked");
-                      console.log(song.name + " is liked");
-                    }
                     songsContainer.appendChild(songElement);
                   });
                   loader.style.display = "none";
