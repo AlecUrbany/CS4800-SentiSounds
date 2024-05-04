@@ -385,7 +385,7 @@
 
             if (response.ok) {
               alert("Spotify Playlist Export successful.");
-              // window.location.href = "index.html";
+              window.open(data.playlist_url)
             } else {
               alert(data.error);
             }
