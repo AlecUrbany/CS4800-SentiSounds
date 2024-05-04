@@ -1,4 +1,5 @@
 """The callable API functions to be used to communicate with the backend"""
+
 from __future__ import annotations
 
 import asyncio
@@ -20,9 +21,7 @@ app = Quart(__name__)
 """The Quart app to run"""
 app = cors(
     app,
-    allow_origin=[
-        "*"
-    ],
+    allow_origin=["*"],
     allow_methods=["GET", "POST"],
 )
 app.logger.setLevel(logging.INFO)
