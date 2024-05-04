@@ -7,7 +7,7 @@
     <title>SentiSounds</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="scripts/base_url.js"></script>
-    <script src="scripts/index.js" defer></script>
+    <!-- <script src="scripts/index.js" defer></script> -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -112,6 +112,25 @@
         font-weight: bold;
         z-index: 1000;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #playlistContainer{
+        position: fixed;
+        height: 20%;
+        width: 20%;
+        right: 20px;
+        bottom: 80px;
+        padding: 10px 20px;
+        background-color: lightgreen;
+        color: black;
+        border: 2px solid black;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 800;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        overflow: auto;
+        word-wrap: break-word;
+        /* visibility: hidden; */
       }
 
       #signUpBtn {
@@ -229,7 +248,11 @@
         style="position: relative"></div>
     </main>
 
-    <button id="exportPlaylistBtn">Export Playlist</button>
+    <div style="display: inline-block;">
+      <div id="playlistContainer">
+      </div>
+      <button id="exportPlaylistBtn">Export Playlist</button>
+    </div>
 
     <!-- Slideshow container -->
     <!--<div class="slideshow-container">

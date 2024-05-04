@@ -170,13 +170,9 @@
                       button.addEventListener("click", function () {
                         const songId = this.getAttribute("data-song-id");
                         if (this.classList.contains("augmented")) {
-                          delete exportMap[songId];
-                          this.classList.remove("augmented");
-                          this.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
+                          deaugmentPlaylist(this, songId);
                         } else {
-                          exportMap[songId] = allSongsData[songId];
-                          this.classList.add("augmented");
-                          this.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
+                          augmentPlaylist(this, songId);
                         }
                       });
                     });
@@ -217,6 +213,42 @@
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = Math.floor(timeInSeconds % 60);
         return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+      }
+
+      function augmentPlaylist(that, songId) {
+        exportMap[songId] = allSongsData[songId];
+        const playlistElement = document.createElement("div");
+        playlistElement.classList.add("playlist-song");
+        playlistElement.innerHTML =
+        `<div class="flex justify-between items-center" data-song=${songId}>
+            <div>
+                <h3 class="text-xl font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
+            </div>
+            <div>
+                <button class="deaugment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${songId}">
+                    <i class="fas fa-minus"></i>
+                </button>
+          </div>`
+        that.classList.add("augmented");
+        that.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
+        document.getElementById("playlistContainer").appendChild(playlistElement);
+        document
+          .querySelectorAll(".deaugment-button")
+          .forEach((button) => {
+            button.addEventListener("click", function () {
+              deaugmentPlaylist(that, songId);
+            });
+          });
+      }
+
+      function deaugmentPlaylist(that, songId) {
+        delete exportMap[songId];
+        const songsContainer = document.getElementById("songsContainer");
+        that.classList.remove("augmented");
+        that.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
+        const playlistContainer = document.getElementById("playlistContainer");
+        playlistContainer.removeChild(playlistContainer.querySelector(`[data-song="${songId}"]`));
+
       }
 
       function handleSongInteraction(songId, email, action) {
