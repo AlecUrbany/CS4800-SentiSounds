@@ -55,7 +55,7 @@
           });
 
           const url = `${baseURL}/recommend-songs?${params.toString()}`;
-          fetch(baseURL, {
+          fetch(url, {
             method: "POST",
             body: formData,
           })
