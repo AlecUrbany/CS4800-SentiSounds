@@ -10,6 +10,5 @@ fi
 # Ensure pip requirements are up to date
 echo 'Ensuring python packages are up to date...'
 pip install -r requirements.txt > .start_api_pip.log
-
 echo 'Starting SentiSounds API...' 
 python3 backend/src/main.py
