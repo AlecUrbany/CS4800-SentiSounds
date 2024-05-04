@@ -17,14 +17,13 @@
         })
         .then((response) => response.json())
                   .then((data) => {
-                    if (data.is_authenticated == true) {
+                    let isAuthenticated = data.is_authenticated;
+                    if (isAuthenticated == true) {
                       document.getElementById("exportPlaylistBtn").hidden = false;
-                      document.getElementById(".like-button").hidden = false; //Should hopefully reveal like button when spotify is authenticated.
                     } else {
                       document.getElementById("exportPlaylistBtn").hidden = true;
                       document.getElementById("connectSpotifyBtn").hidden = false;
                       document.getElementById("spotifyImg").hidden = false;
-                      document.getElementById(".like-button").hidden = true;  //Should hopefully hide like button when spotify is not authenticated.
                     }
                   })
                   .catch((error) => {
@@ -128,6 +127,7 @@
                   });
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
+                  document.getElementById("like-button").hidden = !isAuthenticated;
 
                   document
                     .querySelectorAll(".like-button")
