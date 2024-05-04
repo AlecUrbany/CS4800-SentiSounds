@@ -224,11 +224,11 @@
         playlistElement.classList.add("playlist-song");
         playlistElement.setAttribute("data-song", songId);
         playlistElement.innerHTML =
-        `<div class="flex justify-between items-center">
-            <div>
+        `<div class="flex justify-between items-center" style="display:table">
+            <div style="display:table-cell">
                 <h3 class="text-sm font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
             </div>
-            <div>
+            <div style="display:table-cell">
                 <button class="deaugment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${songId}">
                     <i class="fas fa-minus"></i>
                 </button>
