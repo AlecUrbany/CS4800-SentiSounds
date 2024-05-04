@@ -465,7 +465,7 @@ async def spotify_check_authentication():
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
-    return {"status": "success", "is-authenticated": is_auth}, 200
+    return {"status": "success", "is_authenticated": is_auth}, 200
 
 
 @app.route("/spotify-like-song", methods=["POST"])
