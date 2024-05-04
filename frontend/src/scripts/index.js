@@ -236,13 +236,9 @@
         that.classList.add("augmented");
         that.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
         document.getElementById("playlistContainer").appendChild(playlistElement);
-        document
-          .querySelectorAll(".deaugment-button")
-          .forEach((button) => {
-            button.addEventListener("click", function () {
-              deaugmentPlaylist(that, songId);
-            });
-          });
+        playlistElement.querySelector(".deaugment-button").addEventListener("click", function () {
+          deaugmentPlaylist(that, songId);
+        });
       }
 
       function deaugmentPlaylist(that, songId) {
@@ -254,7 +250,6 @@
         const playlistElement = playlistContainer.querySelector(`[data-song="${songId}"]`);
         console.log(playlistElement);
         playlistContainer.removeChild(playlistElement);
-
       }
 
       function handleSongInteraction(songId, email, action) {
