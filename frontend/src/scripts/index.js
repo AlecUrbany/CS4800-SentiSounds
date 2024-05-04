@@ -3,10 +3,10 @@
       let allSongsData = {};
       let isAuthenticated = false;
       if (!email){
-        document.getElementById("connectSpotifyBtn").hidden = true;
-        document.getElementById("spotifyImg").hidden = true;
+        document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
+        document.getElementById("spotifyImg").style.visibility = "hidden";
       } else {
-        document.getElementById("signUpBtn").hidden = true;
+        document.getElementById("signUpBtn").style.visibility = "hidden";
 
         const formData = new FormData();
         formData.append("email_address", email);
@@ -18,13 +18,13 @@
                   .then((data) => {
                     isAuthenticated = data.is_authenticated;
                     if (isAuthenticated) {
-                      document.getElementById("connectSpotifyBtn").hidden = true;
-                      document.getElementById("spotifyImg").hidden = true;
+                      document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
+                      document.getElementById("spotifyImg").style.visibility = "hidden";
                     } else {
-                      document.getElementById("exportPlaylistBtn").hidden = true;
-                      document.getElementById("playlistContainer").hidden = true;
-                      document.getElementById("connectSpotifyBtn").hidden = false;
-                      document.getElementById("spotifyImg").hidden = false;
+                      document.getElementById("exportPlaylistBtn").style.visibility = "hidden";
+                      document.getElementById("playlistContainer").style.visibility = "hidden";
+                      document.getElementById("connectSpotifyBtn").style.visibility = "visible";
+                      document.getElementById("spotifyImg").style.visibility = "visible";
                     }
                   })
                   .catch((error) => {
@@ -64,8 +64,8 @@
               setTimeout(() => {
                 if (data.status === "success") {
                   songsContainer.innerHTML = "";
-                  document.getElementById("exportPlaylistBtn").hidden = !isAuthenticated; //Should hopefully reveal export playlist button when songs have been listed.
-                  document.getElementById("playlistContainer").hidden = !isAuthenticated; 
+                  document.getElementById("exportPlaylistBtn").style.visibility = isAuthenticated ? "visible" : "hidden"; //Should hopefully reveal export playlist button when songs have been listed.
+                  document.getElementById("playlistContainer").style.visibility = isAuthenticated ? "visible" : "hidden";
 
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
@@ -144,10 +144,10 @@
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
                   [].forEach.call(document.querySelectorAll(".like-button"), function (button) {
-                    button.hidden = !isAuthenticated;
+                    button.style.visibility = !isAuthenticated;
                   });
                   [].forEach.call(document.querySelectorAll(".augment-button"), function (button) {
-                    button.hidden = !isAuthenticated;
+                    button.style.visibility = !isAuthenticated;
                   });
                   document
                     .querySelectorAll(".like-button")
@@ -180,8 +180,8 @@
                     });
                 } else {
                   console.error("Failed to get recommended songs:", data.error);
-                  document.getElementById("exportPlaylistBtn").hidden = true;  //Should hopefully hide export playlist button when songs have not been listed.
-                  document.getElementById("playlistContainer").hidden = true;
+                  document.getElementById("exportPlaylistBtn").style.visibility = "hidden";  //Should hopefully hide export playlist button when songs have not been listed.
+                  document.getElementById("playlistContainer").style.visibility = "hidden";
                 }
               }, 3000);
             })
