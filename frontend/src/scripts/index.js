@@ -120,12 +120,14 @@
                                         <h3 class="text-xl font-bold">${song.name} - ${artistNames}</h3>
                                         ${audioControls}
                                     </div>
-                                    <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                      ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
-                                    </button>
-                                    <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                    ${Object.hasOwn(exportMap, song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
-                                    </button>
+                                    <div class="flex justify-between items-center">
+                                      <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
+                                        ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
+                                      </button>
+                                      <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
+                                        ${Object.hasOwn(exportMap, song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
+                                      </button>
+                                    </div>
                                 </div>`;
                     songsContainer.appendChild(songElement);
                     if (song.liked_by_user) {
@@ -138,6 +140,9 @@
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
                   [].forEach.call(document.querySelectorAll(".like-button"), function (button) {
+                    button.hidden = !isAuthenticated;
+                  });
+                  [].forEach.call(document.querySelectorAll(".augment-button"), function (button) {
                     button.hidden = !isAuthenticated;
                   });
                   document
