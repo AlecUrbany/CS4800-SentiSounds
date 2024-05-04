@@ -120,13 +120,15 @@
                                         <h3 class="text-xl font-bold">${song.name} - ${artistNames}</h3>
                                         ${audioControls}
                                     </div>
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex justify-between items-center" style="display:flex">
                                       <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
                                         ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
                                       </button>
-                                      <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                        ${Object.hasOwn(exportMap, song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
-                                      </button>
+                                      <div style="margin-left:15px">
+                                        <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
+                                          ${Object.hasOwn(exportMap, song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
+                                        </button>
+                                      </div>
                                     </div>
                                 </div>`;
                     songsContainer.appendChild(songElement);
