@@ -1,7 +1,7 @@
       const email = localStorage.getItem("email")
       let songDetailsMap = {};
       let allSongsData = {};
-
+      let isAuthenticated = false;
       if (!email){
         document.getElementById("connectSpotifyBtn").hidden = true;
         document.getElementById("spotifyImg").hidden = true;
@@ -10,7 +10,6 @@
         document.getElementById("signUpBtn").hidden = true;
 
         const formData = new FormData();
-        let isAuthenticated = false;
         formData.append("email_address", email);
         fetch(`${baseURL}/spotify-check-authentication`, {
           method: "POST",
