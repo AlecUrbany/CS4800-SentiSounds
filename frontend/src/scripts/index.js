@@ -250,7 +250,7 @@
         that.classList.remove("augmented");
         that.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
         const playlistContainer = document.getElementById("playlistContainer");
-        const playlistElement = playlistContainer.querySelector('.playlist-song[data-song="' + songId + '"]');
+        const playlistElement = playlistContainer.querySelector(`[data-song="${songId}"]`);
         console.log(playlistElement);
         playlistContainer.removeChild(playlistElement);
 
