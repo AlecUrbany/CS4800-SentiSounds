@@ -226,7 +226,7 @@
         playlistElement.innerHTML =
         `<div class="flex justify-between items-center">
             <div>
-                <h3 class="text-xl font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
+                <h3 class="text-base font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
             </div>
             <div>
                 <button class="deaugment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${songId}">
