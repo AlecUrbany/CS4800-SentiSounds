@@ -2,7 +2,6 @@
       let exportMap = {};
       let allSongsData = {};
       let isAuthenticated = false;
-      document.getElementById("exportPlaylistBtn").hidden = true;
       if (!email){
         document.getElementById("connectSpotifyBtn").hidden = true;
         document.getElementById("spotifyImg").hidden = true;
@@ -23,6 +22,7 @@
                       document.getElementById("spotifyImg").hidden = true;
                     } else {
                       document.getElementById("exportPlaylistBtn").hidden = true;
+                      document.getElementById("playlistContainer").hidden = true;
                       document.getElementById("connectSpotifyBtn").hidden = false;
                       document.getElementById("spotifyImg").hidden = false;
                     }
@@ -65,6 +65,8 @@
                 if (data.status === "success") {
                   songsContainer.innerHTML = "";
                   document.getElementById("exportPlaylistBtn").hidden = !isAuthenticated; //Should hopefully reveal export playlist button when songs have been listed.
+                  document.getElementById("playlistContainer").hidden = !isAuthenticated; 
+
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
                     allSongsData[song.id] = {
@@ -179,6 +181,7 @@
                 } else {
                   console.error("Failed to get recommended songs:", data.error);
                   document.getElementById("exportPlaylistBtn").hidden = true;  //Should hopefully hide export playlist button when songs have not been listed.
+                  document.getElementById("playlistContainer").hidden = true;
                 }
               }, 3000);
             })
