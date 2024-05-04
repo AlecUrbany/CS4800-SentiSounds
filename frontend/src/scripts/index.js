@@ -137,13 +137,14 @@
                     .forEach((button) => {
                       button.addEventListener("click", function () {
                         const songId = this.getAttribute("data-song-id");
+                        console.log(this.innerHTML);
                         if (this.classList.contains("liked")) {
                           handleSongInteraction(songId, email, "unlike");
-                          this.classList.remove("liked");
+                          //this.classList.remove("liked");
                           this.innerHTML = '<i class="fas fa-heart"></i>'; // Change to unfilled heart
                         } else {
                           handleSongInteraction(songId, email, "like");
-                          this.classList.add("liked");
+                          //this.classList.add("liked");
                           this.innerHTML = '<i class="fas fa-heart liked"></i>'; // Change to filled heart
                         }
                       });
