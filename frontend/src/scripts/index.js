@@ -125,14 +125,14 @@
                                       ${song.liked_by_user ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
                                     </button>
                                     <button class="augment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                    ${songDetailsMap.contains(song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
+                                    ${songDetailsMap.has(song.id) ? '<i class="fas fa-plus augmented"></i>' : '<i class="fas fa-plus"></i>'}
                                     </button>
                                 </div>`;
                     songsContainer.appendChild(songElement);
                     if (song.liked_by_user) {
                       songElement.querySelector(".like-button").classList.add("liked");
                     }
-                    if (songDetailsMap.contains(song.id)) {
+                    if (songDetailsMap.has(song.id)) {
                       songElement.querySelector(".augment-button").classList.add("augmented");
                     }
                   });
