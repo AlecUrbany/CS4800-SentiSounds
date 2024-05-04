@@ -10,6 +10,7 @@
         document.getElementById("signUpBtn").hidden = true;
 
         const formData = new FormData();
+        let isAuthenticated = false;
         formData.append("email_address", email);
         fetch(`${baseURL}/spotify-check-authentication`, {
           method: "POST",
@@ -17,8 +18,8 @@
         })
         .then((response) => response.json())
                   .then((data) => {
-                    let isAuthenticated = data.is_authenticated;
-                    if (isAuthenticated == true) {
+                    isAuthenticated = data.is_authenticated;
+                    if (isAuthenticated) {
                       document.getElementById("exportPlaylistBtn").hidden = false;
                     } else {
                       document.getElementById("exportPlaylistBtn").hidden = true;
