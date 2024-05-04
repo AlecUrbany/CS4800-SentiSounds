@@ -226,12 +226,14 @@
         playlistElement.innerHTML =
         `<div class="flex justify-between items-center">
             <div>
-                <h3 class="text-base font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
+                <h3 class="text-sm font-bold">${allSongsData[songId].songName} - ${allSongsData[songId].artistName}</h3>
             </div>
             <div>
                 <button class="deaugment-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${songId}">
                     <i class="fas fa-minus"></i>
                 </button>
+            </div>
+            <hr>
           </div>`
         that.classList.add("augmented");
         that.innerHTML = '<i class="fas fa-plus augmented"></i>'; // Change to filled heart
