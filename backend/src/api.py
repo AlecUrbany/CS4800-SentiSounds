@@ -457,9 +457,12 @@ async def spotify_check_authentication():
     email_address = passed.get("email_address", default="")
 
     try:
-        is_auth = await uses_token(
-            email_address, True, SpotifyHandler.ensure_authentication
-        )
+        try:
+            is_auth = await uses_token(
+                email_address, True, SpotifyHandler.ensure_authentication
+            )
+        except ValueError:
+            is_auth = False
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
