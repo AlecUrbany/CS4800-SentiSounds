@@ -19,7 +19,6 @@
                   .then((data) => {
                     isAuthenticated = data.is_authenticated;
                     if (isAuthenticated) {
-                      document.getElementById("exportPlaylistBtn").hidden = false;
                       document.getElementById("connectSpotifyBtn").hidden = true;
                       document.getElementById("spotifyImg").hidden = true;
                     } else {
@@ -65,7 +64,7 @@
               setTimeout(() => {
                 if (data.status === "success") {
                   songsContainer.innerHTML = "";
-                  document.getElementById("exportPlaylistBtn").hidden = false; //Should hopefully reveal export playlist button when songs have been listed.
+                  document.getElementById("exportPlaylistBtn").hidden = !isAuthenticated; //Should hopefully reveal export playlist button when songs have been listed.
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
                     allSongsData[song.id] = {
@@ -75,6 +74,7 @@
                       songId: song.id,
                       songName: song.name,
                       previewUrl: song.preview_url,
+                      likedByUser: song.liked_by_user,
                       youtubeUrl:
                         song.external_urls.youtube ||
                         "No YouTube URL available",
@@ -122,7 +122,7 @@
                                         ${audioControls}
                                     </div>
                                     <button class="like-button text-black-500 focus:outline-none focus:text-black-700" data-song-id="${song.id}">
-                                        <i class="fas fa-heart"></i>
+                                        ${song.likedByUser ? '<i class="fas fa-heart liked"></i>' : '<i class="fas fa-heart"></i>'}
                                     </button>
                                 </div>`;
                     songsContainer.appendChild(songElement);
@@ -130,7 +130,6 @@
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
                   document.getElementById("like-button").hidden = !isAuthenticated;
-
                   document
                     .querySelectorAll(".like-button")
                     .forEach((button) => {
