@@ -1,0 +1,18 @@
+[Unit]
+Description=SentiSounds API
+Wants=network-online.target
+Requires=postgresql.service
+After=network.target network-online.target postgresql.service
+BindsTo=postgresql.service
+
+[Service]
+Type=simple
+User=sentisounds
+ExecStartPre= /home/sentisounds/CS4800-SentiSounds/scripts/update_req.sh /home/sentisounds/CS4800-SentiSounds/requirements.txt
+WorkingDirectory=/home/sentisounds/CS4800-SentiSounds/
+ExecStart= /home/sentisounds/CS4800-SentiSounds/venv/bin/python /home/sentisounds/CS4800-SentiSounds/backend/src/main.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
