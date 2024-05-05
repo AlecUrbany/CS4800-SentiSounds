@@ -23,6 +23,8 @@
                     } else {
                       document.getElementById("exportPlaylistBtn").style.visibility = "hidden";
                       document.getElementById("playlistContainer").style.visibility = "hidden";
+                      document.getElementById('addAllToPlaylistBtn').style.visibility = "hidden";
+                      document.getElementById('removeAllFromPlaylistBtn').style.visibility = "hidden";
                       document.getElementById("connectSpotifyBtn").style.visibility = "visible";
                       document.getElementById("spotifyImg").style.visibility = "visible";
                     }
@@ -66,6 +68,8 @@
                   songsContainer.innerHTML = "";
                   document.getElementById("exportPlaylistBtn").style.visibility = isAuthenticated ? "visible" : "hidden"; //Should hopefully reveal export playlist button when songs have been listed.
                   document.getElementById("playlistContainer").style.visibility = isAuthenticated ? "visible" : "hidden";
+                  document.getElementById('addAllToPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
+                  document.getElementById('removeAllFromPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
 
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
@@ -98,15 +102,14 @@
 
                     let audioControls = "";
                     if (song.preview_url) {
-                      audioControls = `
-                                    <audio id="audio-${song.id}" src="${song.preview_url}" ontimeupdate="updateProgress(this)" onloadedmetadata="updateProgress(this)"></audio>
-                                    <div class="audio-controls">
-                                        <button onclick="document.getElementById('audio-${song.id}').play()"><i class="fas fa-play"></i></button>
-                                        <button onclick="document.getElementById('audio-${song.id}').pause()"><i class="fas fa-pause"></i></button>
-                                        <input type="range" id="progress-${song.id}" value="0" max="100" class="progress-bar" oninput="setAudioPosition(this, 'audio-${song.id}')">
-                                        <span id="time-${song.id}">0:00/0:00</span>
-                                    </div>
-                                `;
+                        audioControls = `
+                        <audio id="audio-${song.id}" src="${song.preview_url}" ontimeupdate="updateProgress(this)" onloadedmetadata="updateProgress(this)"></audio>
+                        <div class="audio-controls">
+                            <button onclick="togglePlayPause('audio-${song.id}')"><i class="fas ${song.isPlaying ? 'fa-pause' : 'fa-play'}" id="icon-${song.id}"></i></button>
+                            <input type="range" id="progress-${song.id}" value="0" max="100" class="progress-bar" oninput="setAudioPosition(this, 'audio-${song.id}')">
+                            <span id="time-${song.id}">0:00/0:00</span>
+                        </div>
+                        `;
                     }
 
                     let youtubeButtonHTML = "";
@@ -178,10 +181,29 @@
                         }
                       });
                     });
+
+                    document.getElementById('addAllToPlaylistBtn').addEventListener('click', function() {
+                      document.querySelectorAll(".augment-button").forEach((button) => {
+                          const songId = button.getAttribute("data-song-id"); // Get song ID from button
+                          if (!Object.hasOwn(exportMap, songId)) { // Check if the song is not already added
+                              augmentPlaylist(button, songId); // Use the correct song ID for each button
+                          }
+                      });
+                    });
+                    document.getElementById('removeAllFromPlaylistBtn').addEventListener('click', function() {
+                      document.querySelectorAll(".augment-button").forEach((button) => {
+                          const songId = button.getAttribute("data-song-id"); // Get song ID from button
+                          if (Object.hasOwn(exportMap, songId)) { // Check if the song is not already added
+                              deaugmentPlaylist(button, songId); // Use the correct song ID for each button
+                          }
+                      });
+                    });
                 } else {
                   console.error("Failed to get recommended songs:", data.error);
                   document.getElementById("exportPlaylistBtn").style.visibility = "hidden";  //Should hopefully hide export playlist button when songs have not been listed.
                   document.getElementById("playlistContainer").style.visibility = "hidden";
+                  document.getElementById('addAllToPlaylistBtn').style.visibility = "hidden";
+                  document.getElementById('removeAllFromPlaylistBtn').style.visibility = "hidden";
                 }
               }, 3000);
             })
@@ -204,6 +226,20 @@
           "time-" + audio.id.split("-")[1]
         );
         timeLabel.textContent = `${currentTimeDisplay}/${durationDisplay}`;
+      }
+
+      function togglePlayPause(audioId) {
+        const audio = document.getElementById(audioId);
+        const icon = document.getElementById('icon-' + audioId.split('-')[1]);
+        if (audio.paused) {
+          audio.play();
+          icon.classList.remove('fa-play');
+          icon.classList.add('fa-pause');
+        } else {
+          audio.pause();
+          icon.classList.remove('fa-pause');
+          icon.classList.add('fa-play');
+        }
       }
 
       function setAudioPosition(progressBar, audioId) {
