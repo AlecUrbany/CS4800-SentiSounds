@@ -70,8 +70,6 @@
                   document.getElementById("playlistContainer").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById('addAllToPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById('removeAllFromPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
-                  document.getElementById('like-button').style.visibility = isAuthenticated ? "visible" : "hidden";
-                  document.getElementById('augment-button').style.visibility = isAuthenticated ? "visible" : "hidden";
 
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
@@ -139,6 +137,10 @@
                                     </div>
                                 </div>`;
                     songsContainer.appendChild(songElement);
+
+                    document.getElementById('like-button').style.visibility = isAuthenticated ? "visible" : "hidden";
+                    document.getElementById('augment-button').style.visibility = isAuthenticated ? "visible" : "hidden";
+
                     if (song.liked_by_user) {
                       songElement.querySelector(".like-button").classList.add("liked");
                     }
