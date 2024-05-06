@@ -230,7 +230,9 @@
   </head>
 
   <body class="custom-purple-bg text-white font-sans">
-    <header class="flex justify-between items-center px-4 py-2 w-full pt-6">
+    <header class="flex justify-between items-center px-4 w-full pt-6"
+      style="padding-top: 3rem; padding-bottom: 3rem;">
+      <!-- Increased padding top and bottom -->
       <div class="flex items-center space-x-4">
         <img
           id="spotifyImg"
@@ -247,33 +249,33 @@
           </button>
         </div>
       </div>
-      <div class="flex items-center space-x-4">
-        <img
-          src="assets/sentisounds_icon.png"
-          alt="SentiSounds Logo"
-          class="rounded-full"
-          style="width: 100px; height: 100px;" />
-        <div class="flex flex-col">
-          <h1 class="text-3xl font-bold">SentiSounds</h1>
-          <p class="text-xs">Sounds for the Soul.</p>
+
+      <!-- Centered SentiSounds logo and text with more vertical spacing -->
+      <div class="flex-1 flex justify-center items-center"
+        style="position: relative; height: 100%;">
+        <div class="flex items-center space-x-4"
+          style="position: absolute; left: calc(50% - 200px);">
+          <img
+            src="assets/sentisounds_icon.png"
+            alt="SentiSounds Logo"
+            class="rounded-full"
+            style="width: 100px; height: 100px;" />
+          <div class="flex flex-col">
+            <h1 class="text-3xl font-bold">SentiSounds</h1>
+            <p class="text-xs">Sounds for the Soul.</p>
+          </div>
         </div>
       </div>
+
       <div class="flex items-center space-x-2">
         <button id="signUpBtn">Sign-Up</button>
       </div>
     </header>
 
-    <main class="p-4">
-      <div>
-        <form class="max-w-md mx-auto flex items-center" id="searchForm">
-          <select
-            id="number-select"
-            class="block w-50 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="7">Underground</option>
-            <option value="21">Blend</option>
-            <option value="30">Popular</option>
-          </select>
-          <div class="relative ml-4">
+    <main class="flex flex-col justify-center items-center p-4">
+      <div class="w-full max-w-md">
+        <form class="flex items-center" id="searchForm">
+          <div class="relative flex-grow">
             <div
               class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg

@@ -2,6 +2,8 @@
       let exportMap = {};
       let allSongsData = {};
       let isAuthenticated = false;
+      let pastPrompt = ""
+      let popularityControl = 0;
       if (!email){
         document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
         document.getElementById("spotifyImg").style.visibility = "hidden";
@@ -42,8 +44,8 @@
           const enteredPrompt = document.getElementById("default-search").value;
           const loader = document.getElementById("loader");
           const songsContainer = document.getElementById("songsContainer");
-          const popularityScore =
-            document.getElementById("number-select").value;
+          const popularityScore = getPopularityScore(enteredPrompt);
+          pastPrompt = enteredPrompt;
 
           loader.style.display = "block";
           songsContainer.style.display = "none";
@@ -72,7 +74,7 @@
                   document.getElementById('removeAllFromPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
 
                   data.songs.forEach((song) => {
-                    // Store song details in hashmap
+                    // Store song details in object map
                     allSongsData[song.id] = {
                       artistName: song.artists
                         .map((artist) => artist.name)
@@ -227,6 +229,20 @@
           "time-" + audio.id.split("-")[1]
         );
         timeLabel.textContent = `${currentTimeDisplay}/${durationDisplay}`;
+      }
+
+      function getPopularityScore(enteredPrompt) {
+        if (enteredPrompt === pastPrompt) {
+          popularityControl = popularityControl + 5;
+          if (popularityControl >= 20) {
+            return 5;
+          } else {
+            return 20 - popularityControl;
+          }
+        } else {
+          popularityControl = 0;
+          return 20;
+        }
       }
 
       function togglePlayPause(audioId) {
