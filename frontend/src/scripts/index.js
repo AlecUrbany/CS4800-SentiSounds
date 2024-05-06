@@ -20,15 +20,11 @@
                     if (isAuthenticated) {
                       document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
                       document.getElementById("spotifyImg").style.visibility = "hidden";
-                      document.getElementById('like-button').style.visibility = "visible";
-                      document.getElementById('augment-button').style.visibility = "visible";
                     } else { // Not authenticated
                       document.getElementById("exportPlaylistBtn").style.visibility = "hidden";
                       document.getElementById("playlistContainer").style.visibility = "hidden";
                       document.getElementById('addAllToPlaylistBtn').style.visibility = "hidden";
                       document.getElementById('removeAllFromPlaylistBtn').style.visibility = "hidden";
-                      document.getElementById('like-button').style.visibility = "hidden";
-                      document.getElementById('augment-button').style.visibility = "hidden";
                       document.getElementById("connectSpotifyBtn").style.visibility = "visible";
                       document.getElementById("spotifyImg").style.visibility = "visible";
                     }
@@ -70,10 +66,12 @@
               setTimeout(() => {
                 if (data.status === "success") {
                   songsContainer.innerHTML = "";
-                  document.getElementById("exportPlaylistBtn").style.visibility = isAuthenticated ? "visible" : "hidden"; //Should hopefully reveal export playlist button when songs have been listed.
+                  document.getElementById("exportPlaylistBtn").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById("playlistContainer").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById('addAllToPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById('removeAllFromPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
+                  document.getElementById('like-button').style.visibility = isAuthenticated ? "visible" : "hidden";
+                  document.getElementById('augment-button').style.visibility = isAuthenticated ? "visible" : "hidden";
 
                   data.songs.forEach((song) => {
                     // Store song details in hashmap
@@ -403,6 +401,12 @@
         exportButton.addEventListener("click", async function () {
           // Example usage:
           const songIdsString = getSongIdsAsString();
+
+          if (songIdsString.length < 5){
+            alert("No songs have been added to the playlist!");
+            return;
+          }
+
           const params = new URLSearchParams({
             song_ids: songIdsString,
             playlist_description: document.getElementById("default-search").value
