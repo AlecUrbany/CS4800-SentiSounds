@@ -148,10 +148,10 @@
                   loader.style.display = "none";
                   songsContainer.style.display = "grid";
                   [].forEach.call(document.querySelectorAll(".like-button"), function (button) {
-                    button.style.visibility = !isAuthenticated;
+                    button.style.visibility = isAuthenticated ? "visible" : "hidden";
                   });
                   [].forEach.call(document.querySelectorAll(".augment-button"), function (button) {
-                    button.style.visibility = !isAuthenticated;
+                    button.style.visibility = isAuthenticated ? "visible" : "hidden";
                   });
                   document
                     .querySelectorAll(".like-button")
