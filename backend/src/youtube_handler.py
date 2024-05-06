@@ -2,8 +2,6 @@
 from __future__ import annotations
 
 import json
-import queue
-import threading
 
 from googleapiclient import discovery
 from googleapiclient.errors import HttpError
@@ -88,7 +86,8 @@ class YoutubeHandler:
                 youtube_url % cls._id_cache[song["name"]]
             )
             print(
-                f"id {cls._id_cache[song['name']]} for {song['name']} found in cache"
+                f"ID {cls._id_cache[song['name']]} for {song['name']} " +
+                "found in cache."
             )
         else:
             try:
