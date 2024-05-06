@@ -20,11 +20,15 @@
                     if (isAuthenticated) {
                       document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
                       document.getElementById("spotifyImg").style.visibility = "hidden";
+                      document.getElementById('like-button').style.visibility = "visible";
+                      document.getElementById('augment-button').style.visibility = "visible";
                     } else { // Not authenticated
                       document.getElementById("exportPlaylistBtn").style.visibility = "hidden";
                       document.getElementById("playlistContainer").style.visibility = "hidden";
                       document.getElementById('addAllToPlaylistBtn').style.visibility = "hidden";
                       document.getElementById('removeAllFromPlaylistBtn').style.visibility = "hidden";
+                      document.getElementById('like-button').style.visibility = "hidden";
+                      document.getElementById('augment-button').style.visibility = "hidden";
                       document.getElementById("connectSpotifyBtn").style.visibility = "visible";
                       document.getElementById("spotifyImg").style.visibility = "visible";
                     }
