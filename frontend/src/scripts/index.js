@@ -20,7 +20,7 @@
                     if (isAuthenticated) {
                       document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
                       document.getElementById("spotifyImg").style.visibility = "hidden";
-                    } else {
+                    } else { // Not authenticated
                       document.getElementById("exportPlaylistBtn").style.visibility = "hidden";
                       document.getElementById("playlistContainer").style.visibility = "hidden";
                       document.getElementById('addAllToPlaylistBtn').style.visibility = "hidden";
