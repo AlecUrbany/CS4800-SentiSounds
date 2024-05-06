@@ -138,9 +138,6 @@
                                 </div>`;
                     songsContainer.appendChild(songElement);
 
-                    document.getElementById('like-button').style.visibility = isAuthenticated ? "visible" : "hidden";
-                    document.getElementById('augment-button').style.visibility = isAuthenticated ? "visible" : "hidden";
-
                     if (song.liked_by_user) {
                       songElement.querySelector(".like-button").classList.add("liked");
                     }
