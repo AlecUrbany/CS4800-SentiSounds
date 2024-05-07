@@ -45,6 +45,10 @@
         .getElementById("searchForm")
         .addEventListener("submit", function (event) {
           event.preventDefault();
+          // Pause any currently playing audio
+          if (currentPlayingAudio && !currentPlayingAudio.paused) {
+              currentPlayingAudio.pause();
+          }
           disabledButtons(true);
           rickroll();
           const enteredPrompt = document.getElementById("default-search").value;
