@@ -362,7 +362,7 @@
         // Clear authentication data
         localStorage.removeItem('email');
 
-        window.location.href = 'index.html'; 
+        location.replace('index.html');
       });
 
 
