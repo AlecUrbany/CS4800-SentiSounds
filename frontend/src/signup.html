@@ -18,7 +18,7 @@
         </style>
 
     <head>
-        <meta name="color-scheme" content="only dark">
+        <meta name="color-scheme" content="only light">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SentiSounds Signup</title>
@@ -35,42 +35,58 @@
             </div>
         </header>
 
-<div class="flex flex-col justify-center items-center min-h-screen">
-    <!-- Signup Form -->
-    <div class="w-1/2 p-8">
-        <div class="space-y-6">
-            <div class="flex flex-col items-center">
-                <img src="assets/sentisounds_icon.png" alt="SentiSounds logo" style="width: 100px; height: 100px" />
-                <h1 class="text-4xl font-bold">SentiSounds</h1>
-                <p class="text-[#D19900]">Sounds for the soul.</p>
-            </div>
-            <div class="bg-white text-gray-700 p-8 rounded-lg space-y-6">
-                <h2 class="text-3xl font-bold text-center">Sign Up</h2>
-                <div>
-                    <label for="username" class="block mb-2">Name</label>
-                    <input type="text" id="username" placeholder="Ex. Jonah" class="w-full p-2 border rounded-md">
+        <div class="flex flex-col justify-center items-center min-h-screen">
+            <!-- Signup Form -->
+            <div class="w-1/2 p-8">
+                <div class="space-y-6">
+                    <div class="flex flex-col items-center">
+                        <img src="assets/sentisounds_icon.png"
+                            alt="SentiSounds logo"
+                            style="width: 100px; height: 100px" />
+                        <h1 class="text-4xl font-bold">SentiSounds</h1>
+                        <p class="text-[#D19900]">Sounds for the soul.</p>
+                    </div>
+                    <div
+                        class="bg-white text-gray-700 p-8 rounded-lg space-y-6">
+                        <h2 class="text-3xl font-bold text-center">Sign Up</h2>
+                        <div>
+                            <label for="username"
+                                class="block mb-2">Name</label>
+                            <input type="text" id="username"
+                                placeholder="Ex. Jonah"
+                                class="w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="last_initial" class="block mb-2">Last
+                                Initial</label>
+                            <input type="text" id="last_initial"
+                                placeholder="Ex. M"
+                                class="w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-2">Email</label>
+                            <input type="email" id="email"
+                                placeholder="Ex. abc@xyz.com"
+                                class="w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="password"
+                                class="block mb-2">Password</label>
+                            <input type="password" id="password"
+                                placeholder="********"
+                                class="w-full p-2 border rounded-md">
+                        </div>
+                        <button id="signupButton"
+                            class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN
+                            UP</button>
+                        <button id="loginButton"
+                            class="w-full py-2 rounded-md text-blue font-bold">Already
+                            have an
+                            account?</button>
+                    </div>
                 </div>
-                <div>
-                    <label for="last_initial" class="block mb-2">Last Initial</label>
-                    <input type="text" id="last_initial" placeholder="Ex. M" class="w-full p-2 border rounded-md">
-                </div>
-                <div>
-                    <label for="email" class="block mb-2">Email</label>
-                    <input type="email" id="email" placeholder="Ex. abc@xyz.com" class="w-full p-2 border rounded-md">
-                </div>
-                <div>
-                    <label for="password" class="block mb-2">Password</label>
-                    <input type="password" id="password" placeholder="********" class="w-full p-2 border rounded-md">
-                </div>
-                <button id="signupButton" class="w-full bg-[#D19900] py-2 rounded-md text-white font-bold">SIGN
-                    UP</button>
-                <button id="loginButton" class="w-full py-2 rounded-md text-blue font-bold">Already have an
-                    account?</button>
             </div>
         </div>
-    </div>
-</div>
-
 
     </body>
 
