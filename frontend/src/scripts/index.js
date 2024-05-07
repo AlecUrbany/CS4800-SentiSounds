@@ -393,7 +393,7 @@
       const playlistToggler = document.querySelector(".playlist-toggler");
       const closePlaylistBtn = document.querySelector(".close-btn");
 
-      playlistToggler.visibility = isAuthenticated ? "visible" : "hidden";
+      playlistToggler.style.visibility = isAuthenticated ? "visible" : "hidden";
 
       closePlaylistBtn.addEventListener("click", () => document.body.classList.remove("show-songs-management"));
       playlistToggler.addEventListener("click", () => document.body.classList.toggle("show-songs-management"));
