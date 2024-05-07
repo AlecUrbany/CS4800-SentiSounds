@@ -46,6 +46,7 @@
         .addEventListener("submit", function (event) {
           event.preventDefault();
           disabledButtons(true);
+          rickroll();
           const enteredPrompt = document.getElementById("default-search").value;
           const loader = document.getElementById("loader");
           const songsContainer = document.getElementById("songsContainer");
@@ -363,6 +364,17 @@
         }
       }
 
+      function rickroll() {
+        const randomNumber = Math.random();
+        const rarityThreshold = 0.5;
+
+        if (randomNumber < rarityThreshold) {
+            window.open("https://youtu.be/dQw4w9WgXcQ?si=rhMz56ysUWlu-0OH", "You Won!");
+        } else {
+            console.log(":)")
+        }
+      }
+      
       function disabledButtons(boolean) {
         document.getElementById("searchButton").disabled = boolean;
         document.getElementById("exportPlaylistBtn").disabled = boolean;  
