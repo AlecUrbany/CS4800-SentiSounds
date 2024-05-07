@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="scripts/about.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body,
         h1,
@@ -59,6 +60,37 @@
 
         .w3-top {
             background-color: #1c0d2c;
+        }
+
+        /* Apply fixed width and height via CSS */
+        #chartContainer {
+            width: 250px;
+            height: 250px;
+        }
+
+        #skillsChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Flex container for layout */
+        .skills-layout {
+            display: flex;
+            justify-content: space-between; /* Ensure items are level */
+            align-items: flex-start;
+        }
+
+        .skills-info {
+            flex: 1; /* Grow to fill available space */
+        }
+
+        .skills-chart {
+            width: 250px; /* Fixed width for the right-side chart */
+        }
+
+        .w3-container {
+            max-width: 1200px; /* Centralize the content on wider screens */
+            margin: auto;
         }
     </style>
 </head>
@@ -246,31 +278,26 @@
 
 <!-- Skills Section -->
 <div class="w3-container w3-light-grey" id="skills" style="padding:64px 16px">
-    <div class="w3-row-padding">
-        <div class="w3-col m6">
+    <div class="skills-layout">
+        <div class="skills-info">
             <h3>Skills</h3>
             <p>Our Frontend team used JavaScript, HTML, and CSS to create most of their related functions.</p>
             <p>Our Backend team used Python and Azure to fulfill their responsibilities.</p>
         </div>
-        <div class="w3-col m6">
-            <p class="w3-wide"><i></i>Python</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:90%">90%</div>
-            </div>
-            <p class="w3-wide"><i></i>JavaScript</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:85%">85%</div>
-            </div>
-            <p class="w3-wide"><i></i>HTML/CSS</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-dark-grey w3-center" style="width:75%">75%</div>
+        <div class="skills-chart">
+            <h4>Skills Distribution</h4>
+            <!-- Wrap the canvas in a smaller container -->
+            <div id="chartContainer">
+                <canvas id="skillsChart"></canvas>
             </div>
         </div>
     </div>
 </div>
 
+
+
 <!-- Pricing Section -->
-<div class="w3-container w3-center w3-dark-grey" id="pricing" style="padding:128px 16px">
+<!-- <div class="w3-container w3-center w3-dark-grey" id="pricing" style="padding:128px 16px">
     <h3>PRICING</h3>
     <p class="w3-large">Choose a pricing plan that fits your needs.</p>
     <div class="w3-row-padding" style="margin-top:64px">
@@ -314,7 +341,7 @@
             </ul>
         </div>
     </div>
-</div>
+</div> -->
 
 
 </body>
