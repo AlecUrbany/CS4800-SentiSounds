@@ -365,6 +365,11 @@
         location.replace('index.html');
       });
 
+      const playlistToggler = document.querySelector(".playlist-toggler");
+      const closePlaylistBtn = document.querySelector(".close-btn");
+
+      closePlaylistBtn.addEventListener("click", () => document.body.classList.remove("show-songs-management"));
+      playlistToggler.addEventListener("click", () => document.body.classList.toggle("show-songs-management"));
 
       function getSongIdsAsString() {
         // Retrieve all keys (song IDs) from the exportMap

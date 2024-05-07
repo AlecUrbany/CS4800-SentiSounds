@@ -114,27 +114,10 @@
 
       #exportPlaylistBtn {
         position: fixed;
-        width: 12%;
+        width: 100%;
         font-size: medium;
         right: 20px;
-        bottom: 70px;
-        padding: 10px 20px;
-        background-color: lightgreen;
-        color: black;
-        border: 2px solid black;
-        cursor: pointer;
-        font-weight: bold;
-        z-index: 1000;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-        visibility: hidden;
-      }
-
-      #addAllToPlaylistBtn {
-        position: fixed;
-        width: 12%;
-        font-size: medium;
-        right: 20px;
-        bottom: 170px;
+        bottom: 5px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -148,10 +131,27 @@
 
       #removeAllFromPlaylistBtn {
         position: fixed;
-        width: 12%;
+        width: 100%;
         font-size: medium;
         right: 20px;
-        bottom: 120px;
+        bottom: 55px;
+        padding: 10px 20px;
+        background-color: lightgreen;
+        color: black;
+        border: 2px solid black;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 1000;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        visibility: hidden;
+      }
+
+      #addAllToPlaylistBtn {
+        position: fixed;
+        width: 100%;
+        font-size: medium;
+        right: 20px;
+        bottom: 105px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -165,10 +165,10 @@
 
       #playlistContainer{
         position: fixed;
-        height: 30%;
-        width: 12%;
+        height: 300px;
+        width: 100%;
         right: 20px;
-        bottom: 220px;
+        bottom: 155px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -217,13 +217,6 @@
         padding: 16px;
       }
 
-      /* Slideshow container */
-      .slideshow-container {
-        max-width: 1000px;
-        position: relative;
-        margin: auto;
-      }
-
       .playlist-item {
       display: flex;
       justify-content: space-between;
@@ -237,6 +230,70 @@
 
       .button-container {
           margin-left: 15px; /* Add margin between song details and button */
+      }
+
+      .playlist-toggler {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        outline: none;
+        border: none;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #724ae8;
+        transition: all 0.2s ease;
+      }
+      .playlist-toggler:hover {
+        transform: scale(1.03);
+      }
+      body.show-songs-management .playlist-toggler {
+        transform: rotate(90deg);
+      }
+      .playlist-toggler span {
+        color: #fff;
+        position: absolute;
+      }
+      .playlist-toggler span:last-child,
+      body.show-songs-management .playlist-toggler span:first-child  {
+        opacity: 0;
+      }
+      body.show-songs-management .playlist-toggler span:last-child {
+        opacity: 1;
+      }
+      .songs-management {
+        position: fixed;
+        right: 20px;
+        bottom: 90px;
+        width: 18%;
+        /* background: #fff;
+        border-radius: 15px;
+        overflow: hidden; */
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.5);
+        transform-origin: bottom right;
+        /* box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
+                    0 32px 64px -48px rgba(0,0,0,0.5); */
+        transition: all 0.1s ease;
+      }
+      body.show-songs-management .songs-management {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1);
+      }
+
+      .songs-management header span {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        display: none;
+        cursor: pointer;
+        transform: translateY(-50%);
       }
 
     </style>
@@ -330,7 +387,14 @@
         style="position: relative"></div>
     </main>
 
+    <button class="playlist-toggler">
+      <span class="material-symbols-rounded">library_music</span>
+      <span class="material-symbols-outlined">close</span>
+    </button>
     <div class="songs-management" style="display: inline-block;">
+      <header>
+        <span class="close-btn material-symbols-outlined">close</span>
+      </header>
       <div id="playlistContainer">
         <h3>Playlist:</h3>
         <hr style="height: 2px; background-color: black; border: none;">
@@ -385,10 +449,6 @@
               the team</u></a></h3>
       </div>
     </footer>
-
-    <div id="overlay"
-      style="display:none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 2; cursor: wait;">
-    </div>
 
   </body>
 
