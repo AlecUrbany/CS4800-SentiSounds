@@ -253,11 +253,19 @@
       function togglePlayPause(audioId) {
         const audio = document.getElementById(audioId);
         const icon = document.getElementById('icon-' + audioId.split('-')[1]);
-        if (audio.paused) {
-            if (currentPlayingAudio && currentPlayingAudio !== audio) {
-                currentPlayingAudio.pause();
-                currentPlayingAudio.parentElement.querySelector('.fa-pause').classList.replace('fa-pause', 'fa-play');
+
+        // Check if there's a currently playing audio, and it's not the one being toggled
+        if (currentPlayingAudio && currentPlayingAudio !== audio && !currentPlayingAudio.paused) {
+            currentPlayingAudio.pause();
+            const currentIcon = currentPlayingAudio.parentElement.querySelector('.fa-pause');
+            if (currentIcon) {
+                currentIcon.classList.replace('fa-pause', 'fa-play');
             }
+            currentPlayingAudio = null;
+        }
+
+        // Toggle play/pause on the current audio
+        if (audio.paused) {
             currentPlayingAudio = audio;
             audio.play();
             icon.classList.remove('fa-play');
