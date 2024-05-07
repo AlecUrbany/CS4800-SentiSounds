@@ -202,6 +202,10 @@
                               deaugmentPlaylist(button, songId); // Use the correct song ID for each button
                           }
                       });
+                      const removeSongs = Object.keys(exportMap); 
+                      removeSongs.forEach(songIds => {
+                        deaugmentManualPlaylist(songIds);
+                      });
                     });
                 } else {
                   console.error("Failed to get recommended songs:", data.error);
@@ -305,6 +309,15 @@
         const playlistContainer = document.getElementById("playlistContainer");
         const playlistElement = playlistContainer.querySelector(`[data-song="${songId}"]`);
         console.log(playlistElement);
+        playlistContainer.removeChild(playlistElement);
+      }
+
+      function deaugmentManualPlaylist(songId) {
+        delete exportMap[songId];
+        // that.classList.remove("augmented");
+        // that.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
+        const playlistContainer = document.getElementById("playlistContainer");
+        const playlistElement = playlistContainer.querySelector(`[data-song="${songId}"]`);
         playlistContainer.removeChild(playlistElement);
       }
 
