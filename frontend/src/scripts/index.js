@@ -4,6 +4,7 @@
       let isAuthenticated = false;
       let pastPrompt = ""
       let popularityControl = 0;
+      let currentPlayingAudio = null;
       if (!email){
         document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
         document.getElementById("spotifyImg").style.visibility = "hidden";
@@ -115,6 +116,8 @@
                             <button onclick="togglePlayPause('audio-${song.id}')"><i class="fas ${song.isPlaying ? 'fa-pause' : 'fa-play'}" id="icon-${song.id}"></i></button>
                             <input type="range" id="progress-${song.id}" value="0" max="100" class="progress-bar" oninput="setAudioPosition(this, 'audio-${song.id}')">
                             <span id="time-${song.id}">0:00/0:00</span>
+                            <input type="range" id="volume-${song.id}" value="100" min="0" max="100" class="volume-slider" oninput="setVolume(this, 'audio-${song.id}')">
+                            <i class="fas fa-volume-up" style="margin-right: 5px;"></i>
                         </div>
                         `;
                     }
@@ -240,31 +243,27 @@
         timeLabel.textContent = `${currentTimeDisplay}/${durationDisplay}`;
       }
 
-      function getPopularityScore(enteredPrompt) {
-        if (enteredPrompt === pastPrompt) {
-          popularityControl = popularityControl + 5;
-          if (popularityControl >= 20) {
-            return 5;
-          } else {
-            return 20 - popularityControl;
-          }
-        } else {
-          popularityControl = 0;
-          return 20;
-        }
+      function setVolume(slider, audioId) {
+        const audio = document.getElementById(audioId);
+        audio.volume = slider.value / 100; 
       }
 
       function togglePlayPause(audioId) {
         const audio = document.getElementById(audioId);
         const icon = document.getElementById('icon-' + audioId.split('-')[1]);
         if (audio.paused) {
-          audio.play();
-          icon.classList.remove('fa-play');
-          icon.classList.add('fa-pause');
+            if (currentPlayingAudio && currentPlayingAudio !== audio) {
+                currentPlayingAudio.pause();
+                currentPlayingAudio.parentElement.querySelector('.fa-pause').classList.replace('fa-pause', 'fa-play');
+            }
+            currentPlayingAudio = audio; 
+            audio.play();
+            icon.classList.remove('fa-play');
+            icon.classList.add('fa-pause');
         } else {
-          audio.pause();
-          icon.classList.remove('fa-pause');
-          icon.classList.add('fa-play');
+            audio.pause();
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
         }
       }
 
@@ -348,6 +347,20 @@
           .catch((error) => {
             console.error(`Error ${action}ing song:`, error);
           });
+      }
+
+      function getPopularityScore(enteredPrompt) {
+        if (enteredPrompt === pastPrompt) {
+          popularityControl = popularityControl + 5;
+          if (popularityControl >= 20) {
+            return 5;
+          } else {
+            return 20 - popularityControl;
+          }
+        } else {
+          popularityControl = 0;
+          return 20;
+        }
       }
 
       function disabledButtons(boolean) {
