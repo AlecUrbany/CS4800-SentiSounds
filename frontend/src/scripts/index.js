@@ -7,8 +7,11 @@
       if (!email){
         document.getElementById("connectSpotifyBtn").style.visibility = "hidden";
         document.getElementById("spotifyImg").style.visibility = "hidden";
+        document.getElementById("signOutBtn").style.display = "none";
+        document.getElementById("signUpBtn").style.display = "block";
       } else {
-        document.getElementById("signUpBtn").style.visibility = "hidden";
+        document.getElementById("signUpBtn").style.display = "none";
+        document.getElementById("signOutBtn").style.display = "block";
 
         const formData = new FormData();
         formData.append("email_address", email);
@@ -354,6 +357,14 @@
         document.getElementById('addAllToPlaylistBtn').disabled = boolean;
         document.getElementById('removeAllFromPlaylistBtn').disabled = boolean;
       }
+
+      document.getElementById("signOutBtn").addEventListener("click", function() {
+        // Clear authentication data
+        localStorage.removeItem('email');
+
+        window.location.href = 'index.html'; 
+      });
+
 
       function getSongIdsAsString() {
         // Retrieve all keys (song IDs) from the exportMap
