@@ -17,7 +17,44 @@
                 const email = document.querySelector('#email').value;
                 const firstName = document.querySelector('#username').value;
                 const lastInitial = document.querySelector('#last_initial').value;
+                const password = document.querySelector('#password').value;
+                const confirmPassword = document.querySelector('#confirm_password').value;
 
+                // Check if all fields are filled
+                if (!email || !password || !confirmPassword || !firstName || !lastInitial) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                // Email validation
+                if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+
+                // First name check
+                if(firstName.length > 29) {
+                    alert('First name is too long.')
+                    return;
+                }
+
+                // Last initial check
+                if (lastInitial.length < 1) {
+                    alert('Last initial must be only one character.')
+                    return;
+                }
+
+                // Password length check
+                if (password.length < 6) {
+                    alert('Password must be at least 7 characters long.');
+                    return;
+                }
+                
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match. Please try again.');
+                    return; 
+                }
                 // Storing data in localStorage
                 localStorage.setItem('email', email);
                 localStorage.setItem('firstName', firstName);
