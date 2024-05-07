@@ -209,7 +209,7 @@
                               deaugmentPlaylist(button, songId); // Use the correct song ID for each button
                           }
                       });
-                      const removeSongs = Object.keys(exportMap); 
+                      const removeSongs = Object.keys(exportMap);
                       removeSongs.forEach(songIds => {
                         deaugmentManualPlaylist(songIds);
                       });
@@ -246,7 +246,7 @@
 
       function setVolume(slider, audioId) {
         const audio = document.getElementById(audioId);
-        audio.volume = slider.value / 100; 
+        audio.volume = slider.value / 100;
       }
 
       function togglePlayPause(audioId) {
@@ -257,7 +257,7 @@
                 currentPlayingAudio.pause();
                 currentPlayingAudio.parentElement.querySelector('.fa-pause').classList.replace('fa-pause', 'fa-play');
             }
-            currentPlayingAudio = audio; 
+            currentPlayingAudio = audio;
             audio.play();
             icon.classList.remove('fa-play');
             icon.classList.add('fa-pause');
@@ -366,7 +366,7 @@
 
       function rickroll() {
         const randomNumber = Math.random();
-        const rarityThreshold = 0.05;
+        const rarityThreshold = 0.01;
 
         if (randomNumber < rarityThreshold) {
             window.open("https://youtu.be/dQw4w9WgXcQ?si=rhMz56ysUWlu-0OH", "You Won!");
@@ -374,10 +374,10 @@
             console.log(":)")
         }
       }
-      
+
       function disabledButtons(boolean) {
         document.getElementById("searchButton").disabled = boolean;
-        document.getElementById("exportPlaylistBtn").disabled = boolean;  
+        document.getElementById("exportPlaylistBtn").disabled = boolean;
         document.getElementById("playlistContainer").disabled = boolean;
         document.getElementById('addAllToPlaylistBtn').disabled = boolean;
         document.getElementById('removeAllFromPlaylistBtn').disabled = boolean;
@@ -392,6 +392,8 @@
 
       const playlistToggler = document.querySelector(".playlist-toggler");
       const closePlaylistBtn = document.querySelector(".close-btn");
+
+      playlistToggler.visibility = isAuthenticated ? "visible" : "hidden";
 
       closePlaylistBtn.addEventListener("click", () => document.body.classList.remove("show-songs-management"));
       playlistToggler.addEventListener("click", () => document.body.classList.toggle("show-songs-management"));
@@ -473,7 +475,7 @@
         .getElementById("signUpBtn")
         .addEventListener("click", function () {
           window.location.href = "signup.html"
-        }); 
+        });
 
       document.addEventListener("DOMContentLoaded", function () {
         const exportButton = document.querySelector("#exportPlaylistBtn");
