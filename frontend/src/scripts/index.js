@@ -75,6 +75,7 @@
                 if (data.status === "success") {
                   disabledButtons(false);
                   songsContainer.innerHTML = "";
+                  document.querySelector(".playlist-toggler").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById("exportPlaylistBtn").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById("playlistContainer").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById('addAllToPlaylistBtn').style.visibility = isAuthenticated ? "visible" : "hidden";
