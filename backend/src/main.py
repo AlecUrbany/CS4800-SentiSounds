@@ -8,6 +8,7 @@ from hypercorn.config import Config
 
 if __name__ == "__main__":
     config = Config()
-    config.bind = ["172.208.98.187:5000"]
+    config.bind = ["127.0.0.1:5000"]
     config.accesslog = "-"
+
     asyncio.run(serve(app, config))

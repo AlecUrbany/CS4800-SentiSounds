@@ -1,12 +1,12 @@
 # App Functionality
-asyncio
-openai
-spotipy
-google-api-python-client
+asyncio==3.4.3
+openai==1.25.1
+spotipy==2.23.0
+google-api-python-client==2.127.0
 
 # Database
-asyncpg
+asyncpg==0.29.0
 
 # API
-quart
-quart-cors
+Quart==0.19.5
+quart-cors==0.7.0

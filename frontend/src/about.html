@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SentiSounds About</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="scripts/about.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Raleway", sans-serif;
+        }
+
+        body,
+        html {
+            height: 100%;
+            line-height: 1.8;
+            background-color: #1c0d2c;
+            /* Page background color */
+        }
+
+        .w3-bar .w3-button {
+            padding: 16px;
+        }
+
+        #homeBtn {
+            margin-top: 10px;
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: lightgreen;
+            color: black;
+            border: 2px solid black;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            transition: none;
+        }
+
+        /* Gold and black details */
+        .gold-background {
+            background-color: gold;
+            color: black;
+        }
+
+        .gold-details p {
+            background-color: gold;
+            color: black;
+        }
+
+        .w3-top {
+            background-color: #1c0d2c;
+        }
+
+        /* Apply fixed width and height via CSS */
+        #chartContainer {
+            width: 250px;
+            height: 250px;
+        }
+
+        #skillsChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Flex container for layout */
+        .skills-layout {
+            display: flex;
+            justify-content: space-between;
+            /* Ensure items are level */
+            align-items: flex-start;
+        }
+
+        .skills-info {
+            flex: 1;
+            /* Grow to fill available space */
+        }
+
+        .skills-chart {
+            width: 250px;
+            /* Fixed width for the right-side chart */
+        }
+
+        .w3-container {
+            max-width: 1200px;
+            /* Centralize the content on wider screens */
+            margin: auto;
+        }
+
+                /* Ensure consistent image height */
+        .team-img {
+            width: 100%;
+            height: 250px; /* Adjust this value as needed */
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Home Button -->
+    <div class="w3-top">
+        <button id="homeBtn" class="w3-bar-item w3-button">Home</button>
+    </div>
+
+<!-- Team Section -->
+<div class="w3-container" style="padding:128px 16px" id="team">
+    <h3 class="w3-center" style="color: gold;"><b>THE TEAM</b></h3>
+    <p class="w3-center w3-large" style="color: gold;">The ones who run this company</p>
+    <div class="w3-row-padding" style="margin-top:64px">
+        <!-- Row 1 -->
+        <div class="w3-row">
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Alec-Urbany-SentiSounds-2.png" alt="Alec Urbany" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Alec Urbany</h3>
+                        <p class="w3-opacity" style="color: gold;">Backend</p>
+                        <p style="color: gold;">Project Manager</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">https://www.linkedin.com/in/alec-urbany-698149238/</p>
+                            <p style="text-align: center;">https://github.com/AlecUrbany</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Kyle-Just-Sentisounds.jpg" alt="Kyle Just" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Kyle Just</h3>
+                        <p class="w3-opacity" style="color: gold;">Backend</p>
+                        <p style="color: gold;">Developer</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">https://www.linkedin.com/in/kyle-just/</p>
+                            <p style="text-align: center;">https://github.com/meap02</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/George-Matta-SentiSounds.jpg" alt="George Matta" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">George Matta</h3>
+                        <p class="w3-opacity" style="color: gold;">Backend</p>
+                        <p style="color: gold;">Developer</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">jojomedhat2004@gmail.com</p>
+                            <p style="text-align: center;">https://linkedin.com/in/george-m-matta</p>
+                            <p style="text-align: center;">https://github.com/iHeroGH</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Taft-Ring-SentiSounds-2.4.jpg" alt="Taft Ring" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Taft Ring</h3>
+                        <p class="w3-opacity" style="color: gold;">Backend</p>
+                        <p style="color: gold;">Quality Assurer</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">tcring@cpp.edu</p>
+                            <p style="text-align: center;">https://github.com/20ringtaft</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="w3-row">
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Wesley-Dam-SentiSounds.jpg" alt="Wesley Dam" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Wesley Dam</h3>
+                        <p class="w3-opacity" style="color: gold;">Backend</p>
+                        <p style="color: gold;">Business Analyst</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">https://www.linkedin.com/in/wesley-dam-428b77223</p>
+                            <p style="text-align: center;">https://github.com/wdam2002</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Jack and Billy 2.png" alt="Jack Morris" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Jack Morris</h3>
+                        <p class="w3-opacity" style="color: gold;">Frontend</p>
+                        <p style="color: gold;">Project Manager</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">getbacktojack@gmail.com</p>
+                            <p style="text-align: center;">https://github.com/jrmorris29</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Sam and Billy 2.png" alt="Samuel Chung" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Samuel Chung</h3>
+                        <p class="w3-opacity" style="color: gold;">Frontend</p>
+                        <p style="color: gold;">Developer</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">samuelqchung@gmail.com</p>
+                            <p style="text-align: center;">https://www.linkedin.com/in/samuel-chung-742439214/</p>
+                            <p style="text-align: center;">https://github.com/chungsamuel</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Jasroop Singh SentiSoungs.jpg" alt="Jasroop Singh" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Jasroop Singh</h3>
+                        <p class="w3-opacity" style="color: gold;">Frontend</p>
+                        <p style="color: gold;">Developer</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">https://github.com/jasroop-singh</p>
+                            <p style="text-align: center;">https://www.linkedin.com/in/jasroop-singh21/</p>
+                            <p style="text-align: center;">singhjasroop21@gmail.com</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="w3-row">
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Evin-Menendez-Vargas.jpg" alt="Evin Menendez Vargas" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Evin Menendez Vargas</h3>
+                        <p class="w3-opacity" style="color: gold;">Frontend</p>
+                        <p style="color: gold;">Quality Assurer</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">EvinMenendez@gmail.com</p>
+                            <p style="text-align: center;">https://www.linkedin.com/in/evin-menendez-vargas/</p>
+                            <p style="text-align: center;">https://github.com/UselesssAqua</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l3 m6 w3-margin-bottom">
+                <div class="w3-card">
+                    <img src="assets/Darren-Manalo-SentiSounds-2.1.JPG" alt="Darren Manalo" class="team-img">
+                    <div class="w3-container">
+                        <h3 style="color: gold;">Darren Manalo</h3>
+                        <p class="w3-opacity" style="color: gold;">Frontend</p>
+                        <p style="color: gold;">Business Analyst</p>
+                        <details class="gold-details">
+                            <summary class="gold-background"><b>Contact</b></summary>
+                            <p style="text-align: center;">darrenapm1016@gmail.com</p>
+                            <p style="text-align: center;">https://github.com/dmanalo16</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Skills Section -->
+    <div class="w3-container w3-light-grey" id="skills" style="padding:64px 16px">
+        <div class="skills-layout">
+            <div class="skills-info">
+                <h3>Skills</h3>
+                <p>Our Frontend team used JavaScript, HTML, and CSS to create most of their related functions.</p>
+                <p>Our Backend team used Python and Azure to fulfill their responsibilities.</p>
+            </div>
+            <div class="skills-chart">
+                <h4>Skills Distribution</h4>
+                <!-- Wrap the canvas in a smaller container -->
+                <div id="chartContainer">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Pricing Section -->
+    <!-- <div class="w3-container w3-center w3-dark-grey" id="pricing" style="padding:128px 16px">
+    <h3>PRICING</h3>
+    <p class="w3-large">Choose a pricing plan that fits your needs.</p>
+    <div class="w3-row-padding" style="margin-top:64px">
+        <div class="w3-third w3-section">
+            <ul class="w3-ul w3-white w3-hover-shadow">
+                <li class="w3-black w3-xlarge w3-padding-32">Basic</li>
+                <li class="w3-padding-16"><b>5</b> Playlist Exports per Month</li>
+                <li class="w3-padding-16"><b>1</b> Linked Spotify Account</li>
+                <li class="w3-padding-16"><b>Basic</b> Feature Access</li>
+                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
+                <li class="w3-padding-16">
+                    <h2 class="w3-wide">$ 5</h2>
+                    <span class="w3-opacity">per month</span>
+                </li>
+            </ul>
+        </div>
+        <div class="w3-third">
+            <ul class="w3-ul w3-white w3-hover-shadow">
+                <li class="w3-green w3-xlarge w3-padding-48">Pro</li>
+                <li class="w3-padding-16"><b>15</b> Playlist Exports per Month</li>
+                <li class="w3-padding-16"><b>2</b> Linked Spotify Accounts</li>
+                <li class="w3-padding-16"><b>Advanced</b> Feature Access</li>
+                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
+                <li class="w3-padding-16">
+                    <h2 class="w3-wide">$ 10</h2>
+                    <span class="w3-opacity">per month</span>
+                </li>
+            </ul>
+        </div>
+        <div class="w3-third w3-section">
+            <ul class="w3-ul w3-white w3-hover-shadow">
+                <li class="w3-black w3-xlarge w3-padding-32">Premium</li>
+                <li class="w3-padding-16"><b>Unlimited</b> Playlist Exports per Month</li>
+                <li class="w3-padding-16"><b>3</b> Linked Spotify Accounts</li>
+                <li class="w3-padding-16"><b>Premium</b> Feature Access</li>
+                <li class="w3-padding-16"><b>Endless</b> Customer Support</li>
+                <li class="w3-padding-16">
+                    <h2 class="w3-wide">$ 15</h2>
+                    <span class="w3-opacity">per month</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> -->
+
+
+</body>
+
+</html>

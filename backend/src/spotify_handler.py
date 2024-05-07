@@ -10,6 +10,7 @@ from spotify_cache_handlers import BaseClientCacheHandler, MemoryCacheHandler
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.util import normalize_scope
+import random
 
 
 class SpotifyHandler:
@@ -253,9 +254,14 @@ class SpotifyHandler:
 
         all_song_info: list[song_type] = []
         for genre in genres:
+            # generate a random number to use as the offset
+            random_offset = random.randint(0, 500)
             # A page of results for this genre
             search_result = client_instance.search(
-                q="genre:" + genre, type="track", market="from_token"
+                q="genre:" + genre,
+                type="track",
+                offset=random_offset,
+                market="from_token",
             )
             if not search_result or not search_result["tracks"]["items"]:
                 continue

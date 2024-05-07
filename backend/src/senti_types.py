@@ -1,4 +1,5 @@
 """Short-hands for types used throughout SentiSounds"""
+from __future__ import annotations
 
 
 from typing import TypedDict

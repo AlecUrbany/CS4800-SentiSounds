@@ -1,5 +1,7 @@
 """The callable API functions to be used to communicate with the backend"""
 
+from __future__ import annotations
+
 import asyncio
 import logging
 from functools import partial
@@ -16,7 +18,11 @@ from youtube_handler import YoutubeHandler
 
 app = Quart(__name__)
 """The Quart app to run"""
-app = cors(app, allow_origin="http://127.0.0.1:5000")
+app = cors(
+    app,
+    allow_origin=["*"],
+    allow_methods=["GET", "POST"],
+)
 app.logger.setLevel(logging.INFO)
 
 
@@ -180,7 +186,7 @@ async def login():
         else (
             {
                 "status": "failure",
-                "error": "Incorrect credentials, or that user does not exist."
+                "error": "Incorrect credentials, or that user does not exist.",
             },
             401,
         )
@@ -442,10 +448,12 @@ async def spotify_check_authentication():
         is_auth = await uses_token(
             email_address, True, SpotifyHandler.ensure_authentication
         )
+    except ValueError:
+        is_auth = False
     except Exception as e:
         return {"status": "failure", "error": str(e)}, 400
 
-    return {"status": "success", "is-authenticated": is_auth}, 200
+    return {"status": "success", "is_authenticated": is_auth}, 200
 
 
 @app.route("/spotify-like-song", methods=["POST"])
