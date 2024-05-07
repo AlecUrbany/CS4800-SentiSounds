@@ -366,7 +366,7 @@
 
       function rickroll() {
         const randomNumber = Math.random();
-        const rarityThreshold = 0.5;
+        const rarityThreshold = 0.05;
 
         if (randomNumber < rarityThreshold) {
             window.open("https://youtu.be/dQw4w9WgXcQ?si=rhMz56ysUWlu-0OH", "You Won!");
