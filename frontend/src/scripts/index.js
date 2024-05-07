@@ -41,16 +41,13 @@
         .getElementById("searchForm")
         .addEventListener("submit", function (event) {
           event.preventDefault();
-          event.preventDefault();
-          const overlay = document.getElementById("overlay");
+          disabledButtons(true);
           const enteredPrompt = document.getElementById("default-search").value;
           const loader = document.getElementById("loader");
           const songsContainer = document.getElementById("songsContainer");
           const popularityScore = getPopularityScore(enteredPrompt);
-          console.log(popularityScore);
           pastPrompt = enteredPrompt;
 
-          overlay.style.display = "block";
           loader.style.display = "block";
           songsContainer.style.display = "none";
 
@@ -70,8 +67,8 @@
             .then((response) => response.json())
             .then((data) => {
               setTimeout(() => {
-                overlay.style.display = "none";
                 if (data.status === "success") {
+                  disabledButtons(false);
                   songsContainer.innerHTML = "";
                   document.getElementById("exportPlaylistBtn").style.visibility = isAuthenticated ? "visible" : "hidden";
                   document.getElementById("playlistContainer").style.visibility = isAuthenticated ? "visible" : "hidden";
@@ -217,7 +214,6 @@
             })
             .catch((error) => {
               console.error("Error fetching data:", error);
-              overlay.style.display = "none";
             });
         });
 
@@ -303,7 +299,7 @@
 
       function deaugmentPlaylist(that, songId) {
         delete exportMap[songId];
-        const songsContainer = document.getElementById("songsContainer");
+        // const songsContainer = document.getElementById("songsContainer");
         that.classList.remove("augmented");
         that.innerHTML = '<i class="fas fa-plus"></i>'; // Change to unfilled heart
         const playlistContainer = document.getElementById("playlistContainer");
@@ -336,6 +332,14 @@
           .catch((error) => {
             console.error(`Error ${action}ing song:`, error);
           });
+      }
+
+      function disabledButtons(boolean) {
+        document.getElementById("searchButton").disabled = boolean;
+        document.getElementById("exportPlaylistBtn").disabled = boolean;  
+        document.getElementById("playlistContainer").disabled = boolean;
+        document.getElementById('addAllToPlaylistBtn').disabled = boolean;
+        document.getElementById('removeAllFromPlaylistBtn').disabled = boolean;
       }
 
       function getSongIdsAsString() {
@@ -415,7 +419,7 @@
         .getElementById("signUpBtn")
         .addEventListener("click", function () {
           window.location.href = "signup.html"
-        });
+        }); 
 
       document.addEventListener("DOMContentLoaded", function () {
         const exportButton = document.querySelector("#exportPlaylistBtn");

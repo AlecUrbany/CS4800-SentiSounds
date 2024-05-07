@@ -8,12 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="scripts/base_url.js"></script>
     <script src="scripts/index.js" defer></script>
-    <link
-      rel="stylesheet"
+    <!--Icons-->
+    <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
-    <!-- Added styles from File Two for specific sections -->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Customer Feedback Styling -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet"
@@ -116,8 +115,9 @@
       #exportPlaylistBtn {
         position: fixed;
         width: 12%;
+        font-size: medium;
         right: 20px;
-        bottom: 20px;
+        bottom: 70px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -132,8 +132,9 @@
       #addAllToPlaylistBtn {
         position: fixed;
         width: 12%;
+        font-size: medium;
         right: 20px;
-        bottom: 120px;
+        bottom: 170px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -148,9 +149,9 @@
       #removeAllFromPlaylistBtn {
         position: fixed;
         width: 12%;
-        font-size: small;
+        font-size: medium;
         right: 20px;
-        bottom: 70px;
+        bottom: 120px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -167,7 +168,7 @@
         height: 30%;
         width: 12%;
         right: 20px;
-        bottom: 180px;
+        bottom: 220px;
         padding: 10px 20px;
         background-color: lightgreen;
         color: black;
@@ -226,7 +227,9 @@
       .button-container {
           margin-left: 15px; /* Add margin between song details and button */
       }
+
     </style>
+
   </head>
 
   <body class="custom-purple-bg text-white font-sans">
@@ -313,25 +316,15 @@
         style="position: relative"></div>
     </main>
 
-    <div style="display: inline-block;">
-      <div id="playlistContainer"></div>
-      <button id="exportPlaylistBtn">Export Playlist</button>
-      <button id="addAllToPlaylistBtn">Add All to Playlist</button>
-      <button id="removeAllFromPlaylistBtn">Remove All from Playlist</button>
+    <div class="songs-management" style="display: inline-block;">
+      <div id="playlistContainer">
+        <h3>Playlist:</h3>
+        <hr style="height: 2px; background-color: black; border: none;">
+      </div>
+      <button id="exportPlaylistBtn">Export</button>
+      <button id="addAllToPlaylistBtn">Add All</button>
+      <button id="removeAllFromPlaylistBtn">Remove All</button>
     </div>
-
-    <!-- Slideshow container -->
-    <!--<div class="slideshow-container">
-      <div class="mySlides fade">
-        <img src="assets/Listening to music 4.jpg" style="width: 100%" />
-      </div>
-      <div class="mySlides fade">
-        <img src="assets/Kyle-Just-Sentisounds.jpg" style="width: 100%" />
-      </div>
-      <div class="mySlides fade">
-        <img src="assets/Listening to music 4.jpg" style="width: 100%" />
-      </div>
-    </div>-->
 
     <!-- Customer Feedback -->
     <footer>
