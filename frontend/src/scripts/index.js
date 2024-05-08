@@ -52,6 +52,10 @@
           disabledButtons(true);
           rickroll();
           const enteredPrompt = document.getElementById("default-search").value;
+          if(enteredPrompt.length < 5) {
+                    alert('Entered prompt is too short.')
+                    return;
+                }
           const loader = document.getElementById("loader");
           const songsContainer = document.getElementById("songsContainer");
           const popularityScore = getPopularityScore(enteredPrompt);
