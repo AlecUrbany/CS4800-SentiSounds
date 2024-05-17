@@ -10,8 +10,8 @@
         data: {
             labels: ['Python', 'JavaScript', 'HTML/CSS'],
             datasets: [{
-                label: 'Skills',
-                data: [60, 20, 20],
+                label: 'Distribution',
+                data: [53, 21, 26],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.7)',
                     'rgba(255, 206, 86, 0.7)',

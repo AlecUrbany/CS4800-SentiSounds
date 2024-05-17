@@ -52,6 +52,11 @@
           disabledButtons(true);
           rickroll();
           const enteredPrompt = document.getElementById("default-search").value;
+          if(enteredPrompt.length < 5) {
+                    alert('Entered prompt is too short.')
+                    location.replace('index.html');
+                    return;
+                }
           const loader = document.getElementById("loader");
           const songsContainer = document.getElementById("songsContainer");
           const popularityScore = getPopularityScore(enteredPrompt);
@@ -225,11 +230,17 @@
                   document.getElementById("playlistContainer").style.visibility = "hidden";
                   document.getElementById('addAllToPlaylistBtn').style.visibility = "hidden";
                   document.getElementById('removeAllFromPlaylistBtn').style.visibility = "hidden";
+                  alert('There was an error. Please try again.')
+                  location.replace('index.html');
+                  return;
                 }
               }, 3000);
             })
             .catch((error) => {
               console.error("Error fetching data:", error);
+              alert('There was an error. Please try again.')
+              location.replace('index.html');
+              return;
             });
         });
 
