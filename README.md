@@ -14,7 +14,10 @@ SentiSounds is a web application designed to cater to the sound your soul craves
 - NGINX 1.18.0+
 - We also recommend setting up a virtual environment through venv, pyenv, or conda
 
-## Secrets
+## Setup
+- To begin, `git clone https://github.com/AlecUrbany/CS4800-SentiSounds`
+
+### Secrets
 We provide an updated `secrets.example.json` file to serve as a template for
 your secret keys and tokens. A description of each field is provided below:
 - open_ai
@@ -51,13 +54,13 @@ A `secrets.json` file must be created with the above fields and be placed in the
 
 Additionally, a `.cache/youtube_id_cache.json` file must be created (this also *must* remain .gitignor-ed to ensure YouTube API terms of service are met).
 
-## Service Deployment
+### Service Deployment
 - Change the permissions for `scripts/enable_services.sh` via `chmod u+x scripts/enable_services.sh`
 - Running `sudo scripts/enable_services.sh` will automatically install the NGINX package, install/update the required Python packages, start the PSQL service, and begin the API
 - Running the API automatically creates all required tables on the PSQL database (assuming the PSQL service was successfully started and ran)
 - If the app is deployed on a linux-based system with `systemd`, the script can automatically run by the daemon on startup
 
-## Web Deployment
+### Web Deployment
 - The first line of the `CNAME` file must be the domain of the website (for example, sentisounds.com)
 - The `Service Deployment` section summarizes how to start the web service
 - The web service will be available on `10.0.0.4:80` by default
