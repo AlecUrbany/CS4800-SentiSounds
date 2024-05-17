@@ -1,0 +1,1199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>src.auth_handler.AuthHandler</title>
+    <meta name="generator" content="pydoctor 23.9.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="readthedocstheme.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          SentiSounds <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+    
+        <!-- Side navigation -->
+      <div class="sidebarcontainer">
+        <nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Class</span>
+        <code class="thisobject"><a href="src.auth_handler.AuthHandler.html" class="internal-link" title="This class"><wbr></wbr>Auth<wbr></wbr>Handler</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Methods</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#authenticate_user" class="internal-link" title="src.auth_handler.AuthHandler.authenticate_user">authenticate<wbr></wbr>_user</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#check_and_save_spotify_token" class="internal-link" title="src.auth_handler.AuthHandler.check_and_save_spotify_token">check<wbr></wbr>_and<wbr></wbr>_save<wbr></wbr>_spotify<wbr></wbr>_token</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#check_identifiers" class="internal-link" title="src.auth_handler.AuthHandler.check_identifiers">check<wbr></wbr>_identifiers</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#clean_authentication" class="internal-link" title="src.auth_handler.AuthHandler.clean_authentication">clean<wbr></wbr>_authentication</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#generate_random_code" class="internal-link" title="src.auth_handler.AuthHandler.generate_random_code">generate<wbr></wbr>_random<wbr></wbr>_code</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_html" class="internal-link" title="src.auth_handler.AuthHandler.get_html">get<wbr></wbr>_html</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_logo" class="internal-link" title="src.auth_handler.AuthHandler.get_logo">get<wbr></wbr>_logo</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_spotify_token" class="internal-link" title="src.auth_handler.AuthHandler.get_spotify_token">get<wbr></wbr>_spotify<wbr></wbr>_token</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#log_in" class="internal-link" title="src.auth_handler.AuthHandler.log_in">log<wbr></wbr>_in</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#save_spotify_token" class="internal-link" title="src.auth_handler.AuthHandler.save_spotify_token">save<wbr></wbr>_spotify<wbr></wbr>_token</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#send_authentication_email" class="internal-link" title="src.auth_handler.AuthHandler.send_authentication_email">send<wbr></wbr>_authentication<wbr></wbr>_email</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sign_up" class="internal-link" title="src.auth_handler.AuthHandler.sign_up">sign<wbr></wbr>_up</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#valid_email" class="internal-link" title="src.auth_handler.AuthHandler.valid_email">valid<wbr></wbr>_email</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#valid_password" class="internal-link" title="src.auth_handler.AuthHandler.valid_password">valid<wbr></wbr>_password</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Attributes</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#ACTIVE_AUTHS" class="internal-link" title="src.auth_handler.AuthHandler.ACTIVE_AUTHS">ACTIVE<wbr></wbr>_AUTHS</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#EMAIL_CHECK" class="internal-link" title="src.auth_handler.AuthHandler.EMAIL_CHECK">EMAIL<wbr></wbr>_CHECK</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#EMAIL_REGEX" class="internal-link" title="src.auth_handler.AuthHandler.EMAIL_REGEX">EMAIL<wbr></wbr>_REGEX</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#EXPIRY_TIME" class="internal-link" title="src.auth_handler.AuthHandler.EXPIRY_TIME">EXPIRY<wbr></wbr>_TIME</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML<wbr></wbr>_PATH</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO<wbr></wbr>_PATH</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#PASSWORD_CHECK" class="internal-link" title="src.auth_handler.AuthHandler.PASSWORD_CHECK">PASSWORD<wbr></wbr>_CHECK</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#PLAIN_TEXT" class="internal-link" title="src.auth_handler.AuthHandler.PLAIN_TEXT">PLAIN<wbr></wbr>_TEXT</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Module</span>
+        <code><a href="src.auth_handler.html" class="internal-link" title="The parent of this class">auth<wbr></wbr>_handler</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        <div class="childrenKindTitle">Classes</div>
+        <ul>
+    
+    <li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="src.auth_handler.AuthHandler.html" class="internal-link" title="src.auth_handler.AuthHandler"><wbr></wbr>Auth<wbr></wbr>Handler</a></code>
+            </div>
+        
+
+    </li>
+</ul>
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        <!-- No sidebar toggle for read the docs theme, the sidebar is always
+          visible when the screen is width enough.
+        -->
+      </div>
+
+    </nav>
+    
+    <div class="container-fluid">
+
+      <div id="main" class="">
+        
+
+        
+
+        <div id="search-results-container" style="display: none;">
+        
+          <div id="search-buttons">
+            <span class="label label-default" id="search-docstrings-button">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+                search in docstrings
+              </input>
+            </label>
+            </span>
+            
+          </div>
+          
+          <noscript>
+              <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+          </noscript>
+  
+          <div class="hint" id="search-help-box">
+            <p class="rst-last">
+        
+              Search bar offers the following options:
+              <ul>   
+                  <li>
+                    <strong>Term presence.</strong> The below example searches for documents that 
+                      must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                  </li> 
+  
+                  <li>
+                    <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                  </li> 
+  
+                  <li>
+                    <strong>Search in specific fields.</strong> The following search matches all objects 
+                    in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+  
+                    <p>
+                      Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                      Last two fields are only applicable if "search in docstrings" is enabled.
+                    </p>
+                  </li>
+  
+                  <li>
+                    <strong>Fuzzy matches.</strong> The following search matches all documents 
+                    that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                  </li>
+              </ul>
+  
+            </p>
+          </div>
+  
+          <div id="search-status"> </div>
+  
+          <div class="warning" id="search-warn-box" style="display: none;">
+            <p class="rst-last"><span id="search-warn"></span></p>
+          </div>
+  
+          <table id="search-results">
+            <!-- Filled dynamically by JS -->
+          </table>
+          
+          <div style="margin-top: 8px;">
+            <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+          </div>
+        </div>
+
+        <div class="page-header">
+          <h1 class="class"><code><code><a href="index.html" class="internal-link">src</a></code><wbr></wbr>.<code><a href="src.auth_handler.html" class="internal-link" title="src.auth_handler">auth_handler</a></code><wbr></wbr>.<code><a href="src.auth_handler.AuthHandler.html" class="internal-link" title="src.auth_handler.AuthHandler">AuthHandler</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          class documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">AuthHandler</span>:</code></p>
+          <p><a href="classIndex.html#src.auth_handler.AuthHandler">View In Hierarchy</a></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>A static class to handle non-Spotify user authentication.</p>
+<p>The general flow of authentication is as follows:
+A user signs-up with a valid email, password, and display name and they
+will be sent an email containing a verification code
+The user then enters this verification code within an alloted time limit
+to finally be let into the database
+On login, the user must enter the correct pair of email address and
+password to be allowed access.</p>
+<p>As such, the sign-up function takes an email address, password, first name,
+and last initial.
+The authentication function takes the same sign-up parameters <em>and</em> the
+entered authentication code
+The login function takes an email and password</p>
+</div>
+        </div>
+
+        <div id="splitTables">
+          <table class="children sortable" id="id4">
+  
+  
+  <tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#authenticate_user" class="internal-link" title="src.auth_handler.AuthHandler.authenticate_user">authenticate<wbr></wbr>_user</a></code></td>
+    <td>Attempt to authenticate a user's login via the code they were sent</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#check_and_save_spotify_token" class="internal-link" title="src.auth_handler.AuthHandler.check_and_save_spotify_token">check<wbr></wbr>_and<wbr></wbr>_save<wbr></wbr>_spotify<wbr></wbr>_token</a></code></td>
+    <td>Given an email address, check if the user's Spotify token has changed and save it</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#check_identifiers" class="internal-link" title="src.auth_handler.AuthHandler.check_identifiers">check<wbr></wbr>_identifiers</a></code></td>
+    <td>Checks the validity of a user's email address, password, and display name.</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#clean_authentication" class="internal-link" title="src.auth_handler.AuthHandler.clean_authentication">clean<wbr></wbr>_authentication</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#generate_random_code" class="internal-link" title="src.auth_handler.AuthHandler.generate_random_code">generate<wbr></wbr>_random<wbr></wbr>_code</a></code></td>
+    <td>Generates a random code and stores it in the authentication cache</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#get_html" class="internal-link" title="src.auth_handler.AuthHandler.get_html">get<wbr></wbr>_html</a></code></td>
+    <td>Retrieves the literal HTML code from <code><a href="src.auth_handler.AuthHandler.html#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML_PATH</a></code></td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#get_logo" class="internal-link" title="src.auth_handler.AuthHandler.get_logo">get<wbr></wbr>_logo</a></code></td>
+    <td>Retrieves a MIMEImage of the SentiSounds logo to send with the email from <code><a href="src.auth_handler.AuthHandler.html#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO_PATH</a></code></td>
+  </tr><tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#get_spotify_token" class="internal-link" title="src.auth_handler.AuthHandler.get_spotify_token">get<wbr></wbr>_spotify<wbr></wbr>_token</a></code></td>
+    <td>Given an email address, return the user's Spotify token</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#log_in" class="internal-link" title="src.auth_handler.AuthHandler.log_in">log<wbr></wbr>_in</a></code></td>
+    <td>Attempts to log-in given a user's credentials</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#save_spotify_token" class="internal-link" title="src.auth_handler.AuthHandler.save_spotify_token">save<wbr></wbr>_spotify<wbr></wbr>_token</a></code></td>
+    <td>Given an email address, save the user's Spotify token</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#send_authentication_email" class="internal-link" title="src.auth_handler.AuthHandler.send_authentication_email">send<wbr></wbr>_authentication<wbr></wbr>_email</a></code></td>
+    <td>Send a confirmation email to a user with a code</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Async Static Method</td>
+    <td><code><a href="#sign_up" class="internal-link" title="src.auth_handler.AuthHandler.sign_up">sign<wbr></wbr>_up</a></code></td>
+    <td>Creates a sign-in session and waits for an authentication code</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#valid_email" class="internal-link" title="src.auth_handler.AuthHandler.valid_email">valid<wbr></wbr>_email</a></code></td>
+    <td>Given an email address string, return if it's valid</td>
+  </tr><tr class="staticmethod">
+    
+    <td>Static Method</td>
+    <td><code><a href="#valid_password" class="internal-link" title="src.auth_handler.AuthHandler.valid_password">valid<wbr></wbr>_password</a></code></td>
+    <td>Given a password string, return if it's valid</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#ACTIVE_AUTHS" class="internal-link" title="src.auth_handler.AuthHandler.ACTIVE_AUTHS">ACTIVE<wbr></wbr>_AUTHS</a></code></td>
+    <td>A dictionary of currently authenticating users as email_address: (code, expiry time)</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#EMAIL_CHECK" class="internal-link" title="src.auth_handler.AuthHandler.EMAIL_CHECK">EMAIL<wbr></wbr>_CHECK</a></code></td>
+    <td>Defines the checks to make for an email as a list of lambdas returning bools and the associated error messages</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#EMAIL_REGEX" class="internal-link" title="src.auth_handler.AuthHandler.EMAIL_REGEX">EMAIL<wbr></wbr>_REGEX</a></code></td>
+    <td>A regex statement defining a valid email address</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#EXPIRY_TIME" class="internal-link" title="src.auth_handler.AuthHandler.EXPIRY_TIME">EXPIRY<wbr></wbr>_TIME</a></code></td>
+    <td>The time in minutes it takes for the authentication code to expire</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML<wbr></wbr>_PATH</a></code></td>
+    <td>The path to the HTML for the email to send a to-be authed user</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO<wbr></wbr>_PATH</a></code></td>
+    <td>The path to the logo to be added to the HTML</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#PASSWORD_CHECK" class="internal-link" title="src.auth_handler.AuthHandler.PASSWORD_CHECK">PASSWORD<wbr></wbr>_CHECK</a></code></td>
+    <td>Defines the checks to make for a password as a list of lambdas returning bools and the associated error messages</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#PLAIN_TEXT" class="internal-link" title="src.auth_handler.AuthHandler.PLAIN_TEXT">PLAIN<wbr></wbr>_TEXT</a></code></td>
+    <td>A frame for the email to send a to-be authed user</td>
+  </tr>
+</table>
+          
+
+            
+        </div>
+
+        <div id="childList">
+          <div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.authenticate_user">
+    
+  </a>
+  <a name="authenticate_user">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">authenticate_user</span><span class="function-signature">(email_address: <code>str</code>, entered_auth_code: <code>str</code>)</span>:
+    
+    <a class="headerLink" href="#authenticate_user" title="src.auth_handler.AuthHandler.authenticate_user">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Attempt to authenticate a user's login via the code they were sent</p>
+<p>Ensure you are first calling sign_up(...) to generate an authentication
+code</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">entered<wbr></wbr>_auth<wbr></wbr>_code:</span><code>str</code></td><td class="fieldArgDesc">The authentication code the user entered</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If the email address entered is not awaiting authentication
+If the incorrect code was entered or something went wrong adding
+the user to the database</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.check_and_save_spotify_token">
+    
+  </a>
+  <a name="check_and_save_spotify_token">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">check_and_save_spotify_token</span><span class="function-signature">(email_address: <code>str</code>, old_token: <code>token_type|None</code>, new_token: <code>token_type|None</code>)</span>:
+    
+    <a class="headerLink" href="#check_and_save_spotify_token" title="src.auth_handler.AuthHandler.check_and_save_spotify_token">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Given an email address, check if the user's Spotify token has changed
+and save it</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">old<wbr></wbr>_token:</span><code><a href="src.senti_types.token_type.html" class="internal-link" title="src.senti_types.token_type">token_type</a></code></td><td class="fieldArgDesc">The user's old Spotify token</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">new<wbr></wbr>_token:</span><code><a href="src.senti_types.token_type.html" class="internal-link" title="src.senti_types.token_type">token_type</a></code></td><td class="fieldArgDesc">The user's new Spotify token</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.check_identifiers">
+    
+  </a>
+  <a name="check_identifiers">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">check_identifiers</span><span class="function-signature">(email_address: <code>str</code>, password: <code>str</code>, first_name: <code>str</code>, last_initial: <code>str</code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    
+    <a class="headerLink" href="#check_identifiers" title="src.auth_handler.AuthHandler.check_identifiers">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Checks the validity of a user's email address, password, and display
+name.</p>
+<p>This function does not return a value, but rather throws an error
+depending on which field was invalid.</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If the first name is too short (empty)
+If the first name is too long (longer than 29 characters)
+If the last initial is too long (longer than 1 character)
+If the email does not pass the email checker <code><a href="#valid_email" class="internal-link" title="src.auth_handler.AuthHandler.valid_email">valid_email</a></code>
+If the password does not pass the password checker <code><a href="#valid_password" class="internal-link" title="src.auth_handler.AuthHandler.valid_password">valid_password</a></code></td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.clean_authentication">
+    
+  </a>
+  <a name="clean_authentication">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">clean_authentication</span><span class="function-signature">() -&gt; <code>tuple[<wbr></wbr>int, <wbr></wbr>int]</code></span>:
+    
+    <a class="headerLink" href="#clean_authentication" title="src.auth_handler.AuthHandler.clean_authentication">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.generate_random_code">
+    
+  </a>
+  <a name="generate_random_code">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">generate_random_code</span><span class="function-signature">(email_address: <code>str</code>) -&gt; <code>str</code></span>:
+    
+    <a class="headerLink" href="#generate_random_code" title="src.auth_handler.AuthHandler.generate_random_code">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generates a random code and stores it in the authentication cache</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address that this code belongs to</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">The generated code</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.get_html">
+    
+  </a>
+  <a name="get_html">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">get_html</span><span class="function-signature">(auth_code: <code>str</code>, expiry_identifier: <code>str</code>) -&gt; <code>str</code></span>:
+    
+    <a class="headerLink" href="#get_html" title="src.auth_handler.AuthHandler.get_html">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieves the literal HTML code from <code><a href="#HTML_PATH" class="internal-link" title="src.auth_handler.AuthHandler.HTML_PATH">HTML_PATH</a></code></p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">auth<wbr></wbr>_code:</span><code>str</code></td><td class="fieldArgDesc">The auth code to send the user in the HTML</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">expiry<wbr></wbr>_identifier:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc">The HTML code</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.get_logo">
+    
+  </a>
+  <a name="get_logo">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">get_logo</span><span class="function-signature">() -&gt; <code>MIMEImage</code></span>:
+    
+    <a class="headerLink" href="#get_logo" title="src.auth_handler.AuthHandler.get_logo">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieves a MIMEImage of the SentiSounds logo to send with the email
+from <code><a href="#LOGO_PATH" class="internal-link" title="src.auth_handler.AuthHandler.LOGO_PATH">LOGO_PATH</a></code></p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>MIMEImage</code></td><td class="fieldArgDesc">The logo image to send</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.get_spotify_token">
+    
+  </a>
+  <a name="get_spotify_token">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">get_spotify_token</span><span class="function-signature">(email_address: <code>str</code>) -&gt; <code>token_type|None</code></span>:
+    
+    <a class="headerLink" href="#get_spotify_token" title="src.auth_handler.AuthHandler.get_spotify_token">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Given an email address, return the user's Spotify token</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user. If not provided, None will be
+returned</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer">token_type|<blockquote>
+None</blockquote>
+</td><td class="fieldArgDesc">The user's Spotify token if it exists</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.log_in">
+    
+  </a>
+  <a name="log_in">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">log_in</span><span class="function-signature">(email_address: <code>str</code>, password: <code>str</code>) -&gt; <code>bool</code></span>:
+    
+    <a class="headerLink" href="#log_in" title="src.auth_handler.AuthHandler.log_in">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Attempts to log-in given a user's credentials</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address associated with the target user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code></td><td class="fieldArgDesc">The password to validate against</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>bool</code></td><td class="fieldArgDesc">Whether or not the log-in was successful</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.save_spotify_token">
+    
+  </a>
+  <a name="save_spotify_token">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">save_spotify_token</span><span class="function-signature">(email_address: <code>str</code>, token: <code>token_type</code>) -&gt; <code>int</code></span>:
+    
+    <a class="headerLink" href="#save_spotify_token" title="src.auth_handler.AuthHandler.save_spotify_token">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Given an email address, save the user's Spotify token</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">token:</span><code>str</code></td><td class="fieldArgDesc">The user's Spotify token</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>int</code></td><td class="fieldArgDesc">The number of affected rows</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If no email address was entered</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.send_authentication_email">
+    
+  </a>
+  <a name="send_authentication_email">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">send_authentication_email</span><span class="function-signature">(email_address: <code>str</code>, auth_code: <code>str</code>)</span>:
+    
+    <a class="headerLink" href="#send_authentication_email" title="src.auth_handler.AuthHandler.send_authentication_email">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Send a confirmation email to a user with a code</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>SMTPHeloError</code></td><td>The server didn't reply properly to the helo greeting.</td></tr><tr><td class="fieldArgContainer"><code>SMTPRecipientsRefused</code></td><td>The server rejected ALL recipients (no mail was sent).</td></tr><tr><td class="fieldArgContainer"><code>SMTPSenderRefused</code></td><td>The server didn't accept the from_addr.</td></tr><tr><td class="fieldArgContainer"><code>SMTPDataError</code></td><td>The server replied with an unexpected error code
+(other than a refusal of a recipient).</td></tr><tr><td class="fieldArgContainer"><code>SMTPNotSupportedError</code></td><td>The mail_options parameter includes 'SMTPUTF8'
+but the SMTPUTF8 extension is not supported by the server.</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.sign_up">
+    
+  </a>
+  <a name="sign_up">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">async def</span> <span class="py-defname">sign_up</span><span class="function-signature">(email_address: <code>str</code>, password: <code>str</code>, first_name: <code>str</code>, last_initial: <code>str</code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    
+    <a class="headerLink" href="#sign_up" title="src.auth_handler.AuthHandler.sign_up">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Creates a sign-in session and waits for an authentication code</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address of the user. Must pass validity via <code><a href="#valid_email" class="internal-link" title="src.auth_handler.AuthHandler.valid_email">valid_email</a></code></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code></td><td class="fieldArgDesc">The password of the user. Must pass validity via <code><a href="#valid_password" class="internal-link" title="src.auth_handler.AuthHandler.valid_password">valid_password</a></code></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">first<wbr></wbr>_name:</span><code>str</code></td><td class="fieldArgDesc">The user's first name. Must be &gt;= 1 and &lt;= 29 characters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">last<wbr></wbr>_initial:</span><code>str</code>, <em>default</em> <span class="literal">""</span></td><td class="fieldArgDesc">The user's last initial</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>If an invalid email address, password, or name is provided
+If an email could not be sent</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.valid_email">
+    
+  </a>
+  <a name="valid_email">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">valid_email</span><span class="function-signature">(email_address: <code>str</code>) -&gt; <code>bool</code></span>:
+    
+    <a class="headerLink" href="#valid_email" title="src.auth_handler.AuthHandler.valid_email">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Given an email address string, return if it's valid</p>
+<p>This does not check for the <em>existence</em> of the email address, but
+rather checks against an email address pattern</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">email<wbr></wbr>_address:</span><code>str</code></td><td class="fieldArgDesc">The email address to check</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>bool</code></td><td class="fieldArgDesc">If a return value is given, it is guaranteed to be True. If the
+password is invalid, an error will be raised</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>The reason why the email address wasn't valid (if it is not)</td></tr></table></div>
+  </div>
+</div><div class="basestaticmethod">
+  
+  
+  <a name="src.auth_handler.AuthHandler.valid_password">
+    
+  </a>
+  <a name="valid_password">
+    
+  </a>
+  <div class="functionHeader">
+    
+    @staticmethod<br />
+    <span class="py-keyword">def</span> <span class="py-defname">valid_password</span><span class="function-signature">(password: <code>str</code>) -&gt; <code>bool</code></span>:
+    
+    <a class="headerLink" href="#valid_password" title="src.auth_handler.AuthHandler.valid_password">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Given a password string, return if it's valid</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">password:</span><code>str</code></td><td class="fieldArgDesc">The password to check</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>bool</code></td><td class="fieldArgDesc">If a return value is given, it is guaranteed to be True. If the
+password is invalid, an error will be raised</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Raises</td></tr><tr><td class="fieldArgContainer"><code>ValueError</code></td><td>The reason why the password wasn't valid (if it is not)</td></tr></table></div>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.ACTIVE_AUTHS">
+    
+  </a>
+  <a name="ACTIVE_AUTHS">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">ACTIVE_AUTHS</span>: <code>dict[<wbr></wbr>str, <wbr></wbr>tuple[<wbr></wbr>str, <wbr></wbr>float]]</code> =
+    
+    <a class="headerLink" href="#ACTIVE_AUTHS" title="src.auth_handler.AuthHandler.ACTIVE_AUTHS">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>A dictionary of currently authenticating users
+as email_address: (code, expiry time)</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>{}</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.EMAIL_CHECK">
+    
+  </a>
+  <a name="EMAIL_CHECK">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">EMAIL_CHECK</span>: <code>list[<wbr></wbr>tuple[<wbr></wbr>Callable[<wbr></wbr>[<wbr></wbr>str], <wbr></wbr>bool], <wbr></wbr>str]]</code> =
+    
+    <a class="headerLink" href="#EMAIL_CHECK" title="src.auth_handler.AuthHandler.EMAIL_CHECK">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>Defines the checks to make for an email as a list of lambdas returning
+bools and the associated error messages</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>[<wbr></wbr>(<wbr></wbr>(lambda x: bool(x)), <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">No email address was entered.</span><span class="rst-variable-quote">'</span>),
+ <wbr></wbr>(<wbr></wbr>(lambda x: bool(AuthHandler.EMAIL_REGEX.match(x))),
+  <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">An invalid email address was entered.</span><span class="rst-variable-quote">'</span>)]</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.EMAIL_REGEX">
+    
+  </a>
+  <a name="EMAIL_REGEX">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">EMAIL_REGEX</span> =
+    
+    <a class="headerLink" href="#EMAIL_REGEX" title="src.auth_handler.AuthHandler.EMAIL_REGEX">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>A regex statement defining a valid email address</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>re.compile(r<span class="rst-variable-quote">'</span>^<span class="rst-re-group">[</span>A<span class="rst-re-op">-</span>Z0<span class="rst-re-op">-</span>9\._%\+-<span class="rst-re-group">]</span><span class="rst-re-op">+</span>@<span class="rst-re-group">[</span>A<span class="rst-re-op">-</span>Z0<span class="rst-re-op">-</span>9\.-<span class="rst-re-group">]</span><span class="rst-re-op">+</span>\.<span class="rst-re-group">[</span>A<span class="rst-re-op">-</span>Z<span class="rst-re-group">]</span><span class="rst-re-op">{2,}</span>$<span class="rst-variable-quote">'</span>,
+           re.IGNORECASE)</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.EXPIRY_TIME">
+    
+  </a>
+  <a name="EXPIRY_TIME">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">EXPIRY_TIME</span>: <code>int</code> =
+    
+    <a class="headerLink" href="#EXPIRY_TIME" title="src.auth_handler.AuthHandler.EXPIRY_TIME">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The time in minutes it takes for the authentication code to expire</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>5</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.HTML_PATH">
+    
+  </a>
+  <a name="HTML_PATH">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">HTML_PATH</span> =
+    
+    <a class="headerLink" href="#HTML_PATH" title="src.auth_handler.AuthHandler.HTML_PATH">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The path to the HTML for the email to send a to-be authed user</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>os.path.join(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">frontend</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">src</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">email.html</span><span class="rst-variable-quote">'</span>)</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.LOGO_PATH">
+    
+  </a>
+  <a name="LOGO_PATH">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">LOGO_PATH</span> =
+    
+    <a class="headerLink" href="#LOGO_PATH" title="src.auth_handler.AuthHandler.LOGO_PATH">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>The path to the logo to be added to the HTML</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>os.path.join(<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">frontend</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">src</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">assets</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">sentisounds_icon.png</span><span class="rst-variable-quote">'</span>)</code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.PASSWORD_CHECK">
+    
+  </a>
+  <a name="PASSWORD_CHECK">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">PASSWORD_CHECK</span>: <code>list[<wbr></wbr>tuple[<wbr></wbr>Callable[<wbr></wbr>[<wbr></wbr>str], <wbr></wbr>bool], <wbr></wbr>str]]</code> =
+    
+    <a class="headerLink" href="#PASSWORD_CHECK" title="src.auth_handler.AuthHandler.PASSWORD_CHECK">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>Defines the checks to make for a password as a list of lambdas returning
+bools and the associated error messages</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>[<wbr></wbr>(<wbr></wbr>(lambda x: bool(x)), <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">No password was entered.</span><span class="rst-variable-quote">'</span>),
+ <wbr></wbr>(<wbr></wbr>(lambda x: any(chr.islower() for chr in x)),
+  <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">Password must contain at least one lowercase letter a-z</span><span class="rst-variable-quote">'</span>),
+ <wbr></wbr>(<wbr></wbr>(lambda x: any(chr.isupper() for chr in x)),
+  <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">Password must contain at least one uppercase letter a-z</span><span class="rst-variable-quote">'</span>),
+ <wbr></wbr>(<wbr></wbr>(lambda x: any(chr.isdigit() for chr in x)),
+  <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">Password must contain at least one digit 0-9</span><span class="rst-variable-quote">'</span>),
+<span class="rst-variable-ellipsis">...</span></code></pre></td></tr></table>
+  </div>
+</div><div class="baseconstant">
+  
+  
+  <a name="src.auth_handler.AuthHandler.PLAIN_TEXT">
+    
+  </a>
+  <a name="PLAIN_TEXT">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">PLAIN_TEXT</span> =
+    
+    <a class="headerLink" href="#PLAIN_TEXT" title="src.auth_handler.AuthHandler.PLAIN_TEXT">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p>A frame for the email to send a to-be authed user</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'''</span><span class="rst-variable-string">Thank you for registering with SentiSounds!</span>
+<span class="rst-variable-string"></span><span class="rst-variable-quote">'''</span>+<span class="rst-variable-quote">'</span><span class="rst-variable-string">You have {} to enter this authentication code: {}</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+    <hr />
+    
+    
+    <div class="container">
+      <a href="index.html">API Documentation</a> for SentiSounds,
+    generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+      23.9.1 at 2024-05-16 22:50:24.
+    </div>
+    
+    <script src="ajax.js" type="text/javascript"></script>
+    <script src="searchlib.js" type="text/javascript"></script>
+    <script src="search.js" type="text/javascript"></script>
+  
+  </footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
