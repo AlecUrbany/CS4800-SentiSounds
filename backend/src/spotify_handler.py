@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import random
 from urllib.parse import urlencode
 
 from secrets_handler import SecretsHandler
@@ -10,7 +11,6 @@ from spotify_cache_handlers import BaseClientCacheHandler, MemoryCacheHandler
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.util import normalize_scope
-import random
 
 
 class SpotifyHandler:
