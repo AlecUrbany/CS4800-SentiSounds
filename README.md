@@ -1,6 +1,9 @@
 # SentiSounds
+*Sounds For The Soul*
 
 <img src="frontend\src\assets\sentisounds_icon.png" width="200" style="display:block;margin:0 auto;">
+
+SentiSounds is a web application designed to cater to the sound your soul craves. Just tell us how you feel and we'll deliver a carefully curated list of songs to fit your mood.
 
 ## Prerequisites
 - Python 3.10+
