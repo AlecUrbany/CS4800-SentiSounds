@@ -1,5 +1,5 @@
 # Usage: update_req.sh requirements.txt
-REPO=~/CS4800-SentiSounds
+REPO=/home/sentisounds/CS4800-SentiSounds
 $REPO/venv/bin/pip install --upgrade -r $1
 while read line; do
     package=$(echo "$line" | cut -d'=' -f1)
